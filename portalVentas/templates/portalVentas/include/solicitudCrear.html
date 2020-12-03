@@ -1,0 +1,265 @@
+<div class="crearSolicitud-contenedor mr-2">
+	<div class="crearSolicitud-contenedor-titulo" style="margin-right: 0.6rem;">
+		<h2 class="crearSolicitud-contenedor-titulo__h2">Crear Solicitud</h2>
+	</div>
+		<div class="crearSolicitud-contenedor-formulario grid grid-cols-1 sm:grid-cols-4">
+			<!-- Especia -->
+			<div class="contenedor-selects">
+				<select id="crearSolicitud-especie" name="crearSolicitud-especie"
+					class="contenedor-selects__select focus:outline-none focus:border-orange-500" onchange="solicitudCrearOnChange1(event)">
+				</select>
+				<!-- <i class="fas fa-angle-down absolute right-0 mr-2"></i> -->
+			</div>
+			<!-- Variedad -->
+			<div class="contenedor-selects">
+				<select id="crearSolicitud-variedad" name="crearSolicitud-variedad"
+					class="contenedor-selects__select focus:outline-none focus:border-orange-500">
+				</select>
+				<!-- <i class="fas fa-angle-down absolute right-0 mr-2"></i> -->
+			</div>
+			<!-- Cantidad -->
+			<div class="contenedor-inputs">
+				<input id="crearSolicitud-cantidad" name="crearSolicitud-cantidad" type="text"
+					class="input focus:outline-none focus:border-orange-500" placeholder="Cantidad Kilos" maxlength="4" onkeypress="return (event.keyCode >= 48 && event.keyCode <= 57)"/>
+			</div>
+			<!-- Btn -->
+			<div class="contenedor-btns">
+				<button id="crearSolicitud-agregarFruta" type="button" class="btn bg-green-500 text-white w-full focus:outline-none">
+					Agregar Fruta
+				</button>
+			</div>
+			<div class="contenedor-inputs-error col-span-4 sm::col-span-4 m-0">
+				<span class="contenedor-inputs-error__span">Se deben completar todos los campos.</span>
+			</div>
+		</div>
+		<form action="" method="POST" id="solicitud">
+			{% csrf_token %}
+			<div class="crearSolicitud-contenedor-tabla hidden">
+				<table class="crearSolicitud-contenedor-tabla__table">
+					<thead>
+						<tr class="crearSolicitud-contenedor-tabla__tr">
+							<th class="crearSolicitud-contenedor-tabla__th w-1/12">#</th>
+							<th class="crearSolicitud-contenedor-tabla__th w-1/3 text-center">Fruta</th>
+							<th class="crearSolicitud-contenedor-tabla__th w-1/3 text-center">Variedad Fruta</th>
+							<th class="crearSolicitud-contenedor-tabla__th w-1/12">Cantidad</th>
+							<th class="crearSolicitud-contenedor-tabla__th w-1/12">Quitar</th>
+						</tr>
+					</thead>
+					<tbody class="crearSolicitud-contenedor-tabla__tbody"></tbody>
+				</table>
+				<div class="contenedor-btns centrar-contenedor">
+					<button id="crearSolicitud-enviarSolicitud" type="submit"
+						class="btn bg-green-500 text-white w-1/4 focus:outline-none" form="solicitud">
+						Enviar Solicitud
+					</button>
+				</div>
+			</div>
+		</form>
+</div>
+
+<script>
+	// Inicio Select Select2
+	$(document).ready(function () {
+
+		const selects = document.getElementsByTagName('select');
+		for (const element of selects) {
+			$(`#${element.id}`).select2({
+				language: {
+					noResults: function () {
+						return "No hay resultado";
+					},
+					searching: function () {
+						return "Buscando..";
+					}
+				},
+				// theme: "registro-contenedor-selects__select"
+			});
+		}
+
+	});
+	// Fin Select Select2
+
+	// Ocultar tabla cuando no existan filas
+	// MutationObserver 
+	let target = document.querySelector('.crearSolicitud-contenedor-tabla__tbody');
+	let observer = new MutationObserver(() => {
+		if(document.querySelector('.crearSolicitud-contenedor-tabla__tbody').childElementCount === 0){
+			document.querySelector('.crearSolicitud-contenedor-tabla').classList.add('hidden');
+		}else{
+			document.querySelector('.crearSolicitud-contenedor-tabla').classList.remove('hidden');
+
+		}
+	});
+	let config = { childList: true };
+	observer.observe(target, config);
+	// Posteriormente, puede detener la observacion
+	// observer.disconnect();
+	// Ocultar tabla cuando no existan filas
+
+	// Llenado de selects y validacion
+	const variedad = []
+	const especie = []
+	const $solicitudCrearSelect = document.querySelectorAll('.contenedor-selects__select');
+	const $fragmento = document.createDocumentFragment();
+	$solicitudCrearSelect[1].disabled = true;
+
+	{% for fruta in viewFrutas %}
+		if ('{{ fruta.ID_VARIEDAD }}' !== '') {
+			variedad.push({
+				'ID_VARIEDAD': '{{ fruta.ID_VARIEDAD }}' ,
+				'DES_VARIEDAD': '{{ fruta.DES_VARIEDAD }}' ,
+				'ID_ESPECIE_VARIEDAD': '{{ fruta.ID_ESPECIE_VARIEDAD }}' 
+			});
+		}
+
+		if ('{{ fruta.ID_ESPECIE }}' !== '') {
+			especie.push({
+				'ID_ESPECIE': '{{ fruta.ID_ESPECIE }}' ,
+				'DES_ESPECIE': '{{ fruta.DES_ESPECIE }}' 
+			});
+		}
+	{% endfor %}
+
+
+	especie.forEach(espec => {
+		let $option = document.createElement('option');
+		$option.setAttribute('value', espec['ID_ESPECIE']);
+		$option.textContent = espec['DES_ESPECIE'];
+		$fragmento.appendChild($option);
+	});
+	$solicitudCrearSelect[0].innerHTML = '<option value="0">Selecciona Fruta</option>';
+	$solicitudCrearSelect[1].innerHTML = '<option value="0">Selecciona Tipo</option>';
+	$solicitudCrearSelect[0].appendChild($fragmento);
+	$fragmento.length = 0;
+
+	function solicitudCrearOnChange1(e){
+		$solicitudCrearSelect[1].disabled = true;
+		$solicitudCrearSelect[1].innerHTML = '<option value="0">Selecciona Tipo</option>';
+		if(parseInt(e.target.value, 10) !== 0){
+			$solicitudCrearSelect[1].disabled = false
+			$($solicitudCrearSelect[1]).empty();
+			variedad.forEach(vari => {
+				if(parseInt(e.target.value, 10) === parseInt(vari['ID_ESPECIE_VARIEDAD'], 10)){
+					let $option = document.createElement('option');
+					$option.setAttribute('value', vari['ID_VARIEDAD']);
+					$option.textContent =vari['DES_VARIEDAD'];
+					$fragmento.appendChild($option);
+				}
+			});
+			$solicitudCrearSelect[1].appendChild($fragmento);
+		}
+
+	};
+	// Llenado de selects y validacion
+
+	// Manejo de datos
+	document.addEventListener('click', e => {
+
+		if(e.target.id === 'crearSolicitud-agregarFruta'){
+
+			const result = validacionInsertarFruta();
+
+			if(result[0] && result[1] && result[2]){
+				insertarFila( 
+					$solicitudCrearSelect[0],
+					$solicitudCrearSelect[1],
+					document.querySelector('#crearSolicitud-cantidad').value)
+			}
+
+		}
+	
+		if(/crearSolicitud-data-/.test(e.target.getAttribute("data-id"))) borrarFila(e.target.getAttribute("data-id"))
+		
+	});
+
+	function validacionInsertarFruta(){
+		const arrValueInputs = [
+		$solicitudCrearSelect[0].value,
+		$solicitudCrearSelect[1].value,
+		document.querySelector('#crearSolicitud-cantidad').value];
+		const arrValidacion = [true, true, true];
+
+		for (let i = 0; i < arrValueInputs.length; i++) {
+			if(parseInt(arrValueInputs[i], 10) === 0 || arrValueInputs[i] === ''){
+				arrValidacion[i] = false;
+				if(i === 0 || i === 1){
+					document.querySelectorAll('.select2')[i].classList.add('border-2');
+					document.querySelectorAll('.select2')[i].classList.add('border-red-500');
+					document.querySelectorAll('.select2')[i].classList.add('rounded-lg');
+					document.querySelector('.contenedor-inputs-error').classList.add('block');
+					setTimeout(() => {
+						document.querySelectorAll('.select2')[i].classList.remove('border-2');
+						document.querySelectorAll('.select2')[i].classList.remove('border-red-500');
+						document.querySelectorAll('.select2')[i].classList.remove('rounded-lg');
+						document.querySelector('.contenedor-inputs-error').classList.remove('block');
+					},3000);
+				}else{
+					document.querySelector('#crearSolicitud-cantidad').classList.add('border-2');
+					document.querySelector('#crearSolicitud-cantidad').classList.add('border-red-500');
+					document.querySelector('#crearSolicitud-cantidad').classList.add('rounded-lg');
+					document.querySelector('.contenedor-inputs-error').classList.add('block');
+					setTimeout(() => {
+						document.querySelector('#crearSolicitud-cantidad').classList.remove('border-2');
+						document.querySelector('#crearSolicitud-cantidad').classList.remove('border-red-500');
+						document.querySelector('#crearSolicitud-cantidad').classList.remove('rounded-lg');
+						document.querySelector('.contenedor-inputs-error').classList.remove('block');
+					},3000);
+				}
+			}
+			
+		}
+		
+		return arrValidacion;
+	}
+
+	function insertarFila(fruta, tipo, cantidad){
+		const $tbody = document.querySelector('.crearSolicitud-contenedor-tabla__tbody');
+		frutaIngresada = false;
+		actualizarCantidad = '';
+
+		for(let tr of $tbody.children){
+		if(tr.querySelector('input[name=VARIEDAD]').value == tipo.value){
+			actualizarCantidad = tr.children[3];
+			frutaIngresada = true;
+			break;
+		};
+		};
+
+		if(frutaIngresada){
+			nuevaCantidad = parseInt(actualizarCantidad.textContent) + parseInt(cantidad);
+			actualizarCantidad.childNodes[0].data = nuevaCantidad;
+			actualizarCantidad.firstElementChild.setAttribute('value', nuevaCantidad);
+		}else{
+			// Cuando la tabla no tenga filas, lastElementChild retorna null
+			const id = ($tbody.lastElementChild === null)? 1 : parseInt($tbody.lastElementChild.firstElementChild.textContent, 10) + 1;
+			const row = `
+				<tr id="crearSolicitud-tbody-${id}" class="crearSolicitud-contenedor-tabla-tbody__tr">
+					<td class="crearSolicitud-contenedor-tabla__td text-center">
+						${id}
+						<input class="hidden" readonly name="ID" value="${id}"></input>
+					</td>
+					<td class="crearSolicitud-contenedor-tabla__td text-center">
+						${fruta.selectedOptions[0].textContent}
+						<input class="hidden" readonly name="FRUTA" value="${fruta.value}"></input>
+					</td>
+					<td class="crearSolicitud-contenedor-tabla__td text-center">
+						${tipo.selectedOptions[0].textContent}
+						<input class="hidden" readonly name="VARIEDAD" value="${tipo.value}"></input>
+					</td>
+					<td class="crearSolicitud-contenedor-tabla__td text-center">
+						${parseInt(cantidad, 10)}
+						<input class="hidden" readonly name="CANTIDAD" value="${parseInt(cantidad, 10)}"></input>
+					</td>
+					<td class="crearSolicitud-contenedor-tabla__td text-center">
+						<button data-id="crearSolicitud-data-${id}" type="button" class="px-2 py-1 rounded-lg bg-red-500 text-white focus:outline-none"><i data-id="crearSolicitud-data-${id}" class="fas fa-trash"></i></button>
+					</td>
+				</tr>
+			`;
+			$tbody.innerHTML += row;
+		};
+	};
+
+	const borrarFila = dataId => document.querySelector(`button[data-id = "${dataId}"]`).parentElement.parentElement.remove();
+	// Manejo de datos
+
+</script>

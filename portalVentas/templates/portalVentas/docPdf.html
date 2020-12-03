@@ -1,0 +1,134 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+<div id="invoice" class="relative border-2 border-black mx-auto p-2" id="ordenCompra-contenedor-general-pdf" style="idth: 60rem;">
+    <img src="/static/img/BestFruit.png" alt="Fondo" class="absolute inset-0 m-auto transform scale-150 opacity-25" style="z-index: -1;">
+    <div class="grid grid-col-4">
+
+        <div class="flex flex-row">
+            <div class="flex-none">
+                <img src="/static/img/BestFruit_Logo.png" alt="Logo" class="w-48 h-4.">
+            </div>
+            <div class="flex-auto">
+                <b class="font-lato text-xl">Best Fruit S.A</b>
+                <div class="flex flex-row">
+                    <div class="flex-auto">
+                        <p class="font-lato text-sm font-normal">
+                            <dfn class="font-lato text-base font-semibold">
+                                Razón Social
+                            </dfn>
+                            <bdi class="block">Best Fruit S.A</bdi>
+                        </p>
+                            <p class="font-1lato text-sm font-normal">
+                                <dfn class="font-lato text-base font-semibold">
+                                    Dirección
+                                </dfn>
+                                <address class="block text-sm not-italic">texto de ejemplo</address>
+                            </p>
+                    </div>
+                    <div class="flex-auto">
+                        <p class="font-lato text-sm font-normal">
+                            <dfn class="font-lato text-base font-semibold">
+                                Correo Electrónico
+                            </dfn>
+                            <bdi class="block">contacto@bestfruit.cl</bdi>
+
+                            <p class="font-lato text-sm font-normal">
+                                <dfn class="font-lato text-base font-semibold">
+                                    Teléfono
+                                </dfn>
+                                <bdi class="block">+56 9 4985 2049</bdi>
+                            </p>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-auto text-center">
+                <div class="border-2 border-red-600 text-red-600 h-32 leading-10">
+                    <p class="font-lato text-lg font-bold">
+                        <dfn>R.U.T</dfn>
+                        <bdi>98.574.658-5</bdi>
+                    </p>
+                    <p class="font-lato text-lg font-bold">
+                        Factura Electrónica
+                    </p>
+                    <p class="font-lato text-lg font-bold">
+                        N°<bdi> ${objDatos['ID_SOLICITUD']}</bdi>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="border border-black flex flex-row p-2">
+            <div class="flex-auto">
+                <p class="font-lato"><dfn class="font-bold inline-block w-32">Rut</dfn>:&nbsp;${objDatos['RUN_USUARIO']}</p>
+                <p class="font-lato"><dfn class="font-bold inline-block w-32">Nombre</dfn>:&nbsp;${objDatos['NOMBRE_USUARIO']}</p>
+                <p class="font-lato"><dfn class="font-bold inline-block w-32">Correo Electrónico</dfn>:&nbsp;${objDatos['CORREO']}</p>
+                <p class="font-lato"><dfn class="font-bold inline-block w-32">Dirección</dfn>:&nbsp;${objDatos['DIRECCION']}</p>
+            </div>
+            <div class="flex-auto">
+                <p class="font-lato"><dfn class="font-bold inline-block" style="width: 7.5rem;">Fecha</dfn>:&nbsp;${new Date()}</p>
+                <p class="font-lato"><dfn class="font-bold inline-block" style="width: 7.5rem;">Moneda de Venta</dfn>:&nbsp;Peso Chileno - $CLP</p>
+                <p class="font-lato"><dfn class="font-bold inline-block" style="width: 7.5rem;">Forma de Pago</dfn>:&nbsp; Transferencia Bancaria</p>
+                <p class="font-lato"><dfn class="font-bold inline-block" style="width: 7.5rem;">Total Peso Bruto</dfn>:&nbsp;${pesoBruto} Kg</p>
+            </div>
+        </div>
+
+        <div class="border border-black my-1 p-2" style="min-height: 516px;">
+            <table class="w-full">
+                <thead class="border-b border-black">
+                    <th class="font-lato h-10">#</th>
+                    <th class="font-lato h-10">Fruta</th>
+                    <th class="font-lato h-10">Cantidad (Kg)</th>
+                    <th class="font-lato h-10">Costo ($CLP)</th>
+                </thead>
+                <tbody id="invoice-tbody">
+                    <tr class="h-8 border-b border-black">
+                        <td class="font-lato text-center">1</td>
+                        <td class="font-lato text-center">Manzana</td>
+                        <td class="font-lato text-center">10</td>
+                        <td class="font-lato text-center">$ 1000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="border border-black my-1 p-2 flex flex-row">
+            <div class="flex-1">
+                <figure>
+                    <img src="/static/img/timbre.png" alt="Timbre SII" class="mx-auto">
+                    <figcaption class="font-lato text-center text-xs">Timbre Electrónico SII</figcaption>
+                </figure>
+            </div>
+            <div class="flex-1">
+                <div class="flex flex-row">
+                    <span class="font-lato border border-black px-2 w-56" style="padding: 2px;">Sub Total</span>
+                    <span class="font-lato border border-black px-2 w-full" style="padding: 2px;">$&nbsp;${subTotal}</span>
+                </div>
+                <div class="flex flex-row">
+                    <span class="font-lato border border-black px-2 w-56" style="padding: 2px;">Aduana (10%)</span>
+                    <span class="font-lato border border-black px-2 w-full" style="padding: 2px;">$&nbsp;${subTotal}</span>
+                </div>
+                <div class="flex flex-row">
+                    <span class="font-lato border border-black px-2 w-56" style="padding: 2px;">Transporte (11%)</span>
+                    <span class="font-lato border border-black px-2 w-full" style="padding: 2px;">$&nbsp;${subTotal}</span>
+                </div>
+                <div class="flex flex-row">
+                    <span class="font-lato border border-black px-2 w-56" style="padding: 2px;">IVA (19%)</span>
+                    <span class="font-lato border border-black px-2 w-full" style="padding: 2px;">$&nbsp;${subTotal}</span>
+                </div>
+                <div class="flex flex-row">
+                    <span class="font-lato border border-black px-2 w-56" style="padding: 2px;">Servicio (20%)</span>
+                    <span class="font-lato border border-black px-2 w-full" style="padding: 2px;">$&nbsp;${subTotal}</span>
+                </div>
+                <div class="flex flex-row">
+                    <span class="font-lato font-black border border-black px-2 w-56" style="padding: 2px;">Total a Pagar</span>
+                    <span class="font-lato font-black border border-black px-2 w-full" style="padding: 2px;">$&nbsp;${total}</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+
+</script>

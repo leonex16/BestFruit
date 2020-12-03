@@ -1,0 +1,20 @@
+{% extends "portalVentas/base.html" %}
+
+{% block title %} {{ tituloPagina }} {% endblock %}
+
+{% block content %}
+
+{% include 'portalVentas/include/banner.html' %}
+
+{% include 'portalVentas/include/oferta.html' %}
+
+{% include 'portalVentas/include/producto.html' %}
+
+<script>
+    if(usuarioAutenticado === false){
+        const $abc = document.querySelectorAll('div .boton-tarjeta a');
+        const path = "a";
+        $abc.forEach(ancla => ancla.setAttribute('href',  "{% url 'portalVentas:login' %}"));
+    }
+</script>
+{% endblock %}

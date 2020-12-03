@@ -1,0 +1,637 @@
+{% extends 'administrador/base.html' %}
+
+{% block title %} {{ tituloPagina }} {% endblock %}
+
+{% block content %}
+
+
+<div class="estadisticas-contenedor-general grid grid-cols-1 gap-y-4 m-4 mb-20 sm:ml-20 sm:mb-4">
+    <div class="estadisticas-contenedor-indicadores grid grid-cols-2 gap-4 lg:grid-cols-3">
+        <div class="estadisticas-contenedo-titulo flex col-span-2 lg:col-span-3">
+            <i class="fas fa-flag text-gray-700 text-2xl self-center"></i>
+            <h3 class="estadisticas-contenedo-titulo__titulo font-lato text-gray-700 text-2xl font-semibold mx-2">Indicadores</h3>
+        </div>
+
+        <div class="estadisticas-contenedor-indicador flex flex-col relative justify-center bg-orange-500 rounded-md p-2" style="min-height: 110px;">
+            <div class="estadisticas-contenedor-indicador__contenedor-titulo">
+                <h3 class="estadisticas-contenedor-indicador__titulo font-lato text-white font-bold h-12 sm:h-auto">
+                    Solicitudes Pendientes 
+                </h3>
+            </div>
+            <div class="estadisticas-contenedor-indicador__texto flex text-center">
+                <p class="estadisticas-contenedor-indicador__contador font-lato text-lg text-white font-extrabold py-2 flex-1">
+                    <bdi class="estadisticas-contenedor-indicador__resultado inline-block bg-orange-600 rounded-full" style="width: 40px; height: 40px; line-height: 40px;">{{ view_cantidad_solicitudes_pendientes }}</bdi>
+                </p>
+                <a href="{% url 'administrador:solicitud' %}"><i class="fas fa-file-alt text-white text-4xl flex-1 relative bottom-0 right-0 mt-4 mr-2"></i></a>
+            </div>
+            <div class="estadisticas-contenedor-indicador__icono absolute top-0 right-0 mx-2 my-1 ">
+                <i class="fas fa-info-circle text-white"></i>
+                <p class="estadisticas-contenedor-indicador__tooltip absolute w-48 h-auto z-50 text-white p-2 rounded-md hidden" style="background-color: rgba(40, 40, 40, 0.93); top: 40px; right: -20px;">
+                    Este contador siempre debe estar en cero.
+                    Haz clic en <i class="fas fa-file-alt text-white inline-block px-1"></i>
+                    para gestionar estas solicitudes.
+                </p>
+            </div>
+            
+        </div>
+
+        <div class="estadisticas-contenedor-indicador flex flex-col relative justify-center bg-red-500 rounded-md p-2" style="min-height: 110px;">
+            <div class="estadisticas-contenedor-indicador__contenedor-titulo">
+                <h3 class="estadisticas-contenedor-indicador__titulo font-lato text-white font-bold h-12 sm:h-auto">
+                    OC Rechazadas
+                </h3>
+            </div>
+            <div class="estadisticas-contenedor-indicador__texto flex text-center">
+                <p class="estadisticas-contenedor-indicador__contador font-lato text-lg text-white font-extrabold py-2 flex-1">
+                    <bdi class="estadisticas-contenedor-indicador__resultado inline-block bg-red-600 rounded-full" style="width: 40px; height: 40px; line-height: 40px;">{{ view_cantidad_oc_rechazadas }}</bdi>
+                </p>
+                <a href="{% url 'administrador:ordenCompra' %}"><i class="fas fa-file-invoice-dollar text-white text-4xl flex-1 relative bottom-0 right-0 mt-4 mr-2"></i></a>
+            </div>
+            <div class="estadisticas-contenedor-indicador__icono absolute top-0 right-0 mx-2 my-1 ">
+                <i class="fas fa-info-circle text-white"></i>
+                <p class="estadisticas-contenedor-indicador__tooltip absolute w-48 h-auto z-50 text-white p-2 rounded-md hidden" style="background-color: rgba(40, 40, 40, 0.93); top: 40px; right: -20px;">
+                    Cantidad de ordenes de compra (OC) las cuales no cumplieron las expectativas del cliente.
+                    Las frutas de estas, ya se encuentran en el portal de ventas.
+                    Haz clic en <i class="fas fa-file-invoice-dollar text-white inline-block px-1"></i>
+                    para un mayor detalle de lo publicado por orden rechazada
+                </p>
+            </div>
+            
+        </div>
+
+        <div class="estadisticas-contenedor-indicador flex flex-col flex flex-col relative justify-center justify-center bg-blue-500 rounded-md col-span-2 p-2 lg:col-span-1" style="min-height: 110px;">
+            <div class="estadisticas-contenedor-indicador__contenedor-titulo">
+                <h3 class="estadisticas-contenedor-indicador__titulo font-lato text-white font-bold h-12 sm:h-auto">
+                    Publicaciones
+                </h3>
+                <div class="estadisticas-contenedor-indicador__contenedor-estados flex text-center">
+                    <p class="estadisticas-contenedor-indicador__contador font-lato text-sm text-white font-semibold flex-1 flex flex-col">
+                        No Publicada <bdi class="estadisticas-contenedor-indicador__resultado text-lg font-extrabold bg-blue-600 rounded-full self-center mt-0 sm:mt-1" style="width: 35px; height: 35px; line-height: 35px;">{{ view_cantidad_publicaciones_x_estado.NO_PUBLICADA }}</bdi>
+                    </p>
+                    <p class="estadisticas-contenedor-indicador__contador font-lato text-sm text-white font-semibold flex-1 flex flex-col">
+                        En Proceso <bdi class="estadisticas-contenedor-indicador__resultado text-lg font-extrabold bg-blue-600 rounded-full self-center mt-0 sm:mt-1" style="width: 35px; height: 35px; line-height: 35px;">{{ view_cantidad_publicaciones_x_estado.EN_PROCESO }}</bdi>
+                    </p>
+                    <p class="estadisticas-contenedor-indicador__contador font-lato text-sm text-white font-semibold flex-1 flex flex-col">
+                        Finalizada <bdi class="estadisticas-contenedor-indicador__resultado text-lg font-extrabold bg-blue-600 rounded-full self-center mt-0 sm:mt-1" style="width: 35px; height: 35px; line-height: 35px;">{{ view_cantidad_publicaciones_x_estado.FINALIZADA }}</bdi>
+                    </p>
+                    <a href="{% url 'administrador:publicacion' %}"><i class="fas fa-apple-alt text-white text-4xl flex-grow-0 relative bottom-0 right-0 mt-4 mr-2"></i></a>
+                </div>
+            </div>
+            <div class="estadisticas-contenedor-indicador__icono absolute top-0 right-0 mx-2 my-1 ">
+                <i class="fas fa-info-circle text-white"></i>
+                <p class="estadisticas-contenedor-indicador__tooltip absolute w-48 h-auto z-50 text-white p-2 rounded-md hidden" style="background-color: rgba(40, 40, 40, 0.93); top: 40px; right: -20px;">
+                    Cantidad de publicaciones por estado.
+                    La cantidad de ordenes "no publicadas", siempre debe estar en cero.
+                    Haz clic en <i class="fas fa-apple-alt text-white inline-block px-1"></i>
+                    para gestionar las publicaciones.
+                </p>
+            </div>
+            
+        </div>
+
+    </div>
+    
+    <div class="estadisticas-contenedor-finanzas grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div class="estadisticas-contenedo-titulo flex lg:col-span-2">
+            <i class="fas fa-piggy-bank text-gray-700 text-2xl self-center"></i>
+            <h3 class="estadisticas-contenedo-titulo__titulo font-lato text-gray-700 text-2xl font-semibold mx-2">Datos Financieros</h3>
+        </div>
+        <div id="grafico-ganancias-mes" class="estadisticas-contenedor-grafico rounded-md " style="min-height: 250px; box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .4);"></div>
+        <div id="grafico-costos-mes"  class="estadisticas-contenedor-grafico rounded-md" style="min-height: 250px; box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .4);"></div>
+        <div id="grafico-local-extrajera" class="estadisticas-contenedor-grafico rounded-md" style="min-height: 250px; box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .4);"></div>
+        <div id="grafico-ganancias-costos-mes"  class="estadisticas-contenedor-grafico rounded-md" style="min-height: 250px; box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .4);"></div>
+        <div id="grafico-diferencia-mes"  class="estadisticas-contenedor-grafico rounded-md lg:col-span-2" style="min-height: 300px; box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .4);"></div>
+    </div>
+
+    <div class="estadisticas-contenedor-recomendaciones grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div class="estadisticas-contenedo-titulo flex lg:col-span-2">
+            <i class="fas fa-chart-line text-gray-700 text-2xl self-center"></i>
+            <h3 class="estadisticas-contenedo-titulo__titulo font-lato text-gray-700 text-2xl font-semibold mx-2">Datos Estadísticos</h3>
+        </div>
+        <div id="grafico-donacion" class="estadisticas-contenedor-recomendacion rounded-md" style="min-height: 450px; box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .4);"></div>
+        <div id="grafico-banco" class="estadisticas-contenedor-recomendacion rounded-md" style="min-height: 250px; box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .4);"></div>
+        <div id="grafico-productor" class="estadisticas-contenedor-recomendacion rounded-md" style="min-height: 250px; box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .4);"></div>
+        <div id="grafico-externo" class="estadisticas-contenedor-recomendacion rounded-md" style="min-height: 250px; box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .4);"></div>
+    </div>
+</div>
+
+<style>
+
+    .estadisticas-contenedor-indicador__tooltip::after{
+        content: "";
+        position: absolute;
+        top: -30px;
+        right: 10px;
+        background-color:  rgba(40, 40, 40, 0.93);
+        width: 35px;
+        height: 30px;
+        clip-path: polygon(50% 50%, 100% 100%, 0% 100%);
+    }
+
+    .fa-info-circle:hover ~ .estadisticas-contenedor-indicador__tooltip{
+        display: block;
+    }
+</style>
+
+<script>
+
+    Highcharts.setOptions({
+        lang:{
+            contextButtonTitle: 'Chart context menu',
+            decimalPoint: ',',
+            viewFullscreen : 'Ver en pantalla completa',
+            downloadPNG: 'Descargar imagen PNG',
+            downloadPDF: 'Descargar documento PDF',
+            downloadCSV: 'Descargar CSV',
+            downloadXLS: 'Descargar planilla Excel',
+            downloadJPEG: 'Descargar imagen JPEG',
+            exitFullscreen: 'Salir del modo pantalla completa',
+            resetZoom: 'Restablecer zoom'
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        
+        Highcharts.chart('grafico-local-extrajera', JsonGraficoStepLocalVsExtrajera)
+        Highcharts.chart('grafico-ganancias-mes', JsonGraficoColumnasGananciasMes)
+        Highcharts.chart('grafico-costos-mes', JsonGraficoColumnasCostosMes)
+        Highcharts.chart('grafico-ganancias-costos-mes', JsonGraficoLinealGananciasCostosMes)
+        Highcharts.chart('grafico-diferencia-mes', JsonGraficoColumnasDiferenciasMes)
+        Highcharts.chart('grafico-donacion', JsonGraficoColumPyramidDonacionFruta)
+        Highcharts.chart('grafico-banco', JsonGraficoPieBanco)
+        Highcharts.chart('grafico-productor', JsonGraficoBarProductores)
+        Highcharts.chart('grafico-externo', JsonGraficoBarExternos)
+    });
+
+    const opcionesExportacionDefecto = nombreArchivoExportado => {
+        return {
+            buttons: {
+                contextButton: {
+                    menuItems: ['viewFullscreen','downloadPNG', 'downloadPDF', 'separator', 'downloadCSV', 'downloadXLS']
+                }
+            },
+            chartOptions:undefined,
+            csv:{
+                annotations:{
+                    itemDelimiter:','
+                },
+                columnHeaderFormatter:null,
+                dateFormat:'%d-%m-%Y %H:%M:%S',
+                decimalPoint:',',
+                // itemDelimiter:null,
+                // lineDelimiter: {},
+            },
+            filename:`${nombreArchivoExportado}_${new Date().toLocaleString().replace(/\W/g, '')}`
+        }
+    };
+
+    const JsonGraficoColumnasGananciasMes = {
+        chart: {
+                type: 'column',
+                zoomType: 'xy'
+            },
+        exporting : opcionesExportacionDefecto('Ganancias'),
+        title: {
+            text: 'Ganancias totales, año 2020'
+        },
+        xAxis: {
+            categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            crosshair: true,
+            title: {
+                text: 'Mes'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Peso Chileno'
+            }
+        },
+        legend:{
+            enabled: false,
+        },
+        series: [
+            {
+                name: '$CLP',
+                color: '#3b82f6',
+                data:  [
+                    parseInt('{{ view_ganancias_x_mes.1 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.2 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.3 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.4 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.5 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.6 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.7 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.8 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.9 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.10 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.11 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.12 }}'.replaceAll('.', ''))
+                    ]
+            }
+        ]
+
+    };
+
+    const JsonGraficoColumnasCostosMes = {
+        chart: {
+                type: 'column',
+                zoomType: 'xy'
+            },
+        exporting : opcionesExportacionDefecto('Costos'),
+        title: {
+            text: 'Costos totales, año 2020'
+        },
+        xAxis: {
+            categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            crosshair: true,
+            title: {
+                text: 'Mes'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Peso Chileno'
+            }
+        },
+        legend:{
+            enabled: false,
+        },
+        series: [
+            {
+                name: '$CLP',
+                color: '#ef4444',
+                data:  [
+                    parseInt('{{ view_costos_x_mes.1 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.2 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.3 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.4 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.5 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.6 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.7 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.8 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.9 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.10 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.11 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.12 }}'.replaceAll('.', ''))
+                    ]
+            }
+        ]
+
+    };
+    
+    const JsonGraficoLinealGananciasCostosMes = {
+        chart: {
+            type: 'line',
+            zoomType: 'xy'
+        },
+        exporting : opcionesExportacionDefecto('GananciasVsCostos'),
+        title: {
+            text: 'Ganancias vs Costos año 2020'
+        },
+        xAxis: {
+            categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            crosshair: true,
+            title: {
+                text: 'Mes'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Peso Chileno'
+            }
+        },
+        legend:{
+            enabled: true,
+        },
+        series: [
+            {
+                name: 'Ganacias',
+                color: '#3b82f6',
+                data:  [
+                    parseInt('{{ view_ganancias_x_mes.1 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.2 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.3 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.4 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.5 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.6 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.7 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.8 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.9 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.10 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.11 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_ganancias_x_mes.12 }}'.replaceAll('.', ''))
+                    ]
+            },
+            {
+                name: 'Costos',
+                color: '#ef4444',
+                data:  [
+                    parseInt('{{ view_costos_x_mes.1 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.2 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.3 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.4 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.5 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.6 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.7 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.8 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.9 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.10 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.11 }}'.replaceAll('.', '')),
+                    parseInt('{{ view_costos_x_mes.12 }}'.replaceAll('.', ''))
+                    ]
+            }
+        ]
+
+    };
+    
+    const JsonGraficoColumnasDiferenciasMes = {
+        chart: {
+            type: 'column',
+            zoomType: 'xy'
+        },
+        exporting : opcionesExportacionDefecto('Diferencias'),
+        title: {
+            text: 'Diferencias año 2020'
+        },
+        xAxis: {
+            categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            crosshair: true,
+            title: {
+                text: 'Mes'
+            }
+        },
+        yAxis: {
+            min: -3000000,
+            title: {
+                text: 'Peso Chileno'
+            }
+        },
+        legend:{
+            enabled: true,
+        },
+        series: [
+            {
+                name: 'Diferencia del mes',
+                color: '#8b5cf6',
+                data:  [
+                    (parseInt('{{ view_ganancias_x_mes.1 }}'.replaceAll('.', '')) - parseInt('{{ view_costos_x_mes.1 }}'.replaceAll('.', ''))),
+                    (parseInt('{{ view_ganancias_x_mes.2 }}'.replaceAll('.', '')) - parseInt('{{ view_costos_x_mes.2 }}'.replaceAll('.', ''))),
+                    (parseInt('{{ view_ganancias_x_mes.3 }}'.replaceAll('.', '')) - parseInt('{{ view_costos_x_mes.3 }}'.replaceAll('.', ''))),
+                    (parseInt('{{ view_ganancias_x_mes.4 }}'.replaceAll('.', '')) - parseInt('{{ view_costos_x_mes.4 }}'.replaceAll('.', ''))),
+                    (parseInt('{{ view_ganancias_x_mes.5 }}'.replaceAll('.', '')) - parseInt('{{ view_costos_x_mes.5 }}'.replaceAll('.', ''))),
+                    (parseInt('{{ view_ganancias_x_mes.6 }}'.replaceAll('.', '')) - parseInt('{{ view_costos_x_mes.6 }}'.replaceAll('.', ''))),
+                    (parseInt('{{ view_ganancias_x_mes.7 }}'.replaceAll('.', '')) - parseInt('{{ view_costos_x_mes.7 }}'.replaceAll('.', ''))),
+                    (parseInt('{{ view_ganancias_x_mes.8 }}'.replaceAll('.', '')) - parseInt('{{ view_costos_x_mes.8 }}'.replaceAll('.', ''))),
+                    (parseInt('{{ view_ganancias_x_mes.9 }}'.replaceAll('.', '')) - parseInt('{{ view_costos_x_mes.9 }}'.replaceAll('.', ''))),
+                    (parseInt('{{ view_ganancias_x_mes.10 }}'.replaceAll('.', '')) - parseInt('{{ view_costos_x_mes.10 }}'.replaceAll('.', ''))),
+                    (parseInt('{{ view_ganancias_x_mes.11 }}'.replaceAll('.', '')) - parseInt('{{ view_costos_x_mes.11 }}'.replaceAll('.', ''))),
+                    (parseInt('{{ view_ganancias_x_mes.12 }}'.replaceAll('.', '')) - parseInt('{{ view_costos_x_mes.12 }}'.replaceAll('.', '')))
+                    ]
+            }
+        ]
+    };
+    
+    let categoriaDonacionFruta = []
+    let dataDonacionFruta = []
+    {% for key, val in view_frutas_donadas.items %}
+        categoriaDonacionFruta.push('{{ key|title }}')
+        dataDonacionFruta.push(parseInt('{{ val }}'.replaceAll('.', '')))
+    {% endfor %}
+    const JsonGraficoColumPyramidDonacionFruta = {
+        chart: {
+            type: 'columnpyramid',
+            inverted: true,
+            zoomType: 'xy'
+        },
+
+        exporting : opcionesExportacionDefecto('Donaciones'),
+        title: {
+            text: 'Cantidad de donaciones, año 2020'
+        },
+        xAxis: {
+            categories: categoriaDonacionFruta,
+            title: {
+                text: null
+            }
+        },
+        yAxis: {
+            min: 50000,
+            title: {
+                text: 'Cantidad'
+            }
+        },
+        legend:{
+            enabled: false,
+        },
+        series: [
+            {
+                name: 'Cantidad donada',
+                color: '#059669',
+                data: dataDonacionFruta
+            }
+        ]
+
+    };
+
+    let categoriaBancos = []
+    let dataBancos = []
+    {% for key, val in view_preferencias_banco.items %}
+        categoriaBancos.push('{{ key|title }}')
+        dataBancos.push({
+            name: '{{ key|title }}',
+            y: parseInt('{{ val }}'.replaceAll('.', ''))
+        })
+    {% endfor %}
+    const JsonGraficoPieBanco = {
+        chart: {
+            type: 'pie'
+        },
+
+        exporting : opcionesExportacionDefecto('transaccionBanco'),
+        title: {
+            text: 'Frecuencia de transacciones, según banco, año 2020'
+        },
+        xAxis: {
+            categories: categoriaBancos,
+            title: {
+                text: null
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Cantidad'
+            }
+        },
+        legend:{
+            enabled: true,
+        },
+        series: [
+            {
+                name: 'Cantidad de transacciones',
+                data: dataBancos
+            }
+        ]
+
+    };
+
+
+    let categoriaProductores = []
+    let dataProductores = []
+    {% for key, val in view_productores_ofertas_aprobadas.items %}
+        categoriaProductores.push('{{ key|title }}')
+        dataProductores.push({
+            name: '{{ key|title }}',
+            y: parseInt('{{ val }}'.replaceAll('.', ''))
+        })
+    {% endfor %}
+    const JsonGraficoBarProductores = {
+        chart: {
+            type: 'bar'
+        },
+
+        exporting : opcionesExportacionDefecto('MejoresProductores'),
+        title: {
+            text: 'Mejores Productores'
+        },
+        xAxis: {
+            categories: categoriaProductores,
+            title: {
+                text: null
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: null
+            }
+        },
+        legend:{
+            enabled: false,
+        },
+        series: [
+            {
+                name: 'Cantidad de ofertas aprobadas',
+                color: '#3b82f6',
+                data: dataProductores
+            }
+        ]
+
+    };
+
+
+    let categoriaExternos = []
+    let dataExternos = []
+    {% for key, val in view_externo_ordenes_rechazadas.items %}
+        categoriaExternos.push('{{ key|title }}')
+        dataExternos.push({
+            name: '{{ key|title }}',
+            y: parseInt('{{ val }}'.replaceAll('.', ''))
+        })
+    {% endfor %}
+    const JsonGraficoBarExternos = {
+        chart: {
+            type: 'bar'
+        },
+
+        exporting : opcionesExportacionDefecto('ExternosRiesgoso'),
+        title: {
+            text: 'Clientes Externos Riesgoso'
+        },
+        xAxis: {
+            categories: categoriaExternos,
+            title: {
+                text: null
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Cantidad'
+            }
+        },
+        legend:{
+            enabled: false,
+        },
+        series: [
+            {
+                name: 'Cantidad de ordenes rechazadas',
+                color: '#ef4444',
+                data: dataExternos
+            }
+        ]
+
+    };
+
+    const JsonGraficoStepLocalVsExtrajera = {
+        chart: {
+            zoomType: 'xy'
+        },
+        exporting : opcionesExportacionDefecto('LocalVsExtranjera'),
+        title: {
+            text: 'Ventas Locales vs Venta Extranjera, año 2020'
+        },
+        xAxis: {
+            categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            crosshair: true,
+            title: {
+                text: 'Mes'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Peso Chileno'
+            }
+        },
+        legend:{
+            enabled: true,
+        },
+        series: [
+            {
+                name: 'Venta Local',
+                color: '#f59e0b',
+                step: 'right',
+                data:  [
+                    (parseInt({{ view_venta_local_externa.1 }}[0].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.2 }}[0].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.3 }}[0].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.4 }}[0].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.5 }}[0].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.6 }}[0].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.7 }}[0].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.8 }}[0].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.9 }}[0].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.10 }}[0].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.11 }}[0].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.12 }}[0].toString().replaceAll('.', '')))
+                    ]
+            },
+            {
+                name: 'Venta Extrajera',
+                color: '#10b981',
+                step: 'right',
+                data:  [
+                    (parseInt({{ view_venta_local_externa.1 }}[1].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.2 }}[1].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.3 }}[1].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.4 }}[1].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.5 }}[1].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.6 }}[1].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.7 }}[1].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.8 }}[1].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.9 }}[1].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.10 }}[1].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.11 }}[1].toString().replaceAll('.', ''))),
+                    (parseInt({{ view_venta_local_externa.12 }}[1].toString().replaceAll('.', '')))
+                    ]
+            }
+
+        ]
+    };
+</script>
+
+{% endblock %}

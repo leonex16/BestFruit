@@ -1,0 +1,181 @@
+{% extends 'portalVentas/base.html' %}
+
+{% block title %} {{ tituloPagina }} {% endblock %}
+
+{% block content %}
+{% load static %}
+
+<script>
+    let usuario;
+    // ESTA VARIABLE SE CREA EN NAVBAR
+    if (usuarioAutenticado) {
+        usuario = {
+            'id_usuario': '{{ usuario.id_usuario }}',
+            'run_usuario': '{{ usuario.run_usuario }}',
+            'nombre': '{{ usuario.nombre|title }}',
+            'ap_paterno': '{{ usuario.ap_paterno|title }}',
+            'ap_materno': '{{ usuario.ap_materno|title }}',
+            'fecha_nac': '{{ usuario.fecha_nac }}',
+            'email': '{{ usuario.email }}',
+            'direccion': '{{ usuario.direccion }}',
+            'num_celular': '{{ usuario.num_celular }}',
+            'id_comuna': '{{ usuario.id_comuna }}',
+            'id_rol': '{{ usuario.id_rol.id_rol }}',
+            'id_pais': '{{ usuario.id_pais }}'
+        };
+    };
+
+    function restarHoras(horaFin){
+        fechaActual = new Date();
+        horasActual = fechaActual.getHours();
+        minutosActual = fechaActual.getMinutes();
+        segundosActual = fechaActual.getSeconds();
+
+        horasTranscurrido = parseInt(horaFin.split(':')[0]) - horasActual;
+        minutosTranscurrido = parseInt(horaFin.split(':')[1]) - minutosActual;
+        segundosTranscurrido = 0 - segundosActual;
+
+        if (segundosTranscurrido < 0) {
+            minutosTranscurrido--;
+            segundosTranscurrido = 60 + segundosTranscurrido;
+        };
+
+        if (minutosTranscurrido < 0) {
+            horasTranscurrido--;
+            minutosTranscurrido = 60 + minutosTranscurrido;
+        };
+
+        horasRestantes = horasTranscurrido.toString();
+        minutosRestantes = minutosTranscurrido.toString();
+        segundosRestantes = segundosTranscurrido.toString();
+
+        if (horasRestantes.length < 2) {
+            horasRestantes = "0" + horasRestantes;
+        };
+
+        if (minutosRestantes.length < 2) {
+            minutosRestantes = "0" + minutosRestantes;
+        };
+
+        if (segundosRestantes.length < 2) {
+            segundosRestantes = "0" + segundosRestantes;
+        };
+
+        return `${horasRestantes}:${minutosRestantes}:${segundosRestantes}`;
+    };
+    
+</script>
+
+<div class="usuario-contenedor lg:my-20">
+    <div class="usuario-contenedor-titulo">
+        <h1 class="usuario-contenedor-titulo__h1">¡Hola {{ user.first_name|title }}!</h1>
+    </div>
+    <div class="usuario-contenedor-informacion">
+        <p class="usuario-contenedor-informacion__p">Lorem ipsum dolor sit amet consectetur, </p>
+    </div>
+    <div class="usuario-contendor-general grid grid-col-1 lg:grid-cols-4 w-full">
+        <div class="usuario-contenedor-modal">
+            {% block contentUsuario %} {% endblock %}
+        </div>
+        <div class="usuario-contenedor-aside sticky lg:static bg-white inset-0">
+            <aside class="usuario-aside grid lg:grid-cols-1">
+                <!-- Solicitud de Compra -->
+                <div class="usuario-contenedor-btns centrar-contenedor lg:justify-start hover:bg-gray-300">
+                    <a href="{% url 'portalVentas:solicitud' %}">
+                        <i
+                            class="fas fa-clipboard-check usuario-contenedor-btns__i"></i>
+                        <span
+                            class="usuario-contenedor-btns__span lg:inline-block">Solicitud
+                            de Compra</span>
+                    </a>
+                </div>
+                <!-- Pedidos -->
+                <div class="usuario-contenedor-btns centrar-contenedor lg:justify-start hover:bg-gray-300">
+                    <a href="{% url 'portalVentas:pedido' %}">
+                        <i class="fas fa-shopping-cart usuario-contenedor-btns__i"></i>
+                        <span class="usuario-contenedor-btns__span lg:inline-block">Pedidos</span>
+                    </a>
+                </div>
+                <!-- Publicaciones -->
+                <div class="usuario-contenedor-btns centrar-contenedor lg:justify-start hover:bg-gray-300">
+                    <a href="{% url 'portalVentas:publicacion' %}"> 
+                        <i class="fas fa-apple-alt usuario-contenedor-btns__i"></i>
+                        <span class="usuario-contenedor-btns__span lg:inline-block">Publicaciones</span>
+                    </a>
+                </div>
+                <!-- Historial -->
+                <div class="usuario-contenedor-btns centrar-contenedor lg:justify-start hover:bg-gray-300">
+                    <a href="{% url 'portalVentas:historial' %}"> 
+                        <i class="fas fa-history usuario-contenedor-btns__i"></i>
+                        <span class="usuario-contenedor-btns__span lg:inline-block">Historial</span>
+                    </a>
+                </div>
+                <!-- Cuenta -->
+                <div class="usuario-contenedor-btns centrar-contenedor lg:justify-start hover:bg-gray-300">
+                    <a href="{% url 'portalVentas:informacion' %}">
+                        <i class="fas fa-address-card usuario-contenedor-btns__i"></i>
+                        <span class="usuario-contenedor-btns__span lg:inline-block">Cuenta</span>
+                    </a>
+
+                </div>
+                <!-- Salir -->
+                <div class="usuario-contenedor-btns centrar-contenedor lg:justify-start hover:bg-gray-300">
+                    <a href="{% url 'portalVentas:home' %}?..">
+                        <i class="fas fa-sign-out-alt usuario-contenedor-btns__i"></i>
+                        <span class="usuario-contenedor-btns__span lg:inline-block">Salir</span>
+                    </a>
+                </div>
+            </aside>
+        </div>
+    </div>
+</div>
+
+<script>
+    
+    const rg = {
+        'solicitud' : /\/solicitud\/$/,
+        'pedido' : /\/pedido\/$/,
+        'historial' : /\/historial\/$/,
+        'informacion' : /\/informacion\/$/,
+        'publicacion' : /\/publicacion\/$/
+    }
+
+    const $btnIco = document.querySelectorAll('.usuario-contenedor-btns a i');
+    const $btnSpan = document.querySelectorAll('.usuario-contenedor-btns a span');
+
+    for (const key in rg) {
+        if(rg[key].test(location.pathname)){
+            switch (key) {
+                case 'solicitud':
+                    $btnIco[0].classList.add('usuario-contenedor-btns__i--activo')
+                    $btnSpan[0].classList.add('usuario-contenedor-btns__span--activo')
+                    break;
+                
+                case 'pedido':
+                    $btnIco[1].classList.add('usuario-contenedor-btns__i--activo')
+                    $btnSpan[1].classList.add('usuario-contenedor-btns__span--activo')
+                    break;
+                    
+                case 'publicacion':
+                    $btnIco[2].classList.add('usuario-contenedor-btns__i--activo')
+                    $btnSpan[2].classList.add('usuario-contenedor-btns__span--activo')
+                    break;
+                
+                case 'historial':
+                    $btnIco[3].classList.add('usuario-contenedor-btns__i--activo')
+                    $btnSpan[3].classList.add('usuario-contenedor-btns__span--activo')
+                    break;
+                        
+                case 'informacion':
+                    $btnIco[4].classList.add('usuario-contenedor-btns__i--activo')
+                    $btnSpan[4].classList.add('usuario-contenedor-btns__span--activo')
+                    break;
+            };
+        };
+    };
+
+    btnRol(parseInt(usuario['id_rol'], 10), document.querySelector('.usuario-aside'));
+
+</script>
+
+{% endblock %}

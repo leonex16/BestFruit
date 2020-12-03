@@ -1,0 +1,218 @@
+<div class="listarSolicitud-contenedor">
+    <div class="listarSolicitud-contenedor-titulo" style="margin-right: 0.6rem;">
+        <h2 class="listarSolicitud-contenedor-titulo__h2">Estado Solicitudes</h2>
+    </div>
+    <div class="listarSolicitud-contenedor-solicitudes overflow-auto" style="max-height: 35rem;">
+
+    </div>
+</div>
+
+
+
+<script>
+    document.addEventListener('click', e => {
+        if(/-listarSolicitud-detalle-btn$/.test(e.target.id)){
+            document.getElementById(`${e.target.id[0]}-listarSolicitud-contenedor`).classList.toggle('hidden');
+        }
+    });
+
+    const solicitudes = [];
+    let concurrencia;    
+    {% for obj in viewListaSolicitudes %}
+
+        concurrencia = 0;
+        bucleWhile:
+        while (concurrencia <= 1) {
+            if (solicitudes.length === 0 || concurrencia === 1) {
+                solicitudes.push(
+                    {
+                        'ID_SOLICITUD': '{{obj.ID_SOLICITUD}}',
+                        'FECHA_CREACION': "{{obj.FECHA_CREACION|date:'d/m/y'}}",
+                        'DES_ESPECIE': '{{obj.DES_ESPECIE}}',
+                        'DES_VARIEDAD': '{{obj.DES_VARIEDAD}}',
+                        'KILOS': '{{obj.KILOS}}',
+                        'DES_ESTADO': '{{obj.DES_ESTADO}}'
+                    }
+                );
+                break bucleWhile;
+            } else {
+                let idSolicitudAIngresar = parseInt('{{obj.ID_SOLICITUD}}', 10);
+                solicitudes.forEach(obj => {
+                    if(obj.length === undefined){
+                        if (parseInt(obj['ID_SOLICITUD'], 10) === idSolicitudAIngresar) {
+                            concurrencia = 2;
+                            let objtemp = obj;
+                            let position = solicitudes.indexOf(obj);
+                            solicitudes[position] = [objtemp];
+                            solicitudes[position].push(
+                                {
+                                    'ID_SOLICITUD': '{{obj.ID_SOLICITUD}}',
+                                    'FECHA_CREACION': "{{obj.FECHA_CREACION|date:'d/m/y'}}",
+                                    'DES_ESPECIE': '{{obj.DES_ESPECIE}}',
+                                    'DES_VARIEDAD': '{{obj.DES_VARIEDAD}}',
+                                    'KILOS': '{{obj.KILOS}}',
+                                    'DES_ESTADO': '{{obj.DES_ESTADO}}'
+                                }
+                            );
+                        };
+                    }else{
+                        if (parseInt(obj[0]['ID_SOLICITUD'], 10) === idSolicitudAIngresar) {
+                            concurrencia = 2;
+                            let objtemp = obj;
+                            let position = solicitudes.indexOf(obj);
+                            solicitudes[position].push(
+                                {
+                                    'ID_SOLICITUD': '{{obj.ID_SOLICITUD}}',
+                                    'FECHA_CREACION': "{{obj.FECHA_CREACION|date:'d/m/y'}}",
+                                    'DES_ESPECIE': '{{obj.DES_ESPECIE}}',
+                                    'DES_VARIEDAD': '{{obj.DES_VARIEDAD}}',
+                                    'KILOS': '{{obj.KILOS}}',
+                                    'DES_ESTADO': '{{obj.DES_ESTADO}}'
+                                }
+                            );
+                        };
+                    };
+                });
+                concurrencia++;
+            };
+        };
+
+    {% endfor %}
+
+    // Insertar Detalle
+    const $listarSolicitudFragmento = document.createDocumentFragment();
+    let idBtn = 0;
+    solicitudes.forEach(soli => {
+        const $divTemp = document.createElement('div');
+        let listarSolicitudesDetalle = '';
+        if(Array.isArray(soli)){
+            idBtn++;
+            $divTemp.innerHTML = `
+                <div class="my-1">
+                    <div class="listarSolicitud-contenedor-solicitud grid grid-cols-1 lg:grid-cols-4">
+                        <div class="listarSolicitud-contenedor-label grid grid-cols-3 lg:grid-cols-1">
+                            <label for="" class="listarSolicitud-contenedor-label__label ml-2 md:ml-12 font-semibold">N
+                                Solicitud</label>
+                            <label for="" class="listarSolicitud-contenedor-label__label ml-2 md:ml-12 col-span-2">${soli[0]['ID_SOLICITUD']}</label>
+                        </div>
+                        <div class="listarSolicitud-contenedor-label grid grid-cols-3 lg:grid-cols-1 my-2">
+                            <label for="" class="listarSolicitud-contenedor-label__label ml-2 md:ml-12 font-semibold">Fecha
+                                Creacion</label>
+                            <label for=""
+                                class="listarSolicitud-contenedor-label__label ml-2 md:ml-12 col-span-2">${soli[0]['FECHA_CREACION']}</label>
+                        </div>
+                        <div class="listarSolicitud-contenedor-label grid grid-cols-3 lg:grid-cols-1 my-2">
+                            <label for="" class="listarSolicitud-contenedor-label__label ml-2 md:ml-12 font-semibold">Estado</label>
+                            <label for="" class="listarSolicitud-contenedor-label__label ml-2 md:ml-12 col-span-2" data-estado="${soli[0]['DES_ESTADO']}">${soli[0]['DES_ESTADO']}</label>
+                        </div>
+                        <div class="listarSolicitud-contenedor-label centrar-contenedor">
+                            <span
+                                class="listarSolicitud-contenedor-label__span"
+                                style="cursor:pointer;" id="${idBtn}-listarSolicitud-detalle-btn" >Ver Detalle</span>
+                        </div>
+                    </div>
+                    <div class="listarSolicitud-contenedor-solicitud-detalle hidden" id="${idBtn}-listarSolicitud-contenedor">
+                        <table class="listarSolicitud-contenedor-solicitud-detalle__table">
+                            <thead class="listarSolicitud-contenedor-solicitud-detalle__thead">
+                                <tr class="listarSolicitud-contenedor-solicitud-detalle__tr">
+                                    <th class="listarSolicitud-contenedor-solicitud-detalle__th py-3 w-1/12">#</th>
+                                    <th class="listarSolicitud-contenedor-solicitud-detalle__th w-1/3">Fruta</th>
+                                    <th class="listarSolicitud-contenedor-solicitud-detalle__th w-1/3">Variedad Fruta</th>
+                                    <th class="listarSolicitud-contenedor-solicitud-detalle__th w-1/12">Cantidad</th>
+                                </tr>
+                            </thead>
+                            <tbody class="listarSolicitud-contenedor-solicitud-detalle__tbody">
+                            </tbody>
+                        </table>
+                        ${(soli[0]['DES_ESTADO'] === 'Rechazada')? `<p class="font-semibold text-center my-2">Motivo de rechazo : <bdi class="font-normal">La fruta solicitada no se encuentra disponible en esta temporada</bdi></p>` : ''}
+                    </div>
+                </div>
+            `;
+            let idFila = 0;
+            for(i in soli){
+                idFila++;
+                listarSolicitudesDetalle += `
+                                                <tr class="listarSolicitud-contenedor-solicitud-detalle-tbody__tr">
+                                                    <td class="listarSolicitud-contenedor-solicitud-detalle__td py-3">${idFila}</td>
+                                                    <td class="listarSolicitud-contenedor-solicitud-detalle__td">${soli[i]['DES_ESPECIE']}</td>
+                                                    <td class="listarSolicitud-contenedor-solicitud-detalle__td">${soli[i]['DES_VARIEDAD']}</td>
+                                                    <td class="listarSolicitud-contenedor-solicitud-detalle__td">${soli[i]['KILOS']}</td>
+                                                </tr>
+                `;
+            };
+            $divTemp.querySelector('.listarSolicitud-contenedor-solicitud-detalle__tbody').innerHTML = listarSolicitudesDetalle;
+        }else{
+            idBtn++;
+            $divTemp.innerHTML = `
+                <div class="my-1">
+                    <div class="listarSolicitud-contenedor-solicitud grid grid-cols-1 lg:grid-cols-4">
+                        <div class="listarSolicitud-contenedor-label grid grid-cols-3 lg:grid-cols-1">
+                            <label for="" class="listarSolicitud-contenedor-label__label ml-2 md:ml-12 font-semibold">N
+                                Solicitud</label>
+                            <label for="" class="listarSolicitud-contenedor-label__label ml-2 md:ml-12 col-span-2">${soli['ID_SOLICITUD']}</label>
+                        </div>
+                        <div class="listarSolicitud-contenedor-label grid grid-cols-3 lg:grid-cols-1 my-2">
+                            <label for="" class="listarSolicitud-contenedor-label__label ml-2 md:ml-12 font-semibold">Fecha
+                                Creacion</label>
+                            <label for=""
+                                class="listarSolicitud-contenedor-label__label ml-2 md:ml-12 col-span-2">${soli['FECHA_CREACION']}</label>
+                        </div>
+                        <div class="listarSolicitud-contenedor-label grid grid-cols-3 lg:grid-cols-1 my-2">
+                            <label for="" class="listarSolicitud-contenedor-label__label ml-2 md:ml-12 font-semibold">Estado</label>
+                            <label for="" class="listarSolicitud-contenedor-label__label ml-2 md:ml-12 col-span-2" data-estado="${soli['DES_ESTADO']}">${soli['DES_ESTADO']}</label>
+                        </div>
+                        <div class="listarSolicitud-contenedor-label centrar-contenedor">
+                            <span
+                                class="listarSolicitud-contenedor-label__span"
+                                style="cursor:pointer;" id="${idBtn}-listarSolicitud-detalle-btn" >Ver Detalle</span>
+                        </div>
+                    </div>
+                    <div class="listarSolicitud-contenedor-solicitud-detalle hidden" id="${idBtn}-listarSolicitud-contenedor">
+                        <table class="listarSolicitud-contenedor-solicitud-detalle__table">
+                            <thead class="listarSolicitud-contenedor-solicitud-detalle__thead">
+                                <tr class="listarSolicitud-contenedor-solicitud-detalle__tr">
+                                    <th class="listarSolicitud-contenedor-solicitud-detalle__th py-3 w-1/12">#</th>
+                                    <th class="listarSolicitud-contenedor-solicitud-detalle__th w-1/3">Fruta</th>
+                                    <th class="listarSolicitud-contenedor-solicitud-detalle__th w-1/3">Variedad Fruta</th>
+                                    <th class="listarSolicitud-contenedor-solicitud-detalle__th w-1/12">Cantidad</th>
+                                </tr>
+                            </thead>
+                            <tbody class="listarSolicitud-contenedor-solicitud-detalle__tbody">
+                                <tr class="listarSolicitud-contenedor-solicitud-detalle-tbody__tr">
+                                    <td class="listarSolicitud-contenedor-solicitud-detalle__td py-3">1</td>
+                                    <td class="listarSolicitud-contenedor-solicitud-detalle__td">${soli['DES_ESPECIE']}</td>
+                                    <td class="listarSolicitud-contenedor-solicitud-detalle__td">${soli['DES_VARIEDAD']}</td>
+                                    <td class="listarSolicitud-contenedor-solicitud-detalle__td">${soli['KILOS']}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        ${(soli['DES_ESTADO'] === 'Rechazada')? `<p class="font-semibold text-center my-2">Motivo de rechazo : <bdi class="font-normal">La fruta solicitada no se encuentra disponible en esta temporada</bdi></p>` : ''}
+                    </div>
+                </div>
+        `;
+        };
+        $listarSolicitudFragmento.appendChild($divTemp.firstElementChild);
+    });
+    document.querySelector('.listarSolicitud-contenedor-solicitudes').appendChild($listarSolicitudFragmento);
+
+    document.querySelectorAll("label[data-estado]").forEach(label => {
+        switch (label.getAttribute('data-estado')) {
+            case 'Pendiente':
+                label.parentElement.parentElement.classList.add('border-l-8');
+                label.parentElement.parentElement.classList.add('border-yellow-500');
+                break;
+            case 'Aceptada':
+                label.parentElement.parentElement.classList.add('border-l-8');
+                label.parentElement.parentElement.classList.add('border-green-500');
+                break;
+            case 'Rechazada':
+                label.parentElement.parentElement.classList.add('border-l-8');
+                label.parentElement.parentElement.classList.add('border-red-500');
+                break;
+        
+
+        }; 
+    });
+    // Insertar Detalle
+</script>
+

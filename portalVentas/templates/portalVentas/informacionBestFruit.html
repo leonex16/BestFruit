@@ -1,0 +1,160 @@
+{% extends 'portalVentas/base.html' %}
+
+{% block title %} {{ tituloPagina }} {% endblock %}
+
+{% block content %}
+<div class="" style="background-color: #ececec">
+    <section>
+        <div class="bg-fixed" style="height: 70vh; background: #ffffff url('/static/img/bg-5.jpg') no-repeat; background-attachment: fixed; background-size: cover; filter: grayscale(0.2);">
+        </div>
+        <span id="quienes-somos" class="relative" style="top: -40px;"></span>
+        <div class="bg-green-600 h-32 text-center">
+            <h2 class="font-lato text-5xl text-white" style="line-height: 7.5rem;">Quiénes Somos</h2>
+        </div>
+        <div class="w-2/3 mx-auto" style="min-height: 75vh;">
+            <article>
+                <section class="my-6">
+                    <blockquote>
+                        <p class="font-lato text-2xl font-light text-justify italic">
+                            En Best Fruit somos el puente de conexión entre los productores locales que desean exportar su fruta y las empresas extranjeras que necesitan aquellos productos. A su vez,  somos una tienda virtual que facilita el abastecimiento de los hogares chilenos.
+                        </p>
+                    </blockquote>
+                </section>
+                <section class="my-6">
+                    <p class="font-lato text-2xl font-light text-justify">
+                        Puede que el párrafo anterior te suene familiar ¿Cierto? ¡Pues claro! Este se encuentra al final de la página, y dejame contarte que es solo una definición acotada de nuestra compañía, pero en realidad somos mucho más...
+                    </p>
+                </section>
+                <section class="my-6">
+                    <h3 class="font-lato text-4xl my-2">
+                        Somos una familia
+                    </h3>
+                    <p class="font-lato text-2xl font-light text-justify">
+                        Que busca entregarte la mejor calidad en cada pedido que realices, dejándolos en la puerta de tu hogar 🏡.
+                    </p>
+                </section>
+                <section class="my-6">
+                    <h3 class="font-lato text-4xl my-2">
+                        Somos minuciosos en nuestro trabajo
+                    </h3>
+                    <p class="font-lato text-2xl font-light text-justify">
+                        Para cumplir las tus expectativas más altas, debemos serlo, es más, lo hacemos por que nos encanta ⭐.
+                    </p>
+                </section>
+                <section class="my-6">
+                    <h3 class="font-lato text-4xl my-2">
+                        Somos clientes también
+                    </h3>
+                    <p class="font-lato text-2xl font-light text-justify">
+                        ¡Igual que tú! Por tanto, esperamos una grata experiencia en cualquier comercio, por esta razón, nos esforzamos cada día en brindarte lo mejor de nosotros 🙈.
+                    </p>
+                </section>
+                <section class="my-6">
+                    <p class="font-lato text-2xl font-light text-justify">
+                        Y por último y no menos importante, gracias, gracias por darnos un poco de tu tiempo y por tu preferencia 🧡.
+                    </p>
+                </section>
+            </article>
+        </div>
+    </section>
+
+    <section>
+        <div class="bg-fixed" style="height: 70vh; background: #ffffff url('/static/img/bg-6.jpg') no-repeat; background-attachment: fixed; background-size: cover; filter: grayscale(0.2);">
+        </div>
+        <span id="servicios" class="relative" style="top: -40px;"></span>
+        <div class="bg-green-600 h-32 text-center">
+            <h2 class="font-lato text-5xl text-white" style="line-height: 7.5rem;">Nuestros Servicios</h2>
+        </div>
+        <div class="w-2/3 mx-auto flex flex-col justify-center items-center xl:flex-row xl:justify-around" style="min-height: 75vh;">
+            <section class="border-8 border-green-600 rounded-full w-64 h-64 m-10">
+                <div class="flex flex-col justify-center items-center h-full p-4">
+                    <i class="fas fa-handshake text-6xl text-green-600"></i>
+                    <p class="font-lato text-2xl font-medium text-center my-6">
+                        Experiencia como intermediarios
+                    </p>
+                </div>
+            </section>
+            <section class="border-8 border-green-600 rounded-full w-64 h-64 m-10">
+                <div class="flex flex-col justify-center items-center h-full p-4">
+                    <i class="fas fa-apple-alt text-6xl text-green-600"></i>
+                    <p class="font-lato text-2xl font-medium text-center my-6">
+                        Tenemos la mejor selección de fruta
+                    </p>
+                </div>
+            </section>
+            <section class="border-8 border-green-600 rounded-full w-64 h-64 m-10">
+                <div class="flex flex-col justify-center items-center h-full p-4">
+                    <i class="fas fa-medal text-6xl text-green-600"></i>
+                    <p class="font-lato text-2xl font-medium text-center my-6">
+                        Excelencia en control y gestión de los productos
+                    </p>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <section>
+        <div class="bg-fixed" style="height: 70vh; background: #ffffff url('/static/img/bg-7.jpg') no-repeat; background-attachment: fixed; background-size: cover; filter: grayscale(0.2);">
+        </div>
+        <div id="agracimientos" class="bg-green-600 h-32 text-center">
+            <h2 class="font-lato text-5xl text-white" style="line-height: 7.5rem;">Agradecimientos</h2>
+        </div>
+        <div class="w-2/3 mx-auto text-center" style="height: 235px;">
+            <p class="font-lato text-2xl font-light my-6">El siguiente botón tu redireccionará a la pagina de Agradecimientos</p>
+            <a href=" https://leonex16.github.io/agradecimientos/" target="_blank" rel="noopener noreferrer" class="flex justify-center my-12">
+                <button type="button" class="dark-btn w-64 h-16 bg-black rounded-md text-center text-white text-2xl"> Haz Clic Aquí </button>
+            </a>
+        </div>
+    </section>
+</div>
+
+<style>
+    .dark-btn:hover{
+        background-color: rgb(20, 20, 20);
+    }
+</style>
+
+<script>
+    let $ulNavbar = document.querySelector('.contenedor-enlace__ul').children;
+    cambiarEnlaceActivoPorHash($ulNavbar);
+    
+    window.onhashchange = () => {
+        borraClaseEnlaceActivo($ulNavbar);
+        cambiarEnlaceActivoPorHash($ulNavbar);
+    };
+
+    window.onscroll =  e => {
+        borraClaseEnlaceActivo($ulNavbar);
+        if(window.scrollY > 2958){
+            $ulNavbar[3].classList.add('contenedor-enlace__li--activo');
+        }else if(window.scrollY >= 1428){
+            $ulNavbar[2].classList.add('contenedor-enlace__li--activo');
+        }else if(window.scrollY < 1428){
+            $ulNavbar[1].classList.add('contenedor-enlace__li--activo');
+        }
+    };
+
+    function borraClaseEnlaceActivo($ulNavbar){
+        for(const li of $ulNavbar){
+            if(/contenedor-enlace__li--activo/.test(li.className)){
+                li.classList.remove('contenedor-enlace__li--activo');
+            };
+        };
+    };
+
+    function cambiarEnlaceActivoPorHash($ulNavbar){
+        switch(window.location.hash){
+            case '#quienes-somos':
+                $ulNavbar[1].classList.add('contenedor-enlace__li--activo');
+                break;
+            case '#servicios':
+                $ulNavbar[2].classList.add('contenedor-enlace__li--activo');
+                break;
+            case '#agracimientos':
+                $ulNavbar[3].classList.add('contenedor-enlace__li--activo');
+                break;
+        };
+    };
+</script>
+
+{% endblock %}

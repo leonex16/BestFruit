@@ -1,0 +1,59 @@
+{% load l10n %}
+<div class="contenedor-producto-oferta">
+    <div class="contenedor-titulo">
+        <h1>Ofertas del Momento</h1>
+    </div>
+    <div class="slider">
+        <div class="slider__contenedor">
+            <div class="w-full md:w-11/12 m-auto">
+                <div class="slider__lista" style="overflow-x: hidden; padding-top: 20px;">
+                    {% for fruta in oferta|dictsort:"FECHA_COSECHA" %}
+                            <div class="slider__elemento">
+                                <div class="contenedor-tarjeta relative bg-white">
+                                    <div class="absolute"  style="top: -40px; right: -40px;">
+                                        <img src="/static/img/bg-dcto.png" alt="" class="w-24 h-2w-24" style="filter: saturate(1.8);">
+                                        <p class="absolute text-2xl text-white font-lato font-semibold"  style="top: 35px; right: 20px;">-<bdi>15</bdi>%</p>
+                                    </div>
+                                    <div class="imagen-tarjeta" loading="lazy" style="background-image: url('{{fruta.IMAGEN}}');"></div>
+                                    <div class="titulo-tarjeta">
+                                        <h2 class="text-xl">{{ fruta.DES_ESPECIE|capfirst }} - {{ fruta.DES_VARIEDAD|capfirst }} </h2>
+                                    </div>
+                                    <div class="unidad-tarjeta"><span>Disponible {{ fruta.KILOS }} Kilo{{ fruta.KILOS|pluralize }}</span></div>
+                                    <div class="precio-tarjeta-antes font-lato text-center font-medium mt-4">
+                                        <h2><del>${{ fruta.PRECIO_KILO }}</del></h2>
+                                    </div>
+                                    <div class="precio-tarjeta">
+                                        <h2 class="precio-tarjeta-despues">${{ fruta.PRECIO_KILO }}</h2>
+                                        <span class="text-center font-lato text-sm italic font-medium">El Kilo</span>
+                                    </div>
+                                    <div class="boton-tarjeta">
+                                        <a href="{% url 'portalVentas:detalle' id=fruta.ID_STOCK %}">
+                                            <div class="btn bg-green-500 hover:bg-green-600 mx-10 mt-1">
+                                                <span class="text-white">Comprar</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% empty %}
+                        <h2>No hay ofertas por el momento.</li>
+                    {% endfor %}
+                </div>
+            </div>
+            <button aria-label="Anterior" class="slider__anterior hidden md:block focus:outline-none hover:text-opacity-100">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button aria-label="Siguiente" class="slider__siguiente hidden md:block absolute focus:outline-none hover:text-opacity-100">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <!-- <div role="tablist" class="slider__indicadores"></div> -->
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.precio-tarjeta-despues').forEach(precioDespuesH2 => {
+        precioDespuesH2.textContent = parseInt(parseInt(precioDespuesH2.textContent.split('$')[1].replaceAll('.', '')) * 0.85) ;
+    });
+</script>

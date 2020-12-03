@@ -1,0 +1,835 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lemonada:wght@300;400;500;515;600;700&family=Noto+Serif+JP:wght@200;300;400;500;600;700;900&display=swap');
+
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+h1 {
+    @apply text-4xl;
+}
+
+h2 {
+    @apply text-2xl;
+}
+
+h3 {
+    @apply text-lg;
+}
+
+h4 {
+    @apply text-base;
+}
+
+h5 {
+    @apply text-sm;
+}
+
+h6 {
+    @apply text-xs;
+}
+
+@responsive {
+
+    /* =================================Navbar================================= */
+    .grid-col-1 {
+        @apply grid grid-cols-1;
+    }
+
+    .grid-col-2 {
+        @apply grid grid-cols-2;
+    }
+
+    .grid-col-6 {
+        @apply grid grid-cols-6;
+    }
+
+    .centrar-contenedor {
+        @apply flex justify-center items-center;
+    }
+
+    .contenedor-navbar {
+        @apply bg-green-500;
+        @apply p-4;
+    }
+
+    .contenedor-logo {
+        @apply h-full;
+    }
+
+    .contenedor-enlace {
+        @apply col-span-3;
+    }
+
+    .contenedor-enlace__ul {
+        @apply h-full;
+    }
+
+    .contenedor-enlace__li {
+        @apply text-white;
+        @apply font-lato;
+        @apply rounded-md;
+        @apply w-full;
+    }
+
+    .contenedor-enlace__li--activo {
+        @apply bg-green-600;
+        @apply py-1;
+    }
+
+    .contendor-btn {
+        @apply col-span-2;
+    }
+
+    .btn {
+        @apply flex justify-center items-center;
+        @apply font-lato;
+        @apply rounded-lg;
+        @apply h-10;
+    }
+
+    .btn-blue {
+        @apply bg-blue-500;
+    }
+
+    .btn-orange {
+        @apply bg-orange-500;
+    }
+
+    /* =================================Navbar================================= */
+
+    /* =================================Banner================================= */
+
+    .contenedor-parallax {
+        @apply text-white;
+        position: relative;
+        background: url("/static/img/parallax.jpg");
+        height: 500px;
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: center top;
+    }
+
+    .contenedor-parallax::before{
+        content:'';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .contenedor-parallax__titulo {
+        @apply text-center;
+    }
+
+    .contenedor-parallax__h1 {
+        @apply font-lemonada;
+        @apply text-5xl font-medium;
+        @apply text-center;
+    }
+
+    .contenedor-parallax__p {
+        @apply font-lemonada;
+        @apply text-2xl font-light;
+        @apply text-center;
+    }
+
+    .contenedor-info {
+        @apply p-6;
+    }
+
+    .contenedor-info__ico {
+        @apply text-orange-500;
+        @apply text-center;
+    }
+
+    .contenedor-info__tit {
+        @apply font-notoserif;
+        @apply font-medium;
+        @apply text-orange-500;
+        @apply text-center;
+    }
+
+    .contenedor-info__par {
+        @apply font-lato;
+        @apply font-light;
+        @apply leading-6;
+        @apply text-justify;
+        @apply my-2;
+    }
+
+    /* =================================Banner================================= */
+
+    /* =================================Oferta-Producto================================= */
+
+    .contenedor-producto-oferta {}
+
+    .contenedor-titulo {
+        @apply font-lemonada;
+        @apply text-center;
+        @apply my-10;
+    }
+
+    .slider {
+        @apply flex justify-center;
+    }
+
+    .slider__contenedor {
+        @apply relative;
+        width: 80vw;
+    }
+
+    .slider__lista {
+        @apply flex justify-center;
+    }
+
+    .slider__elemento {
+        @apply flex justify-center;
+    }
+
+    .contenedor-tarjeta {
+        @apply table;
+        @apply rounded-lg;
+        @apply shadow-lg;
+        @apply m-4 mx-10;
+    }
+
+    .imagen-tarjeta {
+        @apply bg-cover;
+        @apply rounded-t-lg;
+        width: 250px;
+        height: 250px;
+    }
+
+    .titulo-tarjeta {
+        @apply font-lato;
+        @apply font-bold;
+        @apply text-center;
+        @apply py-2;
+        width: 250px;
+    }
+
+    .unidad-tarjeta {
+        @apply font-lato;
+        @apply text-xs italic font-light;
+        @apply text-center;
+    }
+
+    .precio-tarjeta {
+        @apply font-lato;
+        @apply text-xl .font-black;
+        @apply text-center;
+        @apply py-2;
+        width: 250px;
+    }
+
+    .boton-tarjeta {
+        @apply text-center;
+        @apply py-4;
+        width: 250px;
+    }
+
+    .slider__anterior {
+        @apply absolute;
+        @apply inset-y-0;
+        @apply text-green-500;
+        @apply text-5xl text-opacity-50;
+    }
+
+    .slider__siguiente {
+        @apply absolute;
+        @apply inset-y-0;
+        @apply text-green-500;
+        @apply text-5xl text-opacity-50;
+        right: 0;
+    }
+
+    /* =================================Oferta-Producto================================= */
+
+    /* =====================================Footer===================================== */
+
+    .contenedor-footer {
+        @apply bg-orange-500;
+    }
+
+    .seccion {
+        @apply my-4;
+    }
+
+    .seccion-titulo {
+        @apply border-b-4 border-white;
+        @apply text-center;
+        @apply m-4;
+    }
+
+    .seccion-titulo__h1 {
+        @apply text-white font-lemonada;
+    }
+
+    .seccion-imagen {
+        @apply flex justify-center;
+        @apply mt-4;
+    }
+
+    .seccion-imagen__img {
+        @apply  w-24 h-24;
+    }
+
+    .seccion-info {
+        @apply px-4;
+    }
+
+    .seccion-info__p {
+        @apply text-white font-lato text-lg;
+        @apply text-justify;
+    }
+
+    .seccion-enlaces {}
+
+    .seccion-enlaces__li {
+        @apply text-white font-lato text-lg;
+        @apply text-center;
+    }
+
+    .seccion-contactos {
+        @apply px-4;
+    }
+
+    .medio-contacto {
+        @apply flex items-center;
+    }
+
+    .contenedor-icono {
+        @apply my-2;
+    }
+
+    .contenedor-icono__i {
+        @apply text-white text-5xl;
+    }
+
+    .contenedor-texto {
+        @apply pl-4;
+    }
+
+    .contenedor-texto__span {
+        @apply text-lg text-white font-lato;
+    }
+
+    .seccion-copyright {
+        @apply border-t-4 border-b-4 border-white;
+        @apply text-center;
+        @apply mx-4;
+        align-self: flex-end;
+    }
+
+    .seccion-copyright__span {
+        @apply text-white text-2xl font-lato italic;
+    }
+
+    /* =====================================Footer===================================== */
+
+    /* =====================================Login====================================== */
+
+    .contenedor-login {
+        @apply h-screen;
+        background: url('/static/img/bg.jpg');
+        background-size: cover;
+    }
+
+    .ventana-login {
+        @apply rounded-lg;
+        @apply bg-white;
+    }
+
+    .ventana-titulo {
+        @apply text-center;
+    }
+
+    .ventana-titulo__h1 {
+        @apply font-notoserif font-bold;
+        @apply py-4;
+    }
+
+    .formulario-login {
+        @apply grid;
+        @apply m-2;
+    }
+
+    .formulario-login__input {
+        @apply rounded-lg border-gray-100;
+        @apply border-t-2 border-b border-l border-r border-gray-400;
+        @apply my-4 p-2;
+    }
+
+    .formulario-login__btn {
+        @apply font-lato text-lg text-white text-center;
+        @apply rounded-lg;
+        @apply bg-green-500;
+        @apply mt-4;
+    }
+
+    .enlace-sign {
+        @apply text-center;
+        @apply pb-4;
+    }
+
+    .enlace-sign__span {
+        @apply text-base font-lato;
+    }
+
+    .enlace-sign__a {
+        @apply text-base font-lato font-bold;
+    }
+
+    /* =====================================Login====================================== */
+
+    /* =====================================Registro====================================== */
+
+    .registro-contenedor {
+        background: url('/static/img/bg.jpg');
+        background-size: cover;
+        min-height: 100vh;
+    }
+
+    .ventana-registro {
+        @apply bg-white;
+        @apply rounded-lg;
+        @apply m-4 px-4;
+        width: 78%;
+    }
+
+    .contenedor-inputs {
+        @apply m-2;
+    }
+
+    .input {
+        @apply border-gray-500 border rounded-md;
+        @apply w-full;
+        @apply p-2;
+    }
+
+    .input::placeholder{
+        @apply text-gray-800
+    }
+
+    .contenedor-inputs-error {
+        @apply bg-red-400 text-center;
+        @apply border-2 border-red-500 rounded-lg;
+        @apply mt-2 p-2;
+        display: none;
+    }
+
+    .contenedor-inputs-error__span {
+        @apply font-lato text-white font-semibold text-sm;
+    }
+
+    .registro-contenedor-checkboxs__checkbox {
+        @apply relative;
+        @apply bg-white appearance-none outline-none;
+        @apply border-2 rounded-full;
+        @apply duration-100 m-2;
+        @apply m-2;
+        width: 50px;
+        height: 30px;
+    }
+
+    input.registro-contenedor-checkboxs__checkbox:after {
+        content: "";
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 26px;
+        height: 26px;
+        background-color: white;
+        border-radius: 100%;
+        border: 1px solid #e2e8f0;
+    }
+
+    input.registro-contenedor-checkboxs__checkbox:checked {
+        border-color: #4ED164;
+        background-color: #4ED164;
+        transition-duration: 200ms;
+    }
+
+    input.registro-contenedor-checkboxs__checkbox:checked:after {
+        left: 20px;
+    }
+
+    .contenedor-selects {
+        @apply flex items-center;
+        @apply relative;
+        @apply m-2;
+    }
+
+    .contenedor-selects__select {
+        @apply appearance-none;
+        @apply border-2 border-black rounded-lg;
+        @apply w-full;
+        @apply p-2;
+    }
+
+    .contenedor-btns {
+        @apply m-2 mb-3;
+    }
+
+    .contenedor-formulario-completo{
+        @apply text-center bg-blue-400;
+        @apply border-2 border-blue-500 rounded-lg;
+        @apply m-2 mb-4 p-2;
+        display: none;
+    }
+
+    .contenedor-formulario-incompleto{
+        @apply text-center bg-red-400;
+        @apply border-2 border-red-500 rounded-lg;
+        @apply m-2 mb-4 p-2;
+        display: none;
+    }
+
+    .contenedor-formulario-estado__span{
+        @apply font-lato text-gray-900 font-semibold text-base;
+    }
+
+    /* =====================================Registro====================================== */
+
+    /* =====================================Detalle====================================== */
+
+    .detalle-contenedor{
+        @apply justify-center;
+        @apply mx-4;
+    }
+
+    .detalle-contenedor-titulo{
+        @apply text-center;
+    }
+
+    .detalle-contenedor-titulo{}
+
+    .detalle-contenedor-titulo__h1{
+        @apply  inline-block;
+        @apply  font-lemonada font-thin;
+        @apply  border-b-2;
+        @apply  my-4 px-10 py-2;
+    }
+
+    .detalle-contenedor-descripcion{
+        @apply grid grid-cols-1;
+    }
+
+    .detalle-contenedor-imagen{}
+
+    .detalle-contenedor-imagen__img{
+        width: 350px;
+        height: 280px;
+        border-radius: 5%;
+    }
+
+    .detalle-contenedor-informacion{
+        @apply mt-4;
+    }
+
+    .detalle-contenedor-precio{
+        @apply text-center;
+    }
+
+    .detalle-contenedor-precio__span{
+        @apply font-lato font-semibold text-4xl;
+    }
+
+    .detalle-contenedor-caracteristica{
+        @apply my-4;
+    }
+
+    .detalle-contenedor-caracteristica__span{
+        @apply font-lato text-2xl;
+    }
+
+    .detalle-contenedor-caracteristica__li{
+        @apply font-lato font-light my-2;
+    }
+
+    .detalle-contenedor-btn{
+        @apply my-4;
+    }
+
+    .input-slider{
+        @apply appearance-none outline-none bg-blue-400 opacity-75;
+        @apply h-1 w-full;
+        @apply my-4;
+    }
+
+    .input-slider::-webkit-slider-thumb,.input-slider::-moz-range-thumb{
+        appearance: none;
+        border: 0;
+        background: url('/static/img/BestFruit.png');
+        background-size: 30px 30px;
+        background-repeat: no-repeat;
+        background-position-y: 20%;
+        width: 30px; 
+        height: 40px;
+    }
+
+    .detalle-contenedor-total__span{
+        @apply font-lato text-xl; 
+        @apply my-2 ;
+    }
+    /* =====================================Detalle===================================== */
+
+
+    /* =====================================Usuario===================================== */
+    
+    .usuario-contenedor{
+        @apply max-w-6xl;
+        @apply mx-auto;
+    }
+
+    .usuario-contenedor-titulo{
+        @apply text-center;
+    }
+
+    .usuario-contenedor-informacion{}
+
+    .usuario-contenedor-informacion__p{
+        @apply font-lato font-light text-xl;
+        @apply m-4;
+    }
+    
+    .usuario-contenedor-titulo__h1{
+        @apply font-notoserif text-4xl;
+    }
+
+    .usuario-contenedor-general{}
+
+    .usuario-contenedor-modal{
+        @apply col-span-3;
+    }
+
+    .usuario-contenedor-aside{
+        @apply mb-6;
+    }
+
+    .usuario-aside{}
+
+    .usuario-contenedor-btns{
+        @apply border-t-2;
+        @apply p-4;
+    }
+
+    .usuario-contenedor-btns__i{
+        @apply text-2xl text-gray-700;
+    }
+
+    .usuario-contenedor-btns__span{
+        @apply hidden;
+        @apply font-lato text-lg text-gray-700;
+        @apply mx-2;
+    }
+
+    .usuario-contenedor-btns__i--activo{
+        @apply text-orange-500;
+    }
+
+    .usuario-contenedor-btns__span--activo{
+        @apply font-black text-orange-500;
+    }
+
+    /* =====================================Usuario===================================== */
+    
+    /* =====================================CrearSolicitud===================================== */
+
+    .crearSolicitud-contenedor{}
+
+    .crearSolicitud-contenedor-titulo{
+        @apply border-b-4 border-green-500;
+    }
+
+    .crearSolicitud-contenedor-titulo__h2{
+        @apply font-lato text-2xl;
+        @apply p-3;
+    }
+
+    .crearSolicitud-contenedor-formulario{}
+
+    .crearSolicitud-contenedor-tabla{
+        @apply m-2;
+    }
+
+    .crearSolicitud-contenedor-tabla__table{}
+
+    .crearSolicitud-contenedor-tabla__tr{
+        @apply bg-blue-500 text-white;
+    }
+
+    .crearSolicitud-contenedor-tabla__th{
+        @apply font-lato;
+        @apply px-4 py-2;
+    }
+
+    /* Hijos Pares */
+    .crearSolicitud-contenedor-tabla-tbody__tr:nth-child(even) {
+        background-color: rgba(66, 153, 225, 0.18)
+    }
+
+    /* Hijos Impares */
+    .crearSolicitud-contenedor-tabla-tbody__tr:nth-child(odd) {
+        background-color: rgba(66, 153, 225, 0.1)
+    }
+
+    .crearSolicitud-contenedor-tabla__td{
+        @apply font-lato;
+        @apply px-4 py-2;
+    }
+
+    /* =====================================CrearSolicitud===================================== */
+
+    /* =====================================ListarSolicitud===================================== */
+
+    .listarSolicitud-contenedor{}
+
+    .listarSolicitud-contenedor-titulo{
+        @apply border-b-4 border-green-500;
+    }
+
+    .listarSolicitud-contenedor-titulo__h2{
+        @apply font-lato text-2xl;
+        @apply p-3;
+    }
+
+    .listarSolicitud-contenedor-solicitudes{
+        @apply border-2 shadow-lg rounded-lg;
+        @apply m-2;
+    }
+
+    .listarSolicitud-contenedor-solicitud{
+        @apply p-2;
+    }
+
+    .listarSolicitud-contenedor-label{
+        @apply my-2;
+    }
+
+    .listarSolicitud-contenedor-label__label{
+        @apply font-lato;
+        @apply py-1;
+    }
+
+    .listarSolicitud-contenedor-label__span{
+        @apply font-lato bg-green-500 text-white rounded-lg;
+        @apply m-2 px-2 py-4;
+    }
+
+    .listarSolicitud-contenedor-solicitud-detalle{
+        @apply m-2;
+    }
+
+    .listarSolicitud-contenedor-solicitud-detalle__table{}
+
+    .listarSolicitud-contenedor-solicitud-detalle__thead{}
+
+    .listarSolicitud-contenedor-solicitud-detalle__tr{
+        @apply bg-blue-500 text-white;
+    }
+
+    .listarSolicitud-contenedor-solicitud-detalle__th{
+        @apply font-lato text-center;
+        @apply p-1;
+    }
+
+    .listarSolicitud-contenedor-solicitud-detalle__tbody{}
+
+    .listarSolicitud-contenedor-solicitud-detalle__td{
+        @apply font-lato text-center;
+        @apply p-1;
+    }
+
+    /* Hijos Pares */
+    .listarSolicitud-contenedor-solicitud-detalle-tbody__tr:nth-child(even) {
+        background-color: rgba(66, 153, 225, 0.18)
+    }
+
+    /* Hijos Impares */
+    .listarSolicitud-contenedor-solicitud-detalle-tbody__tr:nth-child(odd) {
+        background-color: rgba(66, 153, 225, 0.1)
+    }
+
+    /* =====================================ListarSolicitud===================================== */
+    
+    
+    /* =====================================InformacionPersonal===================================== */
+    
+    .informacionPersonal-contenedor-general{}
+
+    .informacionPersonal-contenedor-titulo{
+        @apply border-b-4 border-green-500;
+    }
+
+    .informacionPersonal-contenedor-titulo__h2{
+        @apply font-lato text-2xl;
+        @apply p-4;
+    }
+
+    .informacionPersonal-contenedor-inputs{
+        @apply my-2;
+    }
+
+    .informacionPersonal-contenedor-btns__button{
+        @apply font-lato text-lg text-white text-center;
+        @apply rounded-lg;
+        @apply bg-green-500;
+    }
+    
+    /* =====================================InformacionPersonal===================================== */
+    
+    /* =====================================InformacionContacto===================================== */
+    
+    .informacionContacto-contenedor-general{}
+
+    .informacionContacto-contenedor-titulo{
+        @apply border-b-4 border-green-500;
+    }
+
+    .informacionContacto-contenedor-titulo__h2{
+        @apply font-lato text-2xl;
+        @apply p-4;
+    }
+
+    .informacionContacto-contenedor-inputs{
+        @apply my-2;
+    }
+
+    .informacionContacto-contenedor-btns__button{
+        @apply font-lato text-lg text-white text-center;
+        @apply rounded-lg;
+        @apply bg-green-500;
+    }
+
+    /* =====================================InformacionContacto===================================== */
+
+    /* =====================================InformacionDespacho===================================== */
+
+    .informacionDespacho-contenedor-general{}
+
+    .informacionDespacho-contenedor-titulo{
+        @apply border-b-4 border-green-500;
+    }
+
+    .informacionDespacho-contenedor-titulo__h2{
+        @apply font-lato text-2xl;
+        @apply p-4;
+    }
+
+    .informacionDespacho-contenedor-inputs{
+        @apply my-2;
+    }
+
+    .informacionDespacho-contenedor-btns__button{
+        @apply font-lato text-lg text-white text-center;
+        @apply rounded-lg;
+        @apply bg-green-500;
+    }
+
+    /* =====================================InformacionDespacho===================================== */
+}
+
+@import "tailwindcss/utilities";

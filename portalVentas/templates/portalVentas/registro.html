@@ -1,0 +1,378 @@
+{% extends "portalVentas/base.html" %}
+
+{% block title %} {{ tituloPagina }} {% endblock %}
+
+{% block content %}
+<div class="registro-contenedor centrar-contenedor">
+	<div class="ventana-registro mt-24 md:mt-0">
+		<div class="ventana-titulo">
+			<h2 class="ventana-titulo__h1">Formulario de Registro</h2>
+		</div>
+		<form id="registro-formulario" method="POST">
+			{% csrf_token %}
+			<div class="registro-contenedor-formulario grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+				<!-- Identificacion -->
+				<div class="contenedor-inputs">
+					<input id="registro-rut" name="REGISTRO_RUT" type="text"
+						class="input focus:outline-none"
+						placeholder="Run o Pasaporte" />
+					<div class="contenedor-inputs-error" name="REGISTRO_ERROR_RUT">
+						<span class="contenedor-inputs-error__span">El Run ingresado no es valido. Ej. 11222333-4. En caso de
+							ser el numero de pasaporte, favor activar la opción "Es Pasaporte?".</span>
+					</div>
+				</div>
+				<div class="registro-contenedor-checkboxs flex justify-center">
+					<p class="font-lato m-4">Es pasaporte?</p>
+					<input id="registro-pasaporte" name="REGISTRO_PASAPORTE" type="checkbox"
+						class="registro-contenedor-checkboxs__checkbox bg-gray-400" />
+				</div>
+				<div class="contenedor-inputs">
+					<input id="registro-fecha" name="REGISTRO_FECHA" type="text"
+						class="input appearance-none focus:outline-none"
+						placeholder="Fecha de Nacimiento" />
+					<div class="contenedor-inputs-error" name="REGISTRO_ERROR_FECHA">
+						<span class="contenedor-inputs-error__span">Fecha ingresada no valida. Ej.
+							{{ fechaActual|date:"d/m/Y" }}.</span>
+					</div>
+				</div>
+				<!-- Nombre Completo -->
+				<div class="contenedor-inputs">
+					<input id="registro-nombre" name="REGISTRO_NOMBRE" type="text"
+						class="input focus:outline-none"
+						placeholder="Nombre" />
+					<div class="contenedor-inputs-error" name="REGISTRO_ERROR_NOMBRE">
+						<span class="contenedor-inputs-error__span">Solo se aceptan caracteres
+							alfabéticos.</span>
+					</div>
+				</div>
+				<div class="contenedor-inputs">
+					<input id="registro-paterno" name="REGISTRO_PATERNO" type="text"
+						class="input focus:outline-none"
+						placeholder="Apellido Paterno" />
+					<div class="contenedor-inputs-error" name="REGISTRO_ERROR_PATERNO">
+						<span class="contenedor-inputs-error__span">Solo se aceptan caracteres
+							alfabéticos.</span>
+					</div>
+				</div>
+				<div class="contenedor-inputs">
+					<input id="registro-materno" name="REGISTRO_MATERNO" type="text"
+						class="input focus:outline-none"
+						placeholder="Apellido Materno" />
+					<div class="contenedor-inputs-error" name="REGISTRO_ERROR_MATERNO">
+						<span class="contenedor-inputs-error__span">Solo se aceptan caracteres
+							alfabéticos.</span>
+					</div>
+				</div>
+				<!-- Correo y Numero -->
+				<div class="contenedor-inputs lg:col-span-2">
+					<input id="registro-correo" name="REGISTRO_CORREO" type="email"
+						class="input focus:outline-none"
+						placeholder="Correo Electrónico" />
+					<div class="contenedor-inputs-error" name="REGISTRO_ERROR_CORREO">
+						<span class="contenedor-inputs-error__span">Correo ingresado no valido. Solo se aceptan
+							caracteres alfanuméricos, guiones o puntos.</span>
+					</div>
+				</div>
+				<div class="contenedor-inputs">
+					<input id="registro-celular" name="REGISTRO_CELULAR" type="text"
+						class="input focus:outline-none appearance-none"
+						placeholder="Numero de Teléfono" />
+					<div class="contenedor-inputs-error" name="REGISTRO_ERROR_CELULAR">
+						<span class="contenedor-inputs-error__span">Solo se aceptan caracteres numéricos. Ej.
+							9 XXXX XXXX</span>
+					</div>
+				</div>
+				<!-- Direccion -->
+				<div class="contenedor-inputs lg:col-span-3">
+					<input id="registro-direccion" name="REGISTRO_DIRECCION" type="text"
+						class="input lg:w-full focus:outline-none"
+						placeholder="Dirección" />
+					<div class="contenedor-inputs-error" name="REGISTRO_ERROR_DIRECCION">
+						<span class="contenedor-inputs-error__span">Solo se aceptan caracteres
+							alfabéticos.</span>
+					</div>
+				</div>
+				<!-- Selects -->
+				<div class="contenedor-selects">
+					<select id="registro-region" name="REGISTRO_REGION"
+						class="contenedor-selects__select focus:outline-none" onchange="onChange()">
+					</select>
+					<!-- <i class="fas fa-angle-down absolute right-0 mr-2"></i> -->
+				</div>
+				<div class="contenedor-selects">
+					<select id="registro-provincia" name="REGISTRO_PROVINCIA"
+						class="contenedor-selects__select focus:outline-none" disabled onchange="onChange2()">
+					</select>
+					<!-- <i class="fas fa-angle-down absolute right-0 mr-2"></i> -->
+				</div>
+				<div class="contenedor-selects">
+					<select id="registro-comuna" name="REGISTRO_COMUNA"
+						class="contenedor-selects__select focus:outline-none" disabled>
+					</select>
+					<!-- <i class="fas fa-angle-down absolute right-0 mr-2"></i> -->
+				</div>
+				<!-- Contrasenia -->
+				<div class="contenedor-inputs">
+					<input id="registro-contrasenia1" name="REGISTRO_CONTRASENIA1" type="password"
+						class="input focus:outline-none"
+						placeholder="Contraseña" />
+					<div class="contenedor-inputs-error" name="REGISTRO_ERROR_CONTRASENIA1">
+						<span class="contenedor-inputs-error__span">La contraseña debe contener de 6 a 12
+							caracteres.</span>
+					</div>
+				</div>
+				<div class="contenedor-inputs">
+					<input id="registro-contrasenia2" name="REGISTRO_CONTRASENIA2" type="password"
+						class="input focus:outline-none"
+						placeholder="Repita Contraseña" />
+					<div class="contenedor-inputs-error" name="REGISTRO_ERROR_CONTRASENIA2">
+						<span class="contenedor-inputs-error__span">Las contraseñas no coincides.</span>
+					</div>
+				</div>
+				<!-- Btn -->
+				<div class="contenedor-btns md:col-span-2 lg:col-span-3">
+					<button type="submit" class="formulario-login__btn btn w-full focus:outline-none">
+						Registrarse
+					</button>
+					<span class="block font-lato text-sm text-center mt-2">Al registrarte, aceptas nuestras condiciones de uso y políticas de privacidad</span>
+				</div>
+
+				<div class="contenedor-formulario-completo md:col-span-2 lg:col-span-3" name="contenedor-formulario-completo">
+					<span class="contenedor-formulario-estado__span">Ya se encuentra registrado en el sistema. Redireccionando en 5 segundos...</span>
+				</div>
+
+				<div class="contenedor-formulario-incompleto md:col-span-2 lg:col-span-3" name="contenedor-formulario-incompleto">
+					<span class="contenedor-formulario-estado__span">Debe completar todos los campos del formulario.</span>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<!-- 
+<div class="registro-contenedor-selects">
+	<div class="registro-contenedor-selects__select relative">
+		<span>Selecciona</span> 
+	<i class="fas fa-angle-down absolute right-0 mr-2"></i>
+	</div>
+
+		<div class="registro-contenedor-options">
+			<div class="registro-contenedor-options__option">
+				<input value="" type="radio" class="registro-contenedor-options__radio"><label for="" class="registro-contenedor-options__label">Region 1</label>
+			</div>
+		</div>
+</div>
+
+<script>
+	const seleccionado = document.querySelector('.registro-contenedor-selects__select');
+	const contenedorOpciones = document.querySelector('.registro-contenedor-options');
+	const opciones = document.querySelectorAll('.registro-contenedor-options__option');
+
+	seleccionado.addEventListener('click', () => contenedorOpciones.classList.toggle('registro-contenedor-options--activo'))
+	opciones.forEach(item => {
+		item.addEventListener('click', () => {
+			seleccionado.innerHTML = item.querySelector('label').innerHTML;
+			contenedorOpciones.classList.remove('registro-contenedor-options--activo');
+		});
+	});
+
+</script>
+
+<style>
+.registro-contenedor-options{
+	background-color: #f7fafc;
+	max-height: 0;
+	width: 100%;
+	opacity: 0;
+	transition: all 0.5s;
+	border-radius: 4px;
+	overflow: hidden;
+}
+
+.registro-contenedor-options::-webkit-scrollbar{
+	width: 10px;
+	background-color: #ed8936;
+	border-radius: 0 8px 8px 0;
+}
+
+.registro-contenedor-options::-webkit-scrollbar-thumb{
+	background-color: #48bb78;
+	border-radius: 0 8px 8px 0;
+}
+
+.registro-contenedor-options--activo{
+	max-height: 100px;
+	opacity: 1;
+	overflow-y: scroll;
+}
+
+.registro-contenedor-selects__select,.registro-contenedor-options__option{
+	cursor: pointer;
+	padding: 12px 24px;
+}
+
+.registro-contenedor-options__label{
+	cursor: pointer;
+}
+
+.registro-contenedor-options__option:hover{
+	background-color: #edf2f7;
+}
+
+.registro-contenedor-options__radio{
+	display: none;
+}
+</style> -->
+<script>
+	// Inicio DatePicker JQuery
+	$('#registro-fecha').datepicker({
+		changeMonth: true,
+		changeYear: true,
+		maxDate: "-18Y"
+	});
+	// Fin DatePicker JQuery
+
+
+	// Inicio Select Select2
+	$(document).ready(function () {
+		const selects = document.getElementsByTagName('select');
+		const selectsName = ['Region', 'Provincia', 'Comuna'];
+
+		for (let index = 0; index < selects.length; index++) {
+			$(`#${selects[index].id}`).select2({
+				placeholder: `Selecciona ${selectsName[index]}`,
+				language: {
+					noResults: function () {
+						return "No hay resultado";
+					},
+					searching: function () {
+						return "Buscando..";
+					}
+				}
+			// theme: "default registro-contenedor-selects__select"
+			});
+		}
+	});
+	// Fin Select Select2
+
+	// Llenado de Selects
+	const $region = document.querySelector('#registro-region');
+	const $provincia = document.querySelector('#registro-provincia');
+	const $comuna = document.querySelector('#registro-comuna');
+	const region =  [];
+	const provincia = [];
+	const comuna = [];
+	{% for zona in viewOrganizacionTerritorial %}
+
+	if('{{ zona.ID_REGION }}' !== ''){
+			region.push({
+				"ID_REGION" : '{{ zona.ID_REGION }}',
+                "DES_REGION" : '{{ zona.DES_REGION }}'
+			});
+		}
+
+		if('{{ zona.ID_PROVINCIA }}' !== ''){
+			provincia.push({
+				"ID_PROVINCIA" : '{{ zona.ID_PROVINCIA }}',
+				"DES_PROVINCIA" : '{{ zona.DES_PROVINCIA }}',
+				"ID_REGION_PROVINCIA" : '{{ zona.ID_REGION_PROVINCIA }}'
+			});
+		}
+
+		if('{{ zona.ID_COMUNA }}' !== ''){
+			comuna.push({
+				"ID_COMUNA" : '{{ zona.ID_COMUNA }}',
+				"DES_COMUNA" : '{{ zona.DES_COMUNA }}',
+				"ID_PROVINCIA_COMUNA" : '{{ zona.ID_PROVINCIA_COMUNA }}'
+			});
+		}
+		
+	{% endfor %}
+
+	// EL VALOR 0 EN LAS VARIEABLES, QUIERE DECIR QUE EL USUARIO NO HA SELECCIONADO
+	// ALGUNA REGION O PROVINCIA
+	let idRegion = 0;
+	let idProvincia = 0;
+	
+	// SE CREA UN ELEMENTO FRAGMENT PARA NO CARGAR EL DOM CON LA CARGA DE DATOS
+	let $fragment = document.createDocumentFragment();
+	$region.innerHTML = '<option value="0">Seleccione Region</option>';
+
+	// SE ITERA EN EL OBJETO REGION Y SE AGREGAN LOS DATOS EN EL FRAGMENTO
+	region.forEach(value =>{
+		const $option = document.createElement('option');
+		$option.setAttribute('value',value['ID_REGION'])
+		$option.textContent = value['DES_REGION']
+		$fragment.appendChild($option);
+	});
+	
+	// SE AGREGA EL FRAGMENTO AL DOM
+	$region.appendChild($fragment);
+
+	// PARA RECORDAR: DEBO RESCATAR EL VALOR DESDE EL SELECT, MAS NO DE OPTION
+	// PARA LO ANTERIOR SE UTILIZA EL PROPIEDAD VALUE
+	const onChange = () => {
+
+		// SE OBTIENE EL VALOR DEL ATRIBUTO VALUE
+		idRegion = parseInt($region.value,10);
+
+		// EN CASO DE QUE AUN NO SSE HAYA SELECCIONADO REGION
+		// EL CAMPO PROFINCIA QUEDA DESHABILITADO
+		if(idRegion !== 0){
+			
+			$provincia.removeAttribute('disabled');
+			
+			// SE UTIIZA JQUERY PARA VACIAR EL SELECT PROVINCIA
+			$($provincia).empty();
+			
+			// SE CREA UN ELEMENTO FRAGMENT PARA NO CARGAR EL DOM CON LA CARGA DE DATOS
+			$fragment = document.createDocumentFragment();
+			$provincia.innerHTML = '<option value="0">Seleccione Provincia</option>';
+
+			provincia.forEach(value =>{
+				if(parseInt(value['ID_REGION_PROVINCIA'], 10) === idRegion){
+					const $option = document.createElement('option');
+					$option.setAttribute('value',value['ID_PROVINCIA']);
+					$option.textContent = value['DES_PROVINCIA'];
+					$fragment.appendChild($option);
+				};
+			});
+
+			$provincia.appendChild($fragment);
+
+		};
+	};
+
+	const onChange2 = () => {
+		//COMUNA
+		idProvincia = parseInt($provincia.value, 10);
+		
+		if(idProvincia !== 0){
+			$comuna.removeAttribute('disabled');
+			
+			// SE UTIIZA JQUERY PARA VACIAR EL SELECT PROVINCIA
+			$($comuna).empty();
+			
+			// SE CREA UN ELEMENTO FRAGMENT PARA NO CARGAR EL DOM CON LA CARGA DE DATOS
+			$fragment = document.createDocumentFragment();
+			$comuna.innerHTML = '<option value="0">Seleccione Comuna</option>';
+			
+			comuna.forEach(value =>{
+				if(parseInt(value['ID_PROVINCIA_COMUNA'], 10) === idProvincia){
+					const $option = document.createElement('option');
+					$option.setAttribute('value',value['ID_COMUNA']);
+					$option.textContent = value['DES_COMUNA'];
+					$fragment.appendChild($option);
+				};
+			});
+
+			$comuna.appendChild($fragment);
+		};
+	};
+
+
+</script>
+
+
+
+{% endblock %}

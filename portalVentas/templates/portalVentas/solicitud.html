@@ -1,0 +1,10 @@
+{% extends 'portalVentas/usuario.html' %}
+
+{% block title %} {{ tituloPagina }} {% endblock %}
+
+{% block contentUsuario %} 
+
+{% include 'portalVentas/include/solicitudCrear.html' %}
+{% include 'portalVentas/include/solicitudListar.html' %}
+
+{% endblock %}

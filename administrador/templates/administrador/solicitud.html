@@ -1,0 +1,678 @@
+{% extends 'administrador/base.html' %}
+
+{% block title %} {{ tituloPagina }} {% endblock %}
+
+{% block content %} 
+
+<!-- admin-solicitudLintar-seccion-... -->
+<div class="admin-solicitudListar-contenedor-general m-4 mb-20 md:mb-0 sm:ml-24">
+	<div class="admin-solicitudListar-readyState fixed top-0 left-0 z-20 w-full h-full flex items-center justify-center" style="background-color: rgba(26, 32, 44, .9)">
+		<div class="admin-solicitudListar-contenedor">
+			<figure class="text-left">
+				<img src="/static/img/BestFruit.png" alt="Logo" class="admin-solicitudListar-readyState__img w-32 h-32 m-4">
+				<figcaption class="admin-solicitudListar-readyState__figcaption font-lato text-2xl text-white mx-auto">Cargando... &nbsp; &nbsp; &nbsp;</figcaption>
+			</figure>
+		</div>
+	</div>
+	<div class="admin-solicitudListar-header">
+		<h1 class="admin-solicitudListar-header__h1 font-lato">SOLICITUDES</h1>
+		<p class="admin-solicitudListar-header__p font-lato text-lg">
+			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nisi illum fugit soluta totam suscipit, provident
+			numquam error harum velit placeat sequi, voluptate reiciendis, deleniti itaque laboriosam earum maxime? Eum,
+			laudantium.
+		</p>
+	</div>
+	<div class="admin-solicitudListar-body">
+		<div class="admin-solicitudListar-filtro grid grid-cols-1 my-2 md:grid-cols-3 lg:grid-cols-5 md:gap-x-2">
+			<div class="admin-solicitudListar-filtro-titulo md:col-span-5">
+				<h3 class="admin-solicitudListar-filtro__h3 font-lato font-bold">Filtros</h3>
+			</div>
+			<div class="admin-solicitudListar-contenedor-input my-2 lg:col-span-2">
+				<label for="buscador">Palabra Clave</label>
+				<!-- EL EVENTO 'ONKEYPRESS' NO FUNCIONA CORRECTAMENTE SI SE ENCUETRA DENTRO DE UNA ETIQUETA SCRIPT, POR ESE MOTIVO, SE COLOCA EN EL INPUT  -->
+				<!-- LA VALIDACION CONSTA DE LO SIGUIENTE  -->
+				<!-- [0-9] || @ [A-Z] || [a-z] || [ ' ' || - || . || _ ] -->
+				<input type="text" name="buscador" id="buscador" class="admin-solicitudListar-contenedor-input__input input" onkeypress="return (event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 64 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122) || (event.keyCode === 32 || event.keyCode === 45 || event.keyCode === 46 || event.keyCode === 95)">	
+			</div>
+			<div class="admin-solicitudListar-contenedor-input grid grid-cols-2 gap-x-2 my-2 lg:col-span-2">
+				<div class="admin-solicitudListar-contenedor-input-fecha">
+				<label for="buscador">Fecha Desde</label>
+				<input type="text" name="fecha-desde" id="fecha-desde" class="admin-solicitudListar-contenedor-input-fecha__input input">
+				</div>
+				<div class="admin-solicitudListar-contenedor-input-fecha">
+				<label for="buscador">Fecha Hasta</label>
+				<input type="text" name="fecha-hasta" id="fecha-hasta" class="admin-solicitudListar-contenedor-input-fecha__input input">
+				</div>
+			</div>
+			<div class="admin-solicitudListar-contenedor-input my-2 relative">
+				<span  class="admin-solicitudListar-contenedor-input__span bg-red-500 font-lato text-white text-sm absolute w-8 h-8 rounded-full z-10 text-center hidden" style="top: -10px; right: -10px; line-height: 30px;">0</span>
+				<button class="admin-solicitudListar-contenedor-input__btn btn bg-green-500 font-lato text-white w-full md:absolute md:bottom-0 opacity-50 cursor-not-allowed" type="submit" disabled>Guardar Cambios</button>
+			</div>
+		</div>
+		<div class="admin-solicitudListar-listado">
+			<table class="admin-solicitudListar-table overflow-hidden md:w-full" role="table">
+				<thead class="admin-solicitudListar-table__thead" role="rowgroup">
+					<!-- SOLICITUD -->
+					<th class="admin-solicitudListar-table__thead-th w-auto md:w-1/6 font-lato border border-gray-400 md:border-0 md:text-white md:text-sm md:border-b md:border-gray-500 md:bg-gray-500 md:p-2 rounded-tl-md"
+						role="columnheader">N° SOLICITUD</th>
+					<!-- SOLICITUD -->
+					<th class="admin-solicitudListar-table__thead-th w-auto md:w-1/6 font-lato border border-gray-400 md:border-0 md:text-white md:text-sm md:border-b md:border-gray-500 md:bg-gray-500 md:p-2"
+						role="columnheader">FECHA CREACION</th>
+					<!-- SOLICITUD -->
+					<th class="admin-solicitudListar-table__thead-th w-auto md:w-1/6 font-lato border border-gray-400 md:border-0 md:text-white md:text-sm md:border-b md:border-gray-500 md:bg-gray-500 md:p-2"
+						role="columnheader">SOLICITANTE</th>
+					<!-- SOLICITUD -->
+					<th class="admin-solicitudListar-table__thead-th w-auto md:w-1/6 font-lato border border-gray-400 md:border-0 md:text-white md:text-sm md:border-b md:border-gray-500 md:bg-gray-500 md:p-2"
+						role="columnheader">PAIS</th>
+
+					<th class="admin-solicitudListar-table__thead-th w-auto md:w-1/6 font-lato border border-gray-400 md:border-0 md:text-white md:text-sm md:border-b md:border-gray-500 md:bg-gray-500 md:p-2"
+						role="columnheader">DETALLE</th>
+					
+					<th class="admin-solicitudListar-table__thead-th w-auto md:w-1/6 font-lato border border-gray-400 md:border-0 md:text-white md:text-sm md:border-b md:border-gray-500 md:bg-gray-500 md:p-2 rounded-tr-md"
+						role="columnheader">PUBLICAR</th>
+				</thead>
+
+				<tbody role="rowgroup" id="admin-solicitudListar-tbody">
+					
+				</tbody>
+			</table>
+		</div>
+		<div class="admin-solicitudListar-listado-vacio text-center mt-12 hidden sm:mt-16 md:mt-40 lg:mt-56">
+			<h2 class="admin-solicitudListar-listado-vacio__h2 opacity-50">No Quedan Solicitudes Pendientes</h2>
+			<i class="fas fa-file-invoice-dollar opacity-25 my-4" style="font-size: 10rem;"></i>
+		</div>
+	</div>
+	<template id="admin-solicitudListar-modal-template">
+		<div class="animacion-modal relative z-10 hidden" >
+			<div class="admin-solicitudListar-capaGris fixed inset-0 z-40 w-full h-full bg-gray-800 opacity-75"></div>
+			<div class="w-full h-full fixed z-50 flex justify-center items-center top-0 -ml-4 sm:-ml-24 lg:-ml-32">
+				<div class="admin-solicitudListar-ventana bg-white w-11/12 rounded-2xl p-4 md:w-2/3 md:w-3/4 lg:w-2/3 xl:w-2/4">
+					<div class="admin-solicitudListar-ventana-titulo border-b-2 border-gray-500">
+						<h3 class="admin-solicitudListar-ventana-titulo__h3 font-lato text-xl font-bold py-2"></h3>
+					</div>
+					<div class="admin-solicitudListar-contendor-tabla overflow-auto my-4">
+						<table class="admin-solicitudListar-table overflow-hidden">
+							<thead class="admin-solicitudListar-table__thead">
+								<th
+									class="admin-solicitudListar-table__thead-th w-1/6 font-lato text-white border-b border-gray-500 bg-gray-500 p-2 rounded-tl-md">
+									#</th>
+								<!-- DETALLE_SOLICITUD-->
+								<th
+									class="admin-solicitudListar-table__thead-th w-2/4 font-lato text-white border-b border-gray-500 bg-gray-500 p-2">
+									FRUTA</th>
+								<!-- DETALLE_SOLICITUD-->
+								<th
+									class="admin-solicitudListar-table__thead-th w-2/4 font-lato text-white border-b border-gray-500 bg-gray-500 p-2">
+									VARIEDAD</th>
+								<!-- DETALLE_SOLICITUD-->
+								<th
+									class="admin-solicitudListar-table__thead-th w-1/4 font-lato text-white border-b border-gray-500 bg-gray-500 p-2 rounded-tr-md">
+									CANTIDAD</th>
+							</thead>
+
+							<tbody id="admin-solicitudListar-table__tbody">
+
+							</tbody>
+						</table>
+					</div>
+					<div class="admin-solicitudListar-ventana-boton flex justify-end">
+						<button
+							class="admin-solicitudListar-ventana-boton__button btn bg-red-600 font-lato text-white w-48 p-2">Cerrar</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</template>
+</div>
+
+<style>
+	/*
+Max width before this PARTICULAR table gets nasty. This query will take effect for any full smaller than 760px and also iPads specifically.
+*/
+	@media only screen and (max-width: 767px) {
+
+		/* Force table to not be like tables anymore */
+		table[role='table'],
+		thead[role='rowgroup'],
+		tbody[role='rowgroup'],
+		th[role='columnheader'],
+		td[role='cell'],
+		tr[role='trow'] {
+			display: block;
+		}
+
+		/* Hide table headers (but not display: none;, for accessibility) */
+		thead[role='rowgroup'] th[role='columnheader'] {
+			display: none;
+		}
+
+		tr[role='trow'] {
+			margin: 0 0 1rem 0;
+		}
+
+		td[role='cell'] {
+			position: relative;
+			padding-left: 50%;
+			height: 50px;
+			line-height: 45px;
+		}
+
+		td[role='cell']:before {
+			/* Now like a table header */
+			position: absolute;
+			/* Top/left values mimic padding */
+			line-height: 45px;
+			left: 20px;
+			width: 45%;
+			/* padding-right: 10px; */
+			white-space: nowrap;
+		}
+
+		/*
+Label the data
+You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
+*/
+		td[role='cell']:nth-of-type(1):before {
+			content: "N° SOLICITUD";
+		}
+
+		td[role='cell']:nth-of-type(2):before {
+			content: "FECHA CREACION";
+		}
+
+		td[role='cell']:nth-of-type(3):before {
+			content: "SOLICITANTE";
+		}
+
+		td[role='cell']:nth-of-type(4):before {
+			content: "PAIS";
+		}
+
+		td[role='cell']:nth-of-type(5):before {
+			content: "DETALLE";
+		}
+
+		td[role='cell']:nth-of-type(6):before {
+			content: "PUBLICAR";
+		}
+	}
+
+	@keyframes abrirModal{
+		from {
+			opacity: 0%;
+		}
+
+		to {
+			opacity: 100%;
+		}
+	}
+
+	@keyframes cerrarModal{
+		from {
+			opacity: 100%;
+		}
+
+		to {
+			opacity: 0%;
+		}
+	}
+
+	@keyframes readyStateImg{
+		from {
+			transform: none;
+		}
+
+		to {
+			transform: scale(1.2, 1.2);
+		}
+	}
+
+	@keyframes typewriter{
+		from{
+			width: 0;
+		}
+		to{
+			width: 80%;
+		}
+	}
+
+	@keyframes desvanecer{
+		from{
+			opacity: 1;
+		}
+		to{
+			opacity: 0;
+		}
+	}
+
+	@keyframes swipeLeft{
+		from{
+			left: 0;
+		}
+		to{
+			left: 10000px;
+		}
+	}
+
+	.admin-solicitudListar-readyState__figcaption{
+		animation: typewriter 2s cubic-bezier(1, 1, 0.2, 0.6) 0s infinite;
+		white-space: nowrap;
+    	overflow: hidden;
+	}
+
+	.admin-solicitudListar-readyState__img{
+		animation: readyStateImg 1s linear 0s infinite alternate;
+	}
+
+	.animacion-modal {
+		animation-duration: .5s;
+		animation-fill-mode: forwards;
+	}
+
+</style>
+
+<script>
+	$('#fecha-desde').datepicker({
+		changeMonth: true,
+		changeYear: true,
+		maxDate: "0D"
+	});
+	$('#fecha-hasta').datepicker({
+		changeMonth: true,
+		changeYear: true,
+		minDate: "0D"
+	});
+
+	let mensajeSolicitud = parseInt('{{ mensajeSolicitud }}');
+	if(mensajeSolicitud === 1){
+		document.querySelector('.admin-toast-contenedorSubGeneral').querySelector('i').classList.remove('fa-times');
+		document.querySelector('.admin-toast-contenedorSubGeneral').querySelector('i').classList.add('fa-check');
+		document.querySelector('.admin-toast-contenedorSubGeneral').querySelector('span').textContent = 'Cambios Guardados';
+		document.querySelector('.admin-toast-contenedorSubGeneral').style.animation = 'swipeUp 2s 2s linear 2 alternate';
+		setTimeout(() => document.querySelector('.admin-toast-contenedorSubGeneral').style.removeProperty('animation'), 4000);
+	};
+
+	// MutationObserver 
+	const $solicitudListarTarget = document.getElementById('admin-solicitudListar-tbody');
+	const solicitudListarObserver = new MutationObserver(() => {
+			if($solicitudListarTarget.childElementCount === 0){
+				document.querySelector('.admin-solicitudListar-listado-vacio').classList.remove('hidden');
+				$solicitudListarTarget.parentElement.classList.add('hidden');
+			}else{
+				document.querySelector('.admin-solicitudListar-listado-vacio').classList.add('hidden');
+				$solicitudListarTarget.parentElement.classList.remove('hidden');
+			}
+		});
+	solicitudListarObserver.observe($solicitudListarTarget, { childList : true })	
+
+	if($solicitudListarTarget.childElementCount === 0){
+		document.querySelector('.admin-solicitudListar-listado-vacio').classList.remove('hidden');
+		$solicitudListarTarget.parentElement.classList.add('hidden');
+	}else{
+		document.querySelector('.admin-solicitudListar-listado-vacio').classList.add('hidden');
+		$solicitudListarTarget.parentElement.classList.remove('hidden');
+	}
+
+	// Llenado de variables
+	const solicitudes = [];
+    let concurrencia;    
+    {% for obj in viewListaSolicitudes %}
+
+        concurrencia = 0;
+        bucleWhile:
+        while (concurrencia <= 1) {
+            if (solicitudes.length === 0 || concurrencia === 1) {
+                solicitudes.push(
+                    {
+                        'ID_SOLICITUD': '{{obj.ID_SOLICITUD}}',
+                        'FECHA_CREACION': "{{obj.FECHA_CREACION|date:'d/m/Y'}}",
+                        'DES_ESPECIE': '{{obj.DES_ESPECIE}}',
+                        'DES_VARIEDAD': '{{obj.DES_VARIEDAD}}',
+                        'KILOS': '{{obj.KILOS}}',
+						'NOMBRE_USUARIO' : '{{obj.NOMBRE_USUARIO|title}}',
+						'PAIS_USUARIO' : '{{obj.PAIS_USUARIO}}'
+                    }
+                );
+                break bucleWhile;
+            } else {
+                let idSolicitudAIngresar = parseInt('{{obj.ID_SOLICITUD}}', 10);
+                solicitudes.forEach(obj => {
+                    if(obj.length === undefined){
+                        if (parseInt(obj['ID_SOLICITUD'], 10) === idSolicitudAIngresar) {
+                            concurrencia = 2;
+                            let objtemp = obj;
+                            let position = solicitudes.indexOf(obj);
+                            solicitudes[position] = [objtemp];
+                            solicitudes[position].push(
+                                {
+                                    'ID_SOLICITUD': '{{obj.ID_SOLICITUD}}',
+                                    'FECHA_CREACION': "{{obj.FECHA_CREACION|date:'d/m/Y'}}",
+                                    'DES_ESPECIE': '{{obj.DES_ESPECIE}}',
+                                    'DES_VARIEDAD': '{{obj.DES_VARIEDAD}}',
+                                    'KILOS': '{{obj.KILOS}}',
+									'NOMBRE_USUARIO' : '{{obj.NOMBRE_USUARIO|title}}',
+									'PAIS_USUARIO' : '{{obj.PAIS_USUARIO}}'
+                                }
+                            );
+                        };
+                    }else{
+                        if (parseInt(obj[0]['ID_SOLICITUD'], 10) === idSolicitudAIngresar) {
+                            concurrencia = 2;
+                            let objtemp = obj;
+                            let position = solicitudes.indexOf(obj);
+                            solicitudes[position].push(
+                                {
+                                    'ID_SOLICITUD': '{{obj.ID_SOLICITUD}}',
+                                    'FECHA_CREACION': "{{obj.FECHA_CREACION|date:'d/m/Y'}}",
+                                    'DES_ESPECIE': '{{obj.DES_ESPECIE}}',
+                                    'DES_VARIEDAD': '{{obj.DES_VARIEDAD}}',
+                                    'KILOS': '{{obj.KILOS}}',
+									'NOMBRE_USUARIO' : '{{obj.NOMBRE_USUARIO|title}}',
+									'PAIS_USUARIO' : '{{obj.PAIS_USUARIO}}'
+                                }
+                            );
+                        };
+                    };
+                });
+                concurrencia++;
+            };
+        };
+
+	{% endfor %}
+	// Llenado de variables
+	
+	// Despligue de informacion
+	const $solicitudListarFragmeto = document.createDocumentFragment();
+	const $solicitudListarFragmetoModal = document.createDocumentFragment();
+	let $solicitudListarTemplateTemp = document.createElement('template');
+
+	// Ver Detalle - Modal
+	let $solicitudListarCountRow;
+	let $solicitudListarTemplate = document.getElementById('admin-solicitudListar-modal-template');
+	let $solicitudListarDetalle  = document.createElement('template');
+	let $solicitudListarClon;
+
+	for (const soli of solicitudes) {
+		
+		if(Array.isArray(soli)){
+			$solicitudListarCountRow = 0;
+			$solicitudListarClon = document.importNode($solicitudListarTemplate.content, true);
+			$solicitudListarClon.firstElementChild.setAttribute('id', `${soli[0]['ID_SOLICITUD']}-admin-solicitudListar-modal`);
+			$solicitudListarClon.querySelector('.admin-solicitudListar-ventana-boton__button').setAttribute('id', `${soli[0]['ID_SOLICITUD']}-admin-solicitudListar-ventana-boton__button`);
+			$solicitudListarClon.querySelector('.admin-solicitudListar-ventana-titulo__h3').textContent = `Solicitud N° ${soli[0]['ID_SOLICITUD']}`;
+
+			$solicitudListarTemplateTemp.innerHTML += `
+			<tr role="trow" id="${soli[0]['ID_SOLICITUD']}-solicitudListar-row" class="admin-solicitudListar-table__tr relative">
+				<td name="0" class="admin-solicitudListar-table__td font-lato border-t-2 border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">${soli[0]['ID_SOLICITUD']}</td>
+				<td name="1" class="admin-solicitudListar-table__td font-lato border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">${soli[0]['FECHA_CREACION']}</td>
+				<td name="2" class="admin-solicitudListar-table__td font-lato border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">${soli[0]['NOMBRE_USUARIO']}</td>
+				<td name="3" class="admin-solicitudListar-table__td font-lato border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">${soli[0]['PAIS_USUARIO']}</td>
+				<td name="4" class="admin-solicitudListar-table__td flex justify-center font-lato border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">
+					<button id="${soli[0]['ID_SOLICITUD']}-solicitudListar-verDetalle" class="admin-solicitudListar-table__td-button-detalle btn bg-green-500 font-lato text-white text-sm mt-1" style="width: 7rem;">Ver Detalle</button>
+				</td>
+				<td name="5" class="admin-solicitudListar-table__td font-lato border-b-2 border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">
+					<div class="flex flex-row md:justify-center">
+						<button id="${soli[0]['ID_SOLICITUD']}-solicitudListar-apruebo" class="admin-solicitudListar-table__td-button-aceptar btn rounded-full w-10 h-10 bg-blue-500 font-lato text-white text-sm mx-2 px-2"><i id="${soli[0]['ID_SOLICITUD']}-i-apruebo" class="fas fa-check"></i></button>
+						<button id="${soli[0]['ID_SOLICITUD']}-solicitudListar-rechazo" class="admin-solicitudListar-table__td-button-aceptar btn rounded-full w-10 h-10 bg-red-500 font-lato text-white text-sm mx-2 px-2"><i id="${soli[0]['ID_SOLICITUD']}-i-rechazo" class="fas fa-times"></i></button>
+					</div>
+				</td>
+			</tr>`
+			for (const i in soli) {
+				$solicitudListarCountRow++;
+				$solicitudListarDetalle.innerHTML +=`
+				<tr>
+					<td class="admin-solicitudListar-table__td font-lato text-sm text-center border-b border-gray-500 p-2">${$solicitudListarCountRow}</td>
+					<td class="admin-solicitudListar-table__td font-lato text-sm text-center border-b border-gray-500 p-2">${soli[i]['DES_ESPECIE']}</td>
+					<td class="admin-solicitudListar-table__td font-lato text-sm text-center border-b border-gray-500 p-2">${soli[i]['DES_VARIEDAD']}</td>
+					<td class="admin-solicitudListar-table__td font-lato text-sm text-center border-b border-gray-500 p-2">${soli[i]['KILOS']}</td>
+                </tr>`;
+			};
+
+			$solicitudListarClon.getElementById('admin-solicitudListar-table__tbody').appendChild($solicitudListarDetalle.content);
+			$solicitudListarFragmetoModal.appendChild($solicitudListarClon);
+			
+		}else{
+
+			$solicitudListarClon = document.importNode($solicitudListarTemplate.content, true);
+			$solicitudListarClon.firstElementChild.setAttribute('id', `${soli['ID_SOLICITUD']}-admin-solicitudListar-modal`);
+			$solicitudListarClon.querySelector('.admin-solicitudListar-ventana-boton__button').setAttribute('id', `${soli['ID_SOLICITUD']}-admin-solicitudListar-ventana-boton__button`);
+			$solicitudListarClon.querySelector('.admin-solicitudListar-ventana-titulo__h3').textContent = `Solicitud N° ${soli['ID_SOLICITUD']}`;
+
+			$solicitudListarTemplateTemp.innerHTML += `
+			<tr role="trow" id="${soli['ID_SOLICITUD']}-solicitudListar-row" class="admin-solicitudListar-table__tr relative">
+				<td name="0" class="admin-solicitudListar-table__td font-lato border-t-2 border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">${soli['ID_SOLICITUD']}</td>
+				<td name="1" class="admin-solicitudListar-table__td font-lato border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">${soli['FECHA_CREACION']}</td>
+				<td name="2" class="admin-solicitudListar-table__td font-lato border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">${soli['NOMBRE_USUARIO']}</td>
+				<td name="3" class="admin-solicitudListar-table__td font-lato border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">${soli['PAIS_USUARIO']}</td>
+				<td name="4" class="admin-solicitudListar-table__td flex justify-center font-lato border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">
+					<button id="${soli['ID_SOLICITUD']}-solicitudListar-verDetalle" type="button" class="admin-solicitudListar-table__td-button-detalle btn bg-green-500 font-lato text-white text-sm mt-1" style="width: 7rem;">Ver Detalle</button>
+				</td>
+				<td name="5" class="admin-solicitudListar-table__td font-lato border-b-2 border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">
+					<div class="flex flex-row md:justify-center">
+						<button id="${soli['ID_SOLICITUD']}-solicitudListar-apruebo" type="button" class="admin-solicitudListar-table__td-button-apruebo btn rounded-full w-10 h-10 bg-blue-500 font-lato text-white text-sm mx-2 px-2"><i id="${soli['ID_SOLICITUD']}-i-apruebo" class="fas fa-check"></i></button>
+						<button id="${soli['ID_SOLICITUD']}-solicitudListar-rechazo" type="button" class="admin-solicitudListar-table__td-button-rechazo btn rounded-full w-10 h-10 bg-red-500 font-lato text-white text-sm mx-2 px-2"><i id="${soli['ID_SOLICITUD']}-i-rechazo" class="fas fa-times"></i></button>
+					</div>
+				</td>
+			</tr>`;
+
+			$solicitudListarDetalle.innerHTML +=`
+			<tr>
+				<td class="admin-solicitudListar-table__td font-lato text-sm text-center border-b border-gray-500 p-2">1</td>
+				<td class="admin-solicitudListar-table__td font-lato text-sm text-center border-b border-gray-500 p-2">${soli['DES_ESPECIE']}</td>
+				<td class="admin-solicitudListar-table__td font-lato text-sm text-center border-b border-gray-500 p-2">${soli['DES_VARIEDAD']}</td>
+				<td class="admin-solicitudListar-table__td font-lato text-sm text-center border-b border-gray-500 p-2">${soli['KILOS']}</td>
+			</tr>`;
+
+			$solicitudListarClon.getElementById('admin-solicitudListar-table__tbody').appendChild($solicitudListarDetalle.content);
+			$solicitudListarFragmetoModal.appendChild($solicitudListarClon);
+
+		};
+		$solicitudListarFragmeto.appendChild($solicitudListarTemplateTemp.content);
+	};
+
+	document.getElementById('admin-solicitudListar-tbody').appendChild($solicitudListarFragmeto);
+	document.querySelector('.admin-solicitudListar-contenedor-general').appendChild($solicitudListarFragmetoModal);
+
+	// Despligue de informacion
+
+	//Eventos
+	window.addEventListener('load', e => {
+		let cargaFin = new Date();
+		let tpoCargaPag = (cargaFin - cargaInicio + 500) / 1000;
+		if(document.readyState == 'complete'){
+			document.querySelector('.admin-solicitudListar-readyState').style.animation = `desvanecer 1s ${tpoCargaPag}s linear forwards`;
+			setTimeout(() => document.querySelector('.admin-solicitudListar-readyState').remove() , tpoCargaPag * 1520);
+		};
+	});
+
+	window.addEventListener('resize', e => {
+		if(window.screen.width < 768){
+			document.querySelector('.admin-solicitudListar-contenedor-input__span').style.top = '-10px';
+		}else{
+			document.querySelector('.admin-solicitudListar-contenedor-input__span').style.top = '10px';
+		}
+	});
+
+	if(window.screen.width >= 768) document.querySelector('.admin-solicitudListar-contenedor-input__span').style.top = '10px';
+
+	const adminSolicitudListarEstadoSolicitudes = [{
+		'aprobadas' : [],
+		'rechazadas' : []
+	}];
+
+	document.addEventListener("click", e => {
+
+		if(/-solicitudListar-verDetalle?/.test(e.target.id)) {
+			let idModal = e.target.id.substring(0, e.target.id.indexOf('-'));
+			document.getElementById(`${idModal}-admin-solicitudListar-ventana-boton__button`).parentElement.parentElement.parentElement.parentElement.classList.remove('hidden');
+			document.getElementById(`${idModal}-admin-solicitudListar-ventana-boton__button`).parentElement.parentElement.parentElement.parentElement.style.animationName = 'abrirModal';
+		};
+		if(/-admin-solicitudListar-ventana-boton__button?/.test(e.target.id)){
+			let idModal = e.target.id.substring(0, e.target.id.indexOf('-'));
+			document.getElementById(`${idModal}-admin-solicitudListar-ventana-boton__button`).parentElement.parentElement.parentElement.parentElement.style.animationName = 'cerrarModal';
+			setTimeout(() => document.getElementById(`${idModal}-admin-solicitudListar-ventana-boton__button`).parentElement.parentElement.parentElement.parentElement.classList.add('hidden'), 500);
+		};
+		if(/-solicitudListar-apruebo?/.test(e.target.id) || /-i-apruebo?/.test(e.target.id)){
+			let idTr = e.target.id.substring(0, e.target.id.indexOf('-'));
+			let $tr = document.getElementById(`${idTr}-solicitudListar-row`);
+			let $filtroBtn = document.querySelector('.admin-solicitudListar-contenedor-input__btn');
+			let $filtroBtnBadge = document.querySelector('.admin-solicitudListar-contenedor-input__span');
+			// Remover Fila
+			$tr.style.transition = 'background .3s 0s linear';
+			$tr.style.animation = 'swipeLeft 3s .3s linear forwards';
+			$tr.style.backgroundColor = 'rgb(66, 153, 225)';
+			$tr.querySelectorAll('.admin-solicitudListar-table__td').forEach(td => {
+				td.style.opacity = '0';
+			});
+			setTimeout(() => {
+				$tr.remove();
+			}, 900);
+
+			// Desplegar Notificacion
+			desplegarNotificacion('blue', 'check', 'Solictud Aprobada');
+			
+			// Boton con Badge
+			adminSolicitudListarEstadoSolicitudes[0].aprobadas.push(idTr);
+			$filtroBtn.disabled = false;
+			$filtroBtn.classList.remove('opacity-50');
+			$filtroBtn.classList.remove('cursor-not-allowed');
+			$filtroBtnBadge.classList.remove('hidden');
+			$filtroBtnBadge.textContent = adminSolicitudListarEstadoSolicitudes[0].aprobadas.length + adminSolicitudListarEstadoSolicitudes[0].rechazadas.length;
+		}
+		if(/-solicitudListar-rechazo?/.test(e.target.id) || /-i-rechazo?/.test(e.target.id)){
+			let idTr = e.target.id.substring(0, e.target.id.indexOf('-'));
+			let $tr = document.getElementById(`${idTr}-solicitudListar-row`);
+			let $filtroBtn = document.querySelector('.admin-solicitudListar-contenedor-input__btn');
+			let $filtroBtnBadge = document.querySelector('.admin-solicitudListar-contenedor-input__span');
+			
+			// Remover Fila
+			$tr.style.transition = 'background .3s 0s linear';
+			$tr.style.animation = 'swipeLeft 3s .3s linear forwards';
+			$tr.style.backgroundColor = 'rgb(245, 101, 101)';
+			$tr.querySelectorAll('.admin-solicitudListar-table__td').forEach(td => {
+				td.style.opacity = '0';
+			});
+			setTimeout(() => {
+				$tr.remove();
+			}, 900);
+
+			// Desplegar Notificacion
+			desplegarNotificacion('red', 'times', 'Solictud Rechazada');
+			
+			// Boton con Badge
+			adminSolicitudListarEstadoSolicitudes[0].rechazadas.push(idTr);
+			$filtroBtn.disabled = false;
+			$filtroBtn.classList.remove('opacity-50');
+			$filtroBtn.classList.remove('cursor-not-allowed');
+			$filtroBtnBadge.classList.remove('hidden');
+			$filtroBtnBadge.textContent = adminSolicitudListarEstadoSolicitudes[0].aprobadas.length + adminSolicitudListarEstadoSolicitudes[0].rechazadas.length;
+		};
+		if(e.target.matches('.admin-solicitudListar-contenedor-input__btn')){
+			let aprobadas = '';
+			let rechazadas = '';
+			for(const categoria in adminSolicitudListarEstadoSolicitudes[0]){
+				for (const idSol of adminSolicitudListarEstadoSolicitudes[0][`${categoria}`]) {
+					if(categoria === 'aprobadas'){
+						aprobadas += `|${idSol}`;
+					}else{
+						rechazadas += `|${idSol}`;
+					};
+				};
+			};
+			
+			let formTemp = `
+			<form id="admin-solicitudListar-form-temp" action="" method="POST" class="hidden">
+				{% csrf_token %}
+				<input type="text" name="APRUEBO" value="${aprobadas.substring(1, aprobadas.length)}" readonly>
+				<input type="text" name="RECHAZO" value="${rechazadas.substring(1, rechazadas.length)}" readonly>
+			</form>
+			`;
+
+			document.querySelector('.admin-solicitudListar-contenedor-general').innerHTML += formTemp;
+			document.getElementById('admin-solicitudListar-form-temp').submit();
+		};
+	});
+
+	// Filtro Palabra Clave
+	document.addEventListener('input', e => {
+		if(e.target.matches('.admin-solicitudListar-contenedor-input__input')){
+			resetearFilasFn(document.getElementById('admin-solicitudListar-tbody'));
+			filtrarPalabraFn(e.target.value, document.getElementById('admin-solicitudListar-tbody'));
+		};
+	});
+
+	document.addEventListener('focusout', e => {
+		if(e.target.id === 'fecha-desde' || e.target.id === 'fecha-hasta'){
+			resetearFilasFn(document.getElementById('admin-solicitudListar-tbody'));
+			filtrarFechaFn(document.getElementById('admin-solicitudListar-tbody'));
+		};
+	});
+
+	function filtrarPalabraFn(textoBuscado, tbodyElem){
+		let str = textoBuscado.toLowerCase();
+		let arrTemp = []
+		for (let tr of tbodyElem.children) {
+			for (let td of tr.children) {
+				if (parseInt(td.getAttribute('name')) <= 3 && parseInt(td.getAttribute('name')) !== 1) {
+					if (td.textContent.toLowerCase().includes(str)) {
+						arrTemp.push(tr.getAttribute('id'));
+						break;
+					};
+				};
+			};
+
+			if (!arrTemp.includes(tr.getAttribute('id'))) {
+				tr.style.display = 'none';
+			};
+		};
+	};
+
+	function filtrarFechaFn(tbodyElem){
+		setTimeout(() => {
+			let fechaDesde = (document.getElementById('fecha-desde').value !== '')? strToDate(document.getElementById('fecha-desde').value) : strToDate('01/01/1970');
+			let fechaHasta = (document.getElementById('fecha-hasta').value !== '')? strToDate(document.getElementById('fecha-hasta').value) : strToDate('12/12/9999');
+			let arrTemp = []
+			for (let tr of tbodyElem.children) {
+				for (let td of tr.children) {
+					if (parseInt(td.getAttribute('name')) == 1) {
+						let fechaTd = strToDate(td.textContent)
+						if(fechaTd >= fechaDesde && fechaTd <= fechaHasta){
+							arrTemp.push(tr.getAttribute('id'));
+							break;
+						};
+					};
+				};
+
+				if (!arrTemp.includes(tr.getAttribute('id'))) {
+					tr.style.display = 'none';
+				};
+			};
+		},200);
+	};
+
+	function resetearFilasFn(tbodyElem) {
+		for(let tr of tbodyElem.children){
+			(window.screen.width > 767)? tr.style.display = 'table-row' : tr.style.display = 'block';
+		};
+	};
+
+	function strToDate(str){
+		let date = str.split('/');
+		return new Date(parseInt(date[2]), parseInt(date[1]) - 1 , parseInt(date[0]));
+	};
+
+	function desplegarNotificacion(color, ico, msg){
+		let $contenedorToast = document.querySelector('.admin-toast-contenedorSubGeneral');
+		$contenedorToast.className = $contenedorToast.className.replace(/bg-\w+-500/, `bg-${color}-500`);
+		$contenedorToast.className = $contenedorToast.className.replace(/border-\w+-600/, `border-${color}-600`);
+		$contenedorToast.querySelector('i').className = $contenedorToast.querySelector('i').className.replace(/fa-\w+/, `fa-${ico}`);
+		$contenedorToast.querySelector('span').textContent = msg;
+		$contenedorToast.style.animation = 'swipeUp 2s 0s linear 2 alternate';
+		setTimeout(() => $contenedorToast.style.removeProperty('animation'), 4000);
+	};
+
+</script>
+
+
+{% endblock %}

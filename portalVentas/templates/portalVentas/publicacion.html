@@ -1,0 +1,151 @@
+{% extends 'portalVentas/usuario.html' %}
+
+{% block title %} {{ tituloPagina }} {% endblock %}
+
+{% block contentUsuario %} 
+<div class="publicacion-contenedor-general">
+    <div class="publicacion-contenedor-titulo border-b-4 border-green-500 relative" style="margin-right: 0.6rem;">
+        <h2 class="publicacion-contenedor-titulo__h2 font-lato text-2xl p-3">Publicaciones en Curso</h2>
+        <span class="publicacion-contenedor-titulo__span absolute font-lato text-sm right-0 my-1 mx-2"></span>
+    </div>
+    <div class="publicacion-contenedor-listaPublicaciones overflow-y-auto my-8 grid sm:grid-cols-2" style="max-height: 30rem;">
+    </div>
+    <div class="publicacion-vacio text-center my-10 hidden">
+        <h2 class="publicacion-vacio__h2 opacity-50">Aún no se hay publicaciones disponibles.</br> <bdi id="siguiente-publicacion"></bdi></bdi></h2>
+        <i class="fas fa-hourglass-half opacity-25 my-4" style="font-size: 8rem;"></i>
+    </div>
+</div>
+
+<template id="publicacion-contenedor-publicaciones-template">
+    <div class="publicacion-contenedor-publicacion grid sm:grid-cols-2 sm:gap-x-2 relative border-b border-r border-gray-500 rounded mx-2 my-4 p-2 shadow-xl">
+        <div class="publicacion-contenedor-datosSolicitudDetalle hidden sm:block relative">
+            <img src="../../../media/variedad/Manzana-Fuji.jpg" alt="" class="publicacion-contenedor-datosSolicitudDetalle-fila__img absolute inset-0 m-auto w-40 h-40 rounded">
+        </div>
+        <div class="col-span-2 flex flex-row justify-around sm:col-span-1 sm:block">
+            <div class="publicacion-contenedor-datosSolicitud my-2">
+                <div class="publicacion-contenedor-datosSolicitud-fila my-2">
+                    <span class="publicacion-contenedor-datosSolicitud-fila__span font-lato text-lg font-bold block">N° Publicación</span>
+                    <span class="publicacion-contenedor-datosSolicitud-fila__span font-lato text-lg font-light block">1234</span>
+                </div>
+                <div class="publicacion-contenedor-datosSolicitud-fila my-2">
+                    <span class="publicacion-contenedor-datosSolicitud-fila__span font-lato text-lg font-bold block">Se cierra la oferta</span>
+                    <span class="publicacion-contenedor-datosSolicitud-fila__span font-lato text-lg font-light block">00:30:00</span>
+                </div>
+            </div>
+            <div class="publicacion-contenedor-datosSolicitudDetalle -2">
+                <div class="publicacion-contenedor-datosSolicitudDetalle-fila my-2">
+                    <span class="publicacion-contenedor-datosSolicitudDetalle-fila__span font-lato text-lg font-bold block">Fruta Solicitada</span>
+                    <span class="publicacion-contenedor-datosSolicitudDetalle-fila__span font-lato text-lg font-light block">Manzana Candy</span>
+                </div>
+                <div class="publicacion-contenedor-datosSolicitudDetalle-fila my-2">
+                    <span class="publicacion-contenedor-datosSolicitudDetalle-fila__span font-lato text-lg font-bold block">Cantidad Solicitada</span>
+                    <span class="publicacion-contenedor-datosSolicitudDetalle-fila__span font-lato text-lg font-light block">100 Kg</span>
+                </div>
+            </div>
+        </div>
+        <div class="publicacion-contenedor-ofertar col-span-2 sm:mt-2">
+            <a>
+                <button type="button" class="publicacion-contenedor-ofertar__btn btn bg-green-500 text-white mx-auto w-32 sm:w-48">Ofertar</button>
+            </a>
+        </div>
+    </div>        
+</template>
+
+<script>
+    // btnRol(parseInt(usuario['id_rol'], 10));
+
+    // Llenado de variables
+	const solicitudes = [];
+    // let concurrencia;    
+    {% for obj in viewListaSolicitudes %}
+
+                solicitudes.push(
+                    {
+                        'ID_SOLICITUD': '{{obj.ID_SOLICITUD}}',
+                        'FRUTA': '{{obj.DES_ESPECIE}} {{obj.DES_VARIEDAD}}',
+						'KILOS': '{{obj.KILOS}}',
+						'HORA_INI_PUBLICACION' : '{{obj.HORA_INI_PUBLICACION}}',
+                        'HORA_FIN_PUBLICACION' : '{{obj.HORA_FIN_PUBLICACION}}',
+                        'ID_PEDIDO' : '{{obj.ID_PEDIDO}}'
+                    }
+                );
+
+	{% endfor %}
+    // Llenado de variables
+
+    // Publicaciones
+    setInterval(() => {
+        let fechaActual = new Date();
+        let $publicacionHoraSpan = document.querySelector('.publicacion-contenedor-titulo__span');
+        let $siguientePublicacion = document.getElementById('siguiente-publicacion');
+        let $publicacionVacia = document.querySelector('.publicacion-vacio');
+        let $publicacionContenedorPublicaciones = document.querySelector('.publicacion-contenedor-listaPublicaciones');
+        $publicacionContenedorPublicaciones.childElementCount === 0 ? $publicacionVacia.classList.remove('hidden') : $publicacionVacia.classList.add('hidden');
+        $publicacionHoraSpan.textContent = `Hora actual : ${fechaActual.toLocaleTimeString()}`;
+        if(Math.sign(parseFloat(restarHoras(solicitudes[0]['HORA_INI_PUBLICACION']))) >= 0) {
+            $siguientePublicacion.textContent = `Próxima publicación en ${restarHoras(solicitudes[0]['HORA_INI_PUBLICACION'])}.`;
+        };
+    }, 1000);
+
+    setInterval(() => {
+        let $publicacionFragmento = document.createDocumentFragment();
+        let $publicacionTemplate = document.getElementById('publicacion-contenedor-publicaciones-template');
+        let $publicacionContenedorPublicaciones = document.querySelector('.publicacion-contenedor-listaPublicaciones');
+        let arrPublicacionesActuales = [];
+        let fechaActual = new Date();
+        let minutos = (fechaActual.getMinutes().toString().length === 1)? '0' + fechaActual.getMinutes().toString() : fechaActual.getMinutes().toString();
+        let horaActual = parseInt(`${fechaActual.getHours()}${minutos}`);
+        
+        if($publicacionContenedorPublicaciones.childElementCount !== 0){
+            for (const tr of $publicacionContenedorPublicaciones.children){
+                arrPublicacionesActuales.push(tr.getAttribute('id').substring(0, tr.getAttribute('id').indexOf('-')));
+            };
+        };
+        arrPublicacionesActuales = new Set(arrPublicacionesActuales);
+
+        for (const obj of solicitudes) {
+
+            let horaIni = parseInt(`${obj['HORA_INI_PUBLICACION'].replace(':','')}`);
+            let horaFin = parseInt(`${obj['HORA_FIN_PUBLICACION'].replace(':','')}`);
+
+            if(horaActual >= horaIni && horaActual < horaFin && arrPublicacionesActuales.has(obj['ID_SOLICITUD']) === false){
+                let $publicacionClon = document.importNode($publicacionTemplate.content, true);
+                let $publicacionClonContenedor = $publicacionClon.querySelector('.publicacion-contenedor-publicacion');
+                let $publicacionClonImg = $publicacionClon.querySelector('.publicacion-contenedor-datosSolicitudDetalle-fila__img');
+                let rutaImg = `/media/variedad/${obj['FRUTA'].replaceAll(' ','-').replace('á', 'a')}.jpg`;
+                let urlAncla = `{% url 'portalVentas:ofertarProducto' idSolicitud=100000000 idPedido=200000000 fruta='str' %}`;
+                urlAncla = urlAncla.replace('100000000', obj['ID_SOLICITUD']);
+                urlAncla = urlAncla.replace('200000000', obj['ID_PEDIDO']);
+                urlAncla = urlAncla.replace('str', obj['FRUTA'].replaceAll(' ','-').replace('á', 'a'));
+                let $publicacionClonSolicitudFila = $publicacionClon.querySelectorAll('.publicacion-contenedor-datosSolicitud-fila');
+                let $publicacionClonDetalleFila = $publicacionClon.querySelectorAll('.publicacion-contenedor-datosSolicitudDetalle-fila');
+
+                $publicacionClonContenedor.setAttribute('id', `${obj['ID_SOLICITUD']}-publicacion-contenedor-publicacion`);
+                $publicacionClonContenedor.setAttribute('data-id-not-unique', `${obj['ID_SOLICITUD']}-publicacion-contenedor-publicacion`);
+                $publicacionClonContenedor.querySelector('.publicacion-contenedor-ofertar').firstElementChild.setAttribute('href', urlAncla)
+                $publicacionClonImg.setAttribute('src', rutaImg);
+                $publicacionClonImg.setAttribute('alt', obj['FRUTA']);
+                $publicacionClonSolicitudFila[0].children[1].textContent = obj['ID_SOLICITUD'];
+                $publicacionClonSolicitudFila[1].children[1].textContent = restarHoras(obj['HORA_FIN_PUBLICACION']);
+                $publicacionClonDetalleFila[0].children[1].textContent = obj['FRUTA'];
+                $publicacionClonDetalleFila[1].children[1].textContent = obj['KILOS'];
+    
+                $publicacionFragmento.appendChild($publicacionClon.firstElementChild);
+            };
+            if(arrPublicacionesActuales.has(obj['ID_SOLICITUD']) === true){
+                let $publicacionContenedorPublicacion = document.querySelectorAll(`div[data-id-not-unique='${obj['ID_SOLICITUD']}-publicacion-contenedor-publicacion']`);
+
+                $publicacionContenedorPublicacion.forEach(publicacion => {
+                    publicacion.querySelectorAll('.publicacion-contenedor-datosSolicitud-fila__span')[3].textContent = restarHoras(obj['HORA_FIN_PUBLICACION']);
+                    if(horaActual >= horaFin) publicacion.remove();
+                });
+            };
+        };
+
+        document.querySelector('.publicacion-contenedor-listaPublicaciones').appendChild($publicacionFragmento);        
+    }, 1000);
+    
+    // Publicaciones
+
+</script>
+{% endblock %}

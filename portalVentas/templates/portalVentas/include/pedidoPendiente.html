@@ -1,0 +1,441 @@
+<div class="ordenCompra-contenedor-general w-screen sm:w-auto">
+    <div class="listarSolicitud-contenedor-titulo" style="margin-right: 0.6rem;">
+        <h2 class="listarSolicitud-contenedor-titulo__h2">PEDIDOS PENDIENTES</h2>
+    </div>
+	<div class="ordenCompra-body my-2">
+		<div class="ordenCompra mx-auto overflow-scroll sm:overflow-auto" style="width: 90%; max-height: 23.9rem;">
+			<table class="ordenCompra-table md:w-full mx-auto">
+				<thead class="ordenCompra-table__thead" >
+					<th class="ordenCompra-table__thead-th text-white font-lato bg-blue-500 p-2 rounded-tl-md">N° PEDIDO</th>
+					<th class="ordenCompra-table__thead-th text-white font-lato bg-blue-500 p-2" style="min-width: 100px;">A PAGAR</th>
+					<th class="ordenCompra-table__thead-th text-white font-lato bg-blue-500 p-2">COTIZACIÓN/RECIBO</th>
+					<th class="ordenCompra-table__thead-th text-white font-lato bg-blue-500 p-2 rounded-tr-md">ACEPTAR</th>
+				</thead>
+
+				<tbody id="ordenCompra-tbody">
+
+				</tbody>
+			</table>
+		</div>
+		<div class="ordenCompra-vacio text-center hidden my-10">
+			<h2 class="ordenCompra-vacio__h2 opacity-50">Aún no se han completado ninguna de tus solicitudes.</br> Vuelva mas tarde.</h2>
+			<i class="fas fa-sad-tear opacity-25 my-4" style="font-size: 8rem;"></i>
+		</div>
+	</div>
+</div>
+
+<style>  
+    .ordenCompra-table__tr:nth-child(even) {
+        background-color: rgba(66, 153, 225, 0.18)
+    }
+
+    .ordenCompra-table__tr:nth-child(odd) {
+        background-color: rgba(66, 153, 225, 0.1)
+    }
+
+</style>
+
+<script>    
+    // ========================================================================================
+    
+    const solicitudes = [];
+    let concurrencia;    
+    {% for obj in viewDatosCotizacion %}
+
+        concurrencia = 0;
+        bucleWhile:
+        while (concurrencia <= 1) {
+            if (solicitudes.length === 0 || concurrencia === 1) {
+                solicitudes.push(
+                    {
+                        'ID_DETALLE_OF' : '{{ obj.ID_DETALLE_OF }}',
+                        'ID_SOLICITUD' : '{{ obj.ID_SOLICITUD }}',
+                        'PRECIO_TOTAL' : '{{ obj.PRECIO_TOTAL }}',
+                        'FECHA_COSECHA' : '{{ obj.FECHA_COSECHA }}',
+                        'CERRADA' : '{{ obj.CERRADA }}',
+                        'DES_ESPECIE' : '{{ obj.DES_ESPECIE }}',
+                        'DES_VARIEDAD' : '{{ obj.DES_VARIEDAD }}',
+                        'ID_USUARIO' : '{{ obj.ID_USUARIO }}',
+                        'RUN_USUARIO' : '{{ obj.RUN_USUARIO }}',
+                        'NOMBRE_USUARIO' : '{{ obj.NOMBRE_USUARIO|title }}',
+                        'DIRECCION' : '{{ obj.DIRECCION|title }}',
+                        'CORREO' : '{{ obj.CORREO|lower }}',
+                        'ID_PEDIDO' : '{{ obj.ID_PEDIDO }}',
+                        'KILOS' : '{{ obj.KILOS }}',
+                        'KILOS_OBTE' : '{{ obj.KILOS_OBTE }}',
+                        'ID_ESTADO_ORDEN' : '{{ obj.ID_ESTADO_ORDEN }}'
+                    }
+                );
+                break bucleWhile;
+            } else {
+                let idSolicitudAIngresar = parseInt('{{obj.ID_SOLICITUD}}', 10);
+                solicitudes.forEach(obj => {
+                    if(obj.length === undefined){
+                        if (parseInt(obj['ID_SOLICITUD'], 10) === idSolicitudAIngresar) {
+                            concurrencia = 2;
+                            let objtemp = obj;
+                            let position = solicitudes.indexOf(obj);
+                            solicitudes[position] = [objtemp];
+                            solicitudes[position].push(
+                                {
+                                    'ID_DETALLE_OF' : '{{ obj.ID_DETALLE_OF }}',
+                                    'ID_SOLICITUD' : '{{ obj.ID_SOLICITUD }}',
+                                    'PRECIO_TOTAL' : '{{ obj.PRECIO_TOTAL }}',
+                                    'FECHA_COSECHA' : '{{ obj.FECHA_COSECHA }}',
+                                    'CERRADA' : '{{ obj.CERRADA }}',
+                                    'DES_ESPECIE' : '{{ obj.DES_ESPECIE }}',
+                                    'DES_VARIEDAD' : '{{ obj.DES_VARIEDAD }}',
+                                    'ID_USUARIO' : '{{ obj.ID_USUARIO }}',
+                                    'RUN_USUARIO' : '{{ obj.RUN_USUARIO }}',
+                                    'NOMBRE_USUARIO' : '{{ obj.NOMBRE_USUARIO|title }}',
+                                    'DIRECCION' : '{{ obj.DIRECCION|title }}',
+                                    'CORREO' : '{{ obj.CORREO|lower }}',
+                                    'ID_PEDIDO' : '{{ obj.ID_PEDIDO }}',
+                                    'KILOS' : '{{ obj.KILOS }}',
+                                    'KILOS_OBTE' : '{{ obj.KILOS_OBTE }}',
+                                    'ID_ESTADO_ORDEN' : '{{ obj.ID_ESTADO_ORDEN }}'
+                                }
+                            );
+                        };
+                    } else {
+                        if (parseInt(obj[0]['ID_SOLICITUD'], 10) === idSolicitudAIngresar) {
+                            concurrencia = 2;
+                            let objtemp = obj;
+                            let position = solicitudes.indexOf(obj);
+                            solicitudes[position].push(
+                                {
+                                    'ID_DETALLE_OF' : '{{ obj.ID_DETALLE_OF }}',
+                                    'ID_SOLICITUD' : '{{ obj.ID_SOLICITUD }}',
+                                    'PRECIO_TOTAL' : '{{ obj.PRECIO_TOTAL }}',
+                                    'FECHA_COSECHA' : '{{ obj.FECHA_COSECHA }}',
+                                    'CERRADA' : '{{ obj.CERRADA }}',
+                                    'DES_ESPECIE' : '{{ obj.DES_ESPECIE }}',
+                                    'DES_VARIEDAD' : '{{ obj.DES_VARIEDAD }}',
+                                    'ID_USUARIO' : '{{ obj.ID_USUARIO }}',
+                                    'RUN_USUARIO' : '{{ obj.RUN_USUARIO }}',
+                                    'NOMBRE_USUARIO' : '{{ obj.NOMBRE_USUARIO|title }}',
+                                    'DIRECCION' : '{{ obj.DIRECCION|title }}',
+                                    'CORREO' : '{{ obj.CORREO|lower }}',
+                                    'ID_PEDIDO' : '{{ obj.ID_PEDIDO }}',
+                                    'KILOS' : '{{ obj.KILOS }}',
+                                    'KILOS_OBTE' : '{{ obj.KILOS_OBTE }}',
+                                    'ID_ESTADO_ORDEN' : '{{ obj.ID_ESTADO_ORDEN }}'
+                                }
+                            );
+                        };
+                    };
+                });
+                concurrencia++;
+            };
+        };
+
+    {% endfor %}
+
+    for(const indx in solicitudes){
+        if(!Array.isArray(solicitudes[indx])){
+            let objTemp = solicitudes[indx];
+            solicitudes[indx] = [objTemp];
+        };
+    };
+    
+    // ========================================================================================
+    
+    // ========================================================================================
+
+	let $publicacionCountRow;
+	let $publicacionTemplateTemp = document.createElement('template');
+	const $publicacionFragmeto = document.createDocumentFragment();
+
+    for (const soli of solicitudes) {
+        let precioApagar = 0;
+        soli.forEach(precioXfruta => precioApagar += parseInt(precioXfruta.PRECIO_TOTAL.replaceAll('.', '')));
+        $publicacionCountRow = 0;
+        let btn = ''
+
+        switch(true){
+            case parseInt(soli[0]['ID_ESTADO_ORDEN']) === 0:
+                btn = `
+                    <button id="${soli[0]['ID_SOLICITUD']}-ordenCompra-apruebo" class="ordenCompra-table__td-button-aceptar btn rounded-full w-10 h-10 bg-blue-500 font-lato text-white text-sm mx-2 px-2"><i id="${soli[0]['ID_SOLICITUD']}-i-apruebo" class="fas fa-check"></i></button>
+                    <button id="${soli[0]['ID_SOLICITUD']}-ordenCompra-rechazo" class="ordenCompra-table__td-button-aceptar btn rounded-full w-10 h-10 bg-red-500 font-lato text-white text-sm mx-2 px-2"><i id="${soli[0]['ID_SOLICITUD']}-i-rechazo" class="fas fa-times"></i></button>
+                `;
+                break;
+            case parseInt(soli[0]['ID_ESTADO_ORDEN']) !== 4:
+                btn = `
+                <button type="button" id="${soli[0]['ID_SOLICITUD']}-ordenCompra-apruebo" class="flex justify-center flex-row p-2 bg-blue-500 border-2 border-white rounded-md" style="width: 13rem;">
+                    <bdi class="font-lato text-white">Gracias Por Preferirnos</bdi>
+                    <i class="fas fa-heart text-white ml-2"></i>
+                </button>
+                `;
+                break;
+            case parseInt(soli[0]['ID_ESTADO_ORDEN']) === 4:
+                btn = `
+                <button type="button" id="${soli[0]['ID_SOLICITUD']}-ordenCompra-rechazo" class="flex justify-center flex-row p-2 bg-red-500 border-2 border-white rounded-md" style="width: 13rem;">
+                    <bdi class="font-lato text-white">Solicitud Rechazada</bdi>
+                    <i class="fas fa-heart-broken text-white ml-2"></i>
+                </button>
+                `;
+                break;
+        };
+
+        $publicacionTemplateTemp.innerHTML += `
+        <tr id="${soli[0]['ID_SOLICITUD']}-publicacion-row" class="ordenCompra-table__tr relative">
+            <td class="ordenCompra-table__td font-lato text-center">${soli[0]['ID_SOLICITUD']}</td>
+            <td class="ordenCompra-table__td font-lato text-center">$ ${Math.round((precioApagar * 1.6)).toLocaleString('it-IT')}</td>
+            <td class="ordenCompra-table__td font-lato text-center">
+                <button id="${soli[0]['ID_SOLICITUD']}-publicacion-verDetalle" class="ordenCompra-table__td-button-detalle btn bg-green-500 font-lato text-white text-sm m-2 mx-auto" style="width: 7rem;">Descargar</button>
+            </td>
+            <td class="ordenCompra-table__td font-lato text-center">
+                <div class="flex flex-row justify-center">
+                    ${btn}
+                </div>
+            </td>
+        </tr>`;
+			
+		$publicacionFragmeto.appendChild($publicacionTemplateTemp.content);
+	};
+
+    document.getElementById('ordenCompra-tbody').appendChild($publicacionFragmeto);
+    
+    // ========================================================================================
+    verificarRegistrosTabla();    
+    // ========================================================================================
+    
+    // ========================================================================================
+    
+    document.addEventListener('click', e => {
+        if(/-publicacion-verDetalle/.test(e.target.id)){
+            let idBtnDetalle = parseInt(e.target.id.substr(0, e.target.id.indexOf('-')));
+            for(const obj of solicitudes){
+                
+                if(parseInt(obj[0]['ID_SOLICITUD']) === idBtnDetalle){
+                    descargarCotizacion([obj]);
+                };
+
+            };
+        };
+        if(/-ordenCompra-apruebo/.test(e.target.id) || /-i-apruebo/.test(e.target.id)){
+            let idBtnApruebo = parseInt(e.target.id.substr(0, e.target.id.indexOf('-')));
+            let valorVenta = document.getElementById(`${idBtnApruebo}-publicacion-row`).children[1].textContent.split(' ')[1].replaceAll('.', '');
+            let idUsuario = '{{ usuario.id_usuario }}';
+            let $form = `
+            <form action="" method="POST" id="ordenCompra-formulario">
+                {% csrf_token %}
+                <input type="text" name="DATOS_ORDEN_COMPRA" value="${idBtnApruebo}|${valorVenta}|${idUsuario}|1" readonly class="hidden">
+            </form>
+            `;
+            
+            document.querySelector('.ordenCompra-contenedor-general').innerHTML += $form;
+            document.getElementById('ordenCompra-formulario').submit();
+        };
+        if(/-ordenCompra-rechazo/.test(e.target.id) || /-i-rechazo/.test(e.target.id)){
+            let idBtnRechazo = parseInt(e.target.id.substr(0, e.target.id.indexOf('-')));
+            let valorVenta = document.getElementById(`${idBtnRechazo}-publicacion-row`).children[1].textContent.split(' ')[1].replaceAll('.', '');
+            let idUsuario = '{{ usuario.id_usuario }}';
+            let $form = `
+            <form action="" method="POST" id="ordenCompra-formulario">
+                {% csrf_token %}
+                <input type="text" name="DATOS_ORDEN_COMPRA" value="${idBtnRechazo}|${valorVenta}|${idUsuario}|4" readonly class="hidden">
+            </form>
+            `;
+            
+            document.querySelector('.ordenCompra-contenedor-general').innerHTML += $form;
+            document.getElementById('ordenCompra-formulario').submit();
+        };
+    });
+
+    // ========================================================================================
+
+    // ========================================================================================
+
+    function verificarRegistrosTabla(){
+        const $publicacionTarget = document.getElementById('ordenCompra-tbody');
+
+		if($publicacionTarget.childElementCount === 0){
+			document.querySelector('.ordenCompra-vacio').classList.remove('hidden');
+			$publicacionTarget.parentElement.classList.add('hidden');
+		}else{
+			document.querySelector('.ordenCompra-vacio').classList.add('hidden');
+			$publicacionTarget.parentElement.classList.remove('hidden');
+		};
+    };
+    
+    function descargarCotizacion(arrSoli){
+        let $templateTemp = document.createElement('template');
+        let $fragmentTemp = document.createDocumentFragment();
+        let idFilas = 0;
+        let textFilas = '';
+
+        let objDatos = arrSoli[0][0];
+        let pesoBruto = 0;
+        let subTotal = 0;
+
+        arrSoli.forEach(arr => {
+            for(const obj of arr){
+                pesoBruto += parseInt(obj['KILOS'].replaceAll('.', ''));
+                subTotal += parseInt(obj['PRECIO_TOTAL'].replaceAll('.', ''));
+            };
+        });
+        
+        arrSoli.forEach(arr => {
+            for(const obj of arr){
+                idFilas ++;
+                textFilas += `
+                <tr class="h-8 border-b border-black">
+                    <td class="font-lato text-center">${idFilas}</td>
+                    <td class="font-lato text-center">${obj['DES_ESPECIE']} ${obj['DES_VARIEDAD']}</td>
+                    <td class="font-lato text-center">${obj['KILOS']}</td>
+                    <td class="font-lato text-center">$ ${obj['PRECIO_TOTAL']}</td>
+                </tr>
+                `;
+            };
+            $templateTemp.innerHTML = textFilas;
+            $fragmentTemp.appendChild($templateTemp.content);
+        });
+
+        let pdfTemplate = `
+        <div id="invoice" class="relative border-2 border-black mx-auto p-2" id="ordenCompra-contenedor-general-pdf" style="idth: 60rem;">
+            <img src="/static/img/BestFruit.png" alt="Fondo" class="absolute inset-0 m-auto transform scale-150 opacity-25" style="z-index: -1;">
+            <div class="grid grid-col-4">
+
+                <div class="flex flex-row">
+                    <div class="flex-none">
+                        <img src="/static/img/BestFruit_Logo.png" alt="Logo" class="w-48 h-4.">
+                    </div>
+                    <div class="flex-auto">
+                        <b class="font-lato text-xl">Best Fruit S.A</b>
+                        <div class="flex flex-row">
+                            <div class="flex-auto">
+                                <p class="font-lato text-sm font-normal">
+                                    <dfn class="font-lato text-base font-semibold">
+                                        Razón Social
+                                    </dfn>
+                                    <bdi class="block">Best Fruit S.A</bdi>
+                                </p>
+                                    <p class="font-lato text-sm font-normal">
+                                        <dfn class="font-lato text-base font-semibold">
+                                            Dirección
+                                        </dfn>
+                                        <address class="block text-sm not-italic">Portales 3396, Santiago</address>
+                                    </p>
+                            </div>
+                            <div class="flex-auto">
+                                <p class="font-lato text-sm font-normal">
+                                    <dfn class="font-lato text-base font-semibold">
+                                        Correo Electrónico
+                                    </dfn>
+                                    <bdi class="block">contacto@bestfruit.cl</bdi>
+
+                                    <p class="font-lato text-sm font-normal">
+                                        <dfn class="font-lato text-base font-semibold">
+                                            Teléfono
+                                        </dfn>
+                                        <bdi class="block">+56 9 4985 2049</bdi>
+                                    </p>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="factura flex-auto text-center">
+                        <div class="border-2 border-red-600 text-red-600 h-32 leading-10">
+                            <p class="font-lato text-lg font-bold">
+                                <dfn>R.U.T</dfn>
+                                <bdi>98.574.658-5</bdi>
+                            </p>
+                            <p class="font-lato text-lg font-bold">
+                                Factura Electrónica
+                            </p>
+                            <p class="font-lato text-lg font-bold">
+                                N°<bdi> ${objDatos['ID_SOLICITUD']}</bdi>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border border-black flex flex-row p-2">
+                    <div class="flex-1">
+                        <p class="font-lato"><dfn class="font-bold inline-block w-32">Rut</dfn>:&nbsp;${ parseInt(objDatos['RUN_USUARIO'].split('-')[0]).toLocaleString('it-IT') }-${ objDatos['RUN_USUARIO'].split('-')[1] }</p>
+                        <p class="font-lato"><dfn class="font-bold inline-block w-32">Nombre</dfn>:&nbsp;${objDatos['NOMBRE_USUARIO']}</p>
+                        <p class="font-lato"><dfn class="font-bold inline-block w-32">Correo Electrónico</dfn>:&nbsp;${objDatos['CORREO']}</p>
+                        <p class="font-lato"><dfn class="font-bold inline-block w-32">Dirección</dfn>:&nbsp;${objDatos['DIRECCION']}</p>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-lato"><dfn class="font-bold inline-block" style="width: 7.5rem;">Fecha</dfn>:&nbsp;${new Date().toLocaleDateString('es-CL')}</p>
+                        <p class="font-lato"><dfn class="font-bold inline-block" style="width: 7.5rem;">Moneda de Venta</dfn>:&nbsp;Peso Chileno - $CLP</p>
+                        <p class="font-lato"><dfn class="font-bold inline-block" style="width: 7.5rem;">Forma de Pago</dfn>:&nbsp; Transferencia Bancaria</p>
+                        <p class="font-lato"><dfn class="font-bold inline-block" style="width: 7.5rem;">Total Peso Bruto</dfn>:&nbsp;${pesoBruto} Kg</p>
+                    </div>
+                </div>
+
+                <div class="border border-black my-1 p-2" style="min-height: 516px;">
+                    <table class="w-full">
+                        <thead class="border-b border-black">
+                            <th class="font-lato h-10">#</th>
+                            <th class="font-lato h-10">Fruta</th>
+                            <th class="font-lato h-10">Cantidad (Kg)</th>
+                            <th class="font-lato h-10">Costo ($CLP)</th>
+                        </thead>
+                        <tbody id="invoice-tbody">
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="border border-black my-1 p-2 flex flex-row">
+                    <div class="timbre-electronico flex-1">
+                        <figure>
+                            <img src="/static/img/timbre.png" alt="Timbre SII" class="mx-auto">
+                            <figcaption class="font-lato text-center text-xs">Timbre Electrónico SII</figcaption>
+                        </figure>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex flex-row">
+                            <span class="font-lato border border-black px-2 w-56" style="padding: 2px;">Sub Total</span>
+                            <span class="font-lato border border-black px-2 w-full" style="padding: 2px;">$&nbsp;${subTotal.toLocaleString('it-IT')}</span>
+                        </div>
+                        <div class="flex flex-row">
+                            <span class="font-lato border border-black px-2 w-56" style="padding: 2px;">Aduana (10%)</span>
+                            <span class="font-lato border border-black px-2 w-full" style="padding: 2px;">$&nbsp;${Math.round(subTotal * 0.1).toLocaleString('it-IT')}</span>
+                        </div>
+                        <div class="flex flex-row">
+                            <span class="font-lato border border-black px-2 w-56" style="padding: 2px;">Transporte (11%)</span>
+                            <span class="font-lato border border-black px-2 w-full" style="padding: 2px;">$&nbsp;${Math.round(subTotal * 0.11).toLocaleString('it-IT')}</span>
+                        </div>
+                        <div class="flex flex-row">
+                            <span class="font-lato border border-black px-2 w-56" style="padding: 2px;">IVA (19%)</span>
+                            <span class="font-lato border border-black px-2 w-full" style="padding: 2px;">$&nbsp;${Math.round(subTotal * 0.19).toLocaleString('it-IT')}</span>
+                        </div>
+                        <div class="flex flex-row">
+                            <span class="font-lato border border-black px-2 w-56" style="padding: 2px;">Servicio (20%)</span>
+                            <span class="font-lato border border-black px-2 w-full" style="padding: 2px;">$&nbsp;${Math.round(subTotal * 0.2).toLocaleString('it-IT')}</span>
+                        </div>
+                        <div class="flex flex-row">
+                            <span class="font-lato font-black border border-black px-2 w-56" style="padding: 2px;">Total a Pagar</span>
+                            <span class="font-lato font-black border border-black px-2 w-full" style="padding: 2px;">$&nbsp;${Math.round(subTotal * 1.6).toLocaleString('it-IT')}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        `;
+        $templateTemp.innerHTML = pdfTemplate;
+        $templateTemp.content.getElementById('invoice-tbody').appendChild($fragmentTemp);
+
+        document.querySelector('.ordenCompra-contenedor-general').appendChild($templateTemp.content)
+        let invoice = document.getElementById('invoice')
+        let opt = {
+                    margin:       0.05,
+                    filename:     `invoice-N-${objDatos['ID_SOLICITUD']}-${new Date().toLocaleDateString('es-CL')}.pdf`,
+                    image:        { type: 'jpeg', quality: 1 },
+                    html2canvas:  { scale: 5 },
+                    jsPDF:        { unit: 'in', format: 'government-letter', orientation: 'portrait' }
+                };
+        if(document.getElementById(`${objDatos['ID_SOLICITUD']}-ordenCompra-rechazo`) !== null){
+            document.querySelector('.timbre-electronico').classList.add('hidden');
+            document.querySelector('.factura').classList.add('hidden');
+        };
+        html2pdf(invoice, opt);
+        invoice.remove()
+    };
+
+</script>

@@ -1,0 +1,697 @@
+{% extends 'administrador/base.html' %}
+
+{% block title %} {{ tituloPagina }} {% endblock %}
+
+{% block content %} 
+<!-- admin-solicitudLintar-seccion-... -->
+<div class="admin-publicacion-contenedor-general m-4 mb-20 md:mb-0 sm:ml-24">
+	<div class="admin-publicacion-readyState fixed top-0 left-0 z-20 w-full h-full flex items-center justify-center" style="background-color: rgba(26, 32, 44, .9)">
+		<div class="admin-publicacion-contenedor">
+			<figure class="text-left">
+				<img src="/static/img/BestFruit.png" alt="Logo" class="admin-publicacion-readyState__img w-32 h-32 m-4">
+				<figcaption class="admin-publicacion-readyState__figcaption font-lato text-2xl text-white mx-auto">Cargando... &nbsp; &nbsp; &nbsp;</figcaption>
+			</figure>
+		</div>
+	</div>
+	<div class="admin-publicacion-header">
+		<h1 class="admin-publicacion-header__h1 font-lato">PUBLICACIONES</h1>
+		<p class="admin-publicacion-header__p font-lato text-lg">
+			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nisi illum fugit soluta totam suscipit, provident
+			numquam error harum velit placeat sequi, voluptate reiciendis, deleniti itaque laboriosam earum maxime? Eum,
+			laudantium.
+		</p>
+	</div>
+	<div class="admin-publicacion-body">
+		<div class="admin-publicacion-filtro grid grid-cols-1 my-2 md:grid-cols-5 md:gap-x-2">
+			<div class="admin-publicacion-filtro-titulo md:col-span-5">
+				<h3 class="admin-publicacion-filtro__h3 font-lato font-bold">Filtros</h3>
+			</div>
+			<div class="admin-publicacion-contenedor-input my-2 md:col-span-2 lg:col-span-3">
+				<label for="buscador">Palabra Clave</label>
+				<!-- EL EVENTO 'ONKEYPRESS' NO FUNCIONA CORRECTAMENTE SI SE ENCUETRA DENTRO DE UNA ETIQUETA SCRIPT, POR ESE MOTIVO, SE COLOCA EN EL INPUT  -->
+				<!-- LA VALIDACION CONSTA DE LO SIGUIENTE  -->
+				<!-- [0-9] || @ [A-Z] || [a-z] || [ ' ' || - || . || / || : || _ ] -->
+				<input type="text" name="buscador" id="buscador" class="admin-publicacion-contenedor-input__input input" onkeypress="return (event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 64 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122) || (event.keyCode === 32 || event.keyCode === 45 || event.keyCode === 46 || event.keyCode === 47 || event.keyCode === 58 || event.keyCode === 95)">	
+			</div>
+			<div class="admin-publicacion-contenedor-input my-2 md:col-span-2 lg:col-span-1">
+				<label for="admin-publicacion-select-estado">Estado Publicación</label>
+				<select name="admin-publicacion-select-estado" id="admin-publicacion-select-estado" class="input">
+					<option value="Selecciona Estado">Selecciona Estado</option>
+					<option value="No Publicada"></option>
+					<option value="En Proceso"></option>
+					<option value="Finalizada"></option>
+				</select>
+			</div>
+			<div class="admin-publicacion-contenedor-input my-2 relative">
+				<span  class="admin-publicacion-contenedor-input__span bg-red-500 font-lato text-white text-sm absolute w-8 h-8 rounded-full z-10 text-center hidden" style="top: -10px; right: -10px; line-height: 30px;">0</span>
+				<button class="admin-publicacion-contenedor-input__btn btn bg-green-500 font-lato text-white w-full md:absolute md:bottom-0 opacity-50 cursor-not-allowed" type="submit" disabled>Guardar Cambios</button>
+			</div>
+		</div>
+		<div class="admin-publicacion-listado">
+			<table class="admin-publicacion-table overflow-hidden md:w-full" role="table">
+				<thead class="admin-publicacion-table__thead" role="rowgroup">
+					<th class="admin-publicacion-table__thead-th w-auto font-lato border border-gray-400 md:border-0 md:text-white md:text-sm md:border-b md:border-gray-500 md:bg-gray-500 md:p-2 rounded-tl-md"
+						role="columnheader">N° SOLICITUD</th>
+					<th class="admin-publicacion-table__thead-th w-auto font-lato border border-gray-400 md:border-0 md:text-white md:text-sm md:border-b md:border-gray-500 md:bg-gray-500 md:p-2"
+						role="columnheader">PROGRESO</th>
+					<th class="admin-publicacion-table__thead-th w-auto font-lato border border-gray-400 md:border-0 md:text-white md:text-sm md:border-b md:border-gray-500 md:bg-gray-500 md:p-2"
+						role="columnheader">HORA INICIO PUBLICACIÓN</th>
+					<th class="admin-publicacion-table__thead-th w-auto font-lato border border-gray-400 md:border-0 md:text-white md:text-sm md:border-b md:border-gray-500 md:bg-gray-500 md:p-2"
+						role="columnheader">HORA TERMINO PUBLICACIÓN</th>
+					<th class="admin-publicacion-table__thead-th w-auto font-lato border border-gray-400 md:border-0 md:text-white md:text-sm md:border-b md:border-gray-500 md:bg-gray-500 md:p-2"
+						role="columnheader">ESTADO</th>
+					<th class="admin-publicacion-table__thead-th w-auto font-lato border border-gray-400 md:border-0 md:text-white md:text-sm md:border-b md:border-gray-500 md:bg-gray-500 md:p-2"
+						role="columnheader">DETALLE</th>
+					<th class="admin-publicacion-table__thead-th w-auto font-lato border border-gray-400 md:border-0 md:text-white md:text-sm md:border-b md:border-gray-500 md:bg-gray-500 md:p-2 rounded-tr-md"
+						role="columnheader">PUBLICAR</th>
+				</thead>
+
+				<tbody role="rowgroup" id="admin-publicacion-tbody">
+					
+				</tbody>
+			</table>
+		</div>
+		<div class="admin-publicacion-listado-vacio text-center mt-12 hidden sm:mt-16 md:mt-40 lg:mt-56">
+			<h2 class="admin-publicacion-listado-vacio__h2 opacity-50">No Quedan Publicaciones Pendientes</h2>
+			<i class="fas fa-inbox opacity-25 my-4" style="font-size: 10rem;"></i>
+		</div>
+	</div>
+	<template id="admin-publicacion-modal-template">
+		<div class="animacion-modal relative z-10 hidden" >
+			<div class="admin-publicacion-capaGris fixed inset-0 z-40 w-full h-full bg-gray-800 opacity-75"></div>
+			<div class="w-full h-full fixed z-50 flex justify-center items-center top-0 -ml-4 sm:-ml-24 lg:-ml-32">
+				<div class="admin-publicacion-ventana bg-white w-11/12 rounded-2xl p-4 md:w-2/3 md:w-3/4 lg:w-2/3 xl:w-2/4">
+					<div class="admin-publicacion-ventana-titulo border-b-2 border-gray-500">
+						<h3 class="admin-publicacion-ventana-titulo__h3 font-lato text-xl font-bold py-2"></h3>
+					</div>
+					<div class="admin-publicacion-contendor-tabla overflow-auto my-4">
+						<table class="admin-publicacion-table overflow-hidden w-full">
+							<thead class="admin-publicacion-table__thead">
+								<th class="admin-publicacion-table__thead-th w-auto font-lato text-white border-b border-gray-500 bg-gray-500 p-2 rounded-tl-md">
+									#</th>
+								<th class="admin-publicacion-table__thead-th w-auto font-lato text-white border-b border-gray-500 bg-gray-500 p-2">
+									FRUTA</th>
+								<th class="admin-publicacion-table__thead-th w-auto font-lato text-white border-b border-gray-500 bg-gray-500 p-2">
+									CANTIDAD SOLICITADA</th>
+								<th class="admin-publicacion-table__thead-th w-auto font-lato text-white border-b border-gray-500 bg-gray-500 p-2 rounded-tr-md">
+									CANTIDAD OBTENIDA</th>
+							</thead>
+
+							<tbody id="admin-publicacion-table__tbody">
+
+							</tbody>
+						</table>
+					</div>
+					<div class="admin-publicacion-ventana-boton flex justify-end">
+						<button
+							class="admin-publicacion-ventana-boton__button btn bg-red-600 font-lato text-white w-48 p-2">Cerrar</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</template>
+</div>
+
+<style>
+	/*
+Max width before this PARTICULAR table gets nasty. This query will take effect for any full smaller than 760px and also iPads specifically.
+*/
+	@media only screen and (max-width: 767px) {
+
+		/* Force table to not be like tables anymore */
+		table[role='table'],
+		thead[role='rowgroup'],
+		tbody[role='rowgroup'],
+		th[role='columnheader'],
+		td[role='cell'],
+		tr[role='trow'] {
+			display: block;
+		}
+
+		/* Hide table headers (but not display: none;, for accessibility) */
+		thead[role='rowgroup'] th[role='columnheader'] {
+			display: none;
+		}
+
+		tr[role='trow'] {
+			margin: 0 0 1rem 0;
+		}
+
+		td[role='cell'] {
+			position: relative;
+			padding-left: 50%;
+			height: 50px;
+			line-height: 45px;
+		}
+
+		td[role='cell']:before {
+			/* Now like a table header */
+			position: absolute;
+			/* Top/left values mimic padding */
+			line-height: 45px;
+			left: 20px;
+			width: 45%;
+			/* padding-right: 10px; */
+			white-space: nowrap;
+		}
+
+		/*
+Label the data
+You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
+*/
+		td[role='cell']:nth-of-type(1):before {
+			content: "N° SOLICITUD";
+		}
+		
+		td[role='cell']:nth-of-type(2):before {
+			content: "PROGRESO";
+		}
+
+		td[role='cell']:nth-of-type(3):before {
+			content: "HORA INICIO";
+		}
+
+		td[role='cell']:nth-of-type(4):before {
+			content: "HORA TERMINO";
+		}
+		
+		td[role='cell']:nth-of-type(5):before {
+			content: "ESTADO";
+		}
+
+		td[role='cell']:nth-of-type(6):before {
+			content: "DETALLE";
+		}
+
+		td[role='cell']:nth-of-type(7):before {
+			content: "PUBLICAR";
+		}
+	}
+
+	@keyframes abrirModal{
+		from {
+			opacity: 0%;
+		}
+
+		to {
+			opacity: 100%;
+		}
+	}
+
+	@keyframes cerrarModal{
+		from {
+			opacity: 100%;
+		}
+
+		to {
+			opacity: 0%;
+		}
+	}
+
+	@keyframes readyStateImg{
+		from {
+			transform: none;
+		}
+
+		to {
+			transform: scale(1.2, 1.2);
+		}
+	}
+
+	@keyframes typewriter{
+		from{
+			width: 0;
+		}
+		to{
+			width: 80%;
+		}
+	}
+
+	@keyframes desvanecer{
+		from{
+			opacity: 1;
+		}
+		to{
+			opacity: 0;
+		}
+	}
+
+	@keyframes swipeLeft{
+		from{
+			left: 0;
+		}
+		to{
+			left: 10000px;
+		}
+	}
+
+	.admin-publicacion-readyState__figcaption{
+		animation: typewriter 2s cubic-bezier(1, 1, 0.2, 0.6) 0s infinite;
+		white-space: nowrap;
+    	overflow: hidden;
+	}
+
+	.admin-publicacion-readyState__img{
+		animation: readyStateImg 1s linear 0s infinite alternate;
+	}
+
+	.animacion-modal {
+		animation-duration: .5s;
+		animation-fill-mode: forwards;
+	}
+
+</style>
+
+<script>
+
+	let mensajePublicacion = parseInt('{{ mensajePublicacion }}');
+	if(mensajePublicacion === 1){
+		document.querySelector('.admin-toast-contenedorSubGeneral').querySelector('i').classList.remove('fa-times');
+		document.querySelector('.admin-toast-contenedorSubGeneral').querySelector('i').classList.add('fa-check');
+		document.querySelector('.admin-toast-contenedorSubGeneral').querySelector('span').textContent = 'Cambios Guardados';
+		document.querySelector('.admin-toast-contenedorSubGeneral').style.animation = 'swipeUp 2s 2s linear 2 alternate';
+		setTimeout(() => document.querySelector('.admin-toast-contenedorSubGeneral').style.removeProperty('animation'), 4000);
+	};
+
+	// MutationObserver 
+	const publicacionObserver = new MutationObserver(() => verificarRegistrosTabla() );
+	publicacionObserver.observe(document.getElementById('admin-publicacion-tbody'), { childList : true });
+	verificarRegistrosTabla();
+
+	// Llenado de variables
+	const solicitudes = [];
+    let concurrencia;    
+    {% for obj in viewListaSolicitudes %}
+
+        concurrencia = 0;
+        bucleWhile:
+        while (concurrencia <= 1) {
+            if (solicitudes.length === 0 || concurrencia === 1) {
+                solicitudes.push(
+                    {
+                        'ID_SOLICITUD': '{{obj.ID_SOLICITUD}}',
+                        'FECHA_CREACION': "{{obj.FECHA_CREACION|date:'d/m/Y'}}",
+                        'DES_ESPECIE': '{{obj.DES_ESPECIE}}',
+                        'DES_VARIEDAD': '{{obj.DES_VARIEDAD}}',
+						'KILOS': '{{obj.KILOS}}',
+						'KILOS_OBTENIDOS': '{{obj.KILOS_OBTENIDOS}}',
+						'NOMBRE_USUARIO' : '{{obj.NOMBRE_USUARIO|title}}',
+						'PAIS_USUARIO' : '{{obj.PAIS_USUARIO}}',
+						'HORA_INI_PUBLICACION' : '{{obj.HORA_INI_PUBLICACION}}',
+						'HORA_FIN_PUBLICACION' : '{{obj.HORA_FIN_PUBLICACION}}',
+						'DES_PUBLICACION' : '{{obj.DES_PUBLICACION}}'
+                    }
+                );
+                break bucleWhile;
+            } else {
+                let idSolicitudAIngresar = parseInt('{{obj.ID_SOLICITUD}}', 10);
+                solicitudes.forEach(obj => {
+                    if(obj.length === undefined){
+                        if (parseInt(obj['ID_SOLICITUD'], 10) === idSolicitudAIngresar) {
+                            concurrencia = 2;
+                            let objtemp = obj;
+                            let position = solicitudes.indexOf(obj);
+                            solicitudes[position] = [objtemp];
+                            solicitudes[position].push(
+                                {
+                                    'ID_SOLICITUD': '{{obj.ID_SOLICITUD}}',
+                                    'FECHA_CREACION': "{{obj.FECHA_CREACION|date:'d/m/Y'}}",
+                                    'DES_ESPECIE': '{{obj.DES_ESPECIE}}',
+                                    'DES_VARIEDAD': '{{obj.DES_VARIEDAD}}',
+									'KILOS': '{{obj.KILOS}}',
+									'KILOS_OBTENIDOS': '{{obj.KILOS_OBTENIDOS}}',
+									'NOMBRE_USUARIO' : '{{obj.NOMBRE_USUARIO|title}}',
+									'PAIS_USUARIO' : '{{obj.PAIS_USUARIO}}',
+									'HORA_INI_PUBLICACION' : '{{obj.HORA_INI_PUBLICACION}}',
+									'HORA_FIN_PUBLICACION' : '{{obj.HORA_FIN_PUBLICACION}}',
+									'DES_PUBLICACION' : '{{obj.DES_PUBLICACION}}'
+                                }
+                            );
+                        };
+                    }else{
+                        if (parseInt(obj[0]['ID_SOLICITUD'], 10) === idSolicitudAIngresar) {
+                            concurrencia = 2;
+                            let objtemp = obj;
+                            let position = solicitudes.indexOf(obj);
+                            solicitudes[position].push(
+                                {
+                                    'ID_SOLICITUD': '{{obj.ID_SOLICITUD}}',
+                                    'FECHA_CREACION': "{{obj.FECHA_CREACION|date:'d/m/Y'}}",
+                                    'DES_ESPECIE': '{{obj.DES_ESPECIE}}',
+                                    'DES_VARIEDAD': '{{obj.DES_VARIEDAD}}',
+									'KILOS': '{{obj.KILOS}}',
+									'KILOS_OBTENIDOS': '{{obj.KILOS_OBTENIDOS}}',
+									'NOMBRE_USUARIO' : '{{obj.NOMBRE_USUARIO|title}}',
+									'PAIS_USUARIO' : '{{obj.PAIS_USUARIO}}',
+									'HORA_INI_PUBLICACION' : '{{obj.HORA_INI_PUBLICACION}}',
+									'HORA_FIN_PUBLICACION' : '{{obj.HORA_FIN_PUBLICACION}}',
+									'DES_PUBLICACION' : '{{obj.DES_PUBLICACION}}'
+                                }
+                            );
+                        };
+                    };
+                });
+                concurrencia++;
+            };
+        };
+
+	{% endfor %}
+	// Llenado de variables
+	
+	// Despligue de informacion
+	const $publicacionFragmeto = document.createDocumentFragment();
+	let $publicacionTemplateTemp = document.createElement('template');
+	
+	// Ver Detalle - Modal
+	const $publicacionFragmetoModal = document.createDocumentFragment();
+	let $publicacionTemplate = document.getElementById('admin-publicacion-modal-template');
+	let $publicacionDetalle  = document.createElement('template');
+	let $publicacionCountRow;
+	let $publicacionClon;
+
+	for (const soli of solicitudes) {
+		
+		if(Array.isArray(soli)){
+			$publicacionCountRow = 0;
+			$publicacionClon = document.importNode($publicacionTemplate.content, true);
+			$publicacionClon.firstElementChild.setAttribute('id', `${soli[0]['ID_SOLICITUD']}-admin-publicacion-modal`);
+			$publicacionClon.querySelector('.admin-publicacion-ventana-boton__button').setAttribute('id', `${soli[0]['ID_SOLICITUD']}-admin-publicacion-ventana-boton__button`);
+			$publicacionClon.querySelector('.admin-publicacion-ventana-titulo__h3').textContent = `Solicitud N° ${soli[0]['ID_SOLICITUD']}`;
+
+			$publicacionTemplateTemp.innerHTML += `
+			<tr role="trow" id="${soli[0]['ID_SOLICITUD']}-publicacion-row" class="admin-publicacion-table__tr relative">
+				<td name="0" class="admin-publicacion-table__td font-lato border-t-2 border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">${soli[0]['ID_SOLICITUD']}</td>
+				<td name="1" class="admin-publicacion-table__td font-lato border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell"><bdi id="${soli[0]['ID_SOLICITUD']}-publicacion-row__bdi">0</bdi>/${soli.length}</td>
+				<td name="2" class="admin-publicacion-table__td font-lato border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell"><input type="time" name="HORA_INI" id="${soli[0]['ID_SOLICITUD']}-publicacion-row__input-ini" value="${soli[0]['HORA_INI_PUBLICACION']}" class="bg-transparent focus:outline-none focus:bg-transparent"></td>
+				<td name="3" class="admin-publicacion-table__td font-lato border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell"><input type="time" name="HORA_FIN" id="${soli[0]['ID_SOLICITUD']}-publicacion-row__input-fin" value="${soli[0]['HORA_FIN_PUBLICACION']}" class="bg-transparent focus:outline-none focus:bg-transparent"></td>
+				<td name="4" class="admin-publicacion-table__td font-lato border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">${soli[0]['DES_PUBLICACION']}</td>
+				<td name="5" class="admin-publicacion-table__td font-lato border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">
+					<button id="${soli[0]['ID_SOLICITUD']}-publicacion-verDetalle" class="admin-publicacion-table__td-button-detalle btn bg-green-500 font-lato text-white text-sm mt-1 md:mx-auto" style="width: 7rem;">Ver Detalle</button>
+				</td>
+				<td name="6" class="admin-publicacion-table__td font-lato border-b-2 border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">
+					<button id="${soli[0]['ID_SOLICITUD']}-publicacion-publicar" type="button" class="admin-publicacion-table__td-button-publicar btn bg-blue-500 font-lato text-white text-sm mt-1 md:mx-auto opacity-50 cursor-not-allowed" style="width: 7rem;" disabled><i id="${soli[0]['ID_SOLICITUD']}-i-publicar" class="fas fa-thumbs-up"></i></button>
+				</td>
+			</tr>`
+			for (const i in soli) {
+				$publicacionCountRow++;
+				$publicacionDetalle.innerHTML +=`
+				<tr>
+					<td class="admin-publicacion-table__td font-lato text-sm text-center border-b border-gray-500 p-2">${$publicacionCountRow}</td>
+					<td class="admin-publicacion-table__td font-lato text-sm text-center border-b border-gray-500 p-2">${soli[i]['DES_ESPECIE']} ${soli[i]['DES_VARIEDAD']}</td>
+					<td class="admin-publicacion-table__td font-lato text-sm text-center border-b border-gray-500 p-2">${soli[i]['KILOS']}</td>
+					<td class="admin-publicacion-table__td font-lato text-sm text-center border-b border-gray-500 p-2" name="KILOS_OBTENIDOS">${soli[i]['KILOS_OBTENIDOS']}</td>
+                </tr>`;
+			};
+
+			$publicacionClon.getElementById('admin-publicacion-table__tbody').appendChild($publicacionDetalle.content);
+			$publicacionFragmetoModal.appendChild($publicacionClon);
+			
+		}else{
+
+			$publicacionClon = document.importNode($publicacionTemplate.content, true);
+			$publicacionClon.firstElementChild.setAttribute('id', `${soli['ID_SOLICITUD']}-admin-publicacion-modal`);
+			$publicacionClon.querySelector('.admin-publicacion-ventana-boton__button').setAttribute('id', `${soli['ID_SOLICITUD']}-admin-publicacion-ventana-boton__button`);
+			$publicacionClon.querySelector('.admin-publicacion-ventana-titulo__h3').textContent = `Solicitud N° ${soli['ID_SOLICITUD']}`;
+
+			$publicacionTemplateTemp.innerHTML += `
+			<tr role="trow" id="${soli['ID_SOLICITUD']}-publicacion-row" class="admin-publicacion-table__tr relative">
+				<td name="0" class="admin-publicacion-table__td font-lato border-t-2 border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">${soli['ID_SOLICITUD']}</td>
+				<td name="1" class="admin-publicacion-table__td font-lato border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell"><bdi id="${soli['ID_SOLICITUD']}-publicacion-row__bdi">0</bdi>/1</td>
+				<td name="2" class="admin-publicacion-table__td font-lato border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell"><input type="time" name="HORA_INI" id="${soli['ID_SOLICITUD']}-publicacion-row__input-ini" value="${soli['HORA_INI_PUBLICACION']}" class="bg-transparent focus:outline-none focus:bg-transparent"></td>
+				<td name="3" class="admin-publicacion-table__td font-lato border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell"><input type="time" name="HORA_FIN" id="${soli['ID_SOLICITUD']}-publicacion-row__input-fin" value="${soli['HORA_FIN_PUBLICACION']}" class="bg-transparent focus:outline-none focus:bg-transparent"></td>
+				<td name="4" class="admin-publicacion-table__td font-lato border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">${soli['DES_PUBLICACION']}</td>
+				<td name="5" class="admin-publicacion-table__td font-lato border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">
+					<button id="${soli['ID_SOLICITUD']}-publicacion-verDetalle" type="button" class="admin-publicacion-table__td-button-detalle btn bg-green-500 font-lato text-white text-sm mt-1 md:mx-auto" style="width: 7rem;">Ver Detalle</button>
+				</td>
+				<td name="6" class="admin-publicacion-table__td font-lato border-b-2 border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">
+					<button id="${soli['ID_SOLICITUD']}-publicacion-publicar" type="button" class="admin-publicacion-table__td-button-publicar btn bg-blue-500 font-lato text-white text-sm mt-1 md:mx-auto opacity-50 cursor-not-allowed" style="width: 7rem;" disabled><i id="${soli['ID_SOLICITUD']}-i-publicar" class="fas fa-thumbs-up"></i></button>
+				</td>
+			</tr>`;
+
+			$publicacionDetalle.innerHTML +=`
+			<tr>
+				<td class="admin-publicacion-table__td font-lato text-sm text-center border-b border-gray-500 p-2">1</td>
+				<td class="admin-publicacion-table__td font-lato text-sm text-center border-b border-gray-500 p-2">${soli['DES_ESPECIE']} ${soli['DES_VARIEDAD']}</td>
+				<td class="admin-publicacion-table__td font-lato text-sm text-center border-b border-gray-500 p-2">${soli['KILOS']}</td>
+				<td class="admin-publicacion-table__td font-lato text-sm text-center border-b border-gray-500 p-2" name="KILOS_OBTENIDOS">${soli['KILOS_OBTENIDOS']}</td>
+			</tr>`;
+
+			$publicacionClon.getElementById('admin-publicacion-table__tbody').appendChild($publicacionDetalle.content);
+			$publicacionFragmetoModal.appendChild($publicacionClon);
+
+		};
+		$publicacionFragmeto.appendChild($publicacionTemplateTemp.content);
+	};
+
+	document.getElementById('admin-publicacion-tbody').appendChild($publicacionFragmeto);
+	document.querySelector('.admin-publicacion-contenedor-general').appendChild($publicacionFragmetoModal);
+
+	// Despligue de informacion
+
+	// Publicaciones con estado 1
+	for(let tr of document.getElementById('admin-publicacion-tbody').children){
+		for(let td of tr.children){
+			if(parseInt(td.getAttribute('name')) >= 2){
+				if(parseInt(td.getAttribute('name')) === 4){
+					break;
+				};
+				if(td.firstElementChild.value !== ''){
+					td.firstElementChild.readOnly = true;
+					td.firstElementChild.disabled = true;
+					td.firstElementChild.required = true;
+				};
+			};
+		};
+	};
+	// Publicaciones con estado 1
+
+	//Eventos
+	window.addEventListener('load', e => {
+		let cargaFin = new Date();
+		let tpoCargaPag = (cargaFin - cargaInicio + 500) / 1000;
+		if(document.readyState == 'complete'){
+			actualizarProgreso();
+			document.querySelector('.admin-publicacion-readyState').style.animation = `desvanecer 1s ${tpoCargaPag}s linear forwards`;
+			setTimeout(() => document.querySelector('.admin-publicacion-readyState').remove() , tpoCargaPag * 1520);
+		};
+	});
+
+	window.addEventListener('resize', e => {
+		if(window.screen.width < 768){
+			document.querySelector('.admin-publicacion-contenedor-input__span').style.top = '-10px';
+		}else{
+			document.querySelector('.admin-publicacion-contenedor-input__span').style.top = '10px';
+		}
+	});
+
+	if(window.screen.width >= 768) document.querySelector('.admin-publicacion-contenedor-input__span').style.top = '10px';
+
+	const adminPublicacionEstadoSolicitudes = [];
+
+	document.addEventListener("click", e => {
+
+		if(/-publicacion-verDetalle?/.test(e.target.id)) {
+			let idModal = e.target.id.substring(0, e.target.id.indexOf('-'));
+			document.getElementById(`${idModal}-admin-publicacion-ventana-boton__button`).parentElement.parentElement.parentElement.parentElement.classList.remove('hidden');
+			document.getElementById(`${idModal}-admin-publicacion-ventana-boton__button`).parentElement.parentElement.parentElement.parentElement.style.animationName = 'abrirModal';
+		};
+		if(/-admin-publicacion-ventana-boton__button?/.test(e.target.id)){
+			let idModal = e.target.id.substring(0, e.target.id.indexOf('-'));
+			document.getElementById(`${idModal}-admin-publicacion-ventana-boton__button`).parentElement.parentElement.parentElement.parentElement.style.animationName = 'cerrarModal';
+			setTimeout(() => document.getElementById(`${idModal}-admin-publicacion-ventana-boton__button`).parentElement.parentElement.parentElement.parentElement.classList.add('hidden'), 500);
+		};
+		if(/-publicacion-publicar?/.test(e.target.id) || /-i-publicar?/.test(e.target.id)){
+			let idTr = e.target.id.substring(0, e.target.id.indexOf('-'));
+			let horaIni = document.getElementById(`${idTr}-publicacion-row__input-ini`).value;
+			let horaFin = document.getElementById(`${idTr}-publicacion-row__input-fin`).value;
+			let $tr = document.getElementById(`${idTr}-publicacion-row`);
+			let $filtroBtn = document.querySelector('.admin-publicacion-contenedor-input__btn');
+			let $filtroBtnBadge = document.querySelector('.admin-publicacion-contenedor-input__span');
+
+			// Remover Fila
+			$tr.style.transition = 'background .3s 0s linear';
+			$tr.style.animation = 'swipeLeft 3s .3s linear forwards';
+			$tr.style.backgroundColor = 'rgb(66, 153, 225)';
+			$tr.querySelectorAll('.admin-publicacion-table__td').forEach(td => {
+				td.style.opacity = '0';
+			});
+			setTimeout(() => {
+				$tr.remove();
+			}, 900);
+
+			// Desplegar Notificacion
+			desplegarNotificacion('blue', 'check', 'Solictud Aprobada');
+			
+			// Boton con Badge
+			adminPublicacionEstadoSolicitudes.push([idTr, horaIni, horaFin]);
+			$filtroBtn.disabled = false;
+			$filtroBtn.classList.remove('opacity-50');
+			$filtroBtn.classList.remove('cursor-not-allowed');
+			$filtroBtnBadge.classList.remove('hidden');
+			$filtroBtnBadge.textContent = adminPublicacionEstadoSolicitudes.length;
+
+		};
+		if(e.target.matches('.admin-publicacion-contenedor-input__btn')){
+			let datosSoli = '';
+			for(const arr of adminPublicacionEstadoSolicitudes){
+				datosSoli += `|${arr}`;
+			};
+			console.error(datosSoli);
+			
+			let formTemp = `
+			<form id="admin-publicacion-form-temp" action="" method="POST" class="hidden">
+				{% csrf_token %}
+				<input type="text" name="DATOS_SOLICITUDES" value="${datosSoli.substring(1, datosSoli.length)}" readonly>
+			</form>
+			`;
+
+			document.querySelector('.admin-publicacion-contenedor-general').innerHTML += formTemp;
+			document.getElementById('admin-publicacion-form-temp').submit();
+		};
+	});
+
+	// Inicializar Opciones Select
+	let cantidadEstados = [
+			{'No Publicada' : 0},
+			{'En Proceso' : 0},
+			{'Finalizada' : 0}
+		];
+	for(let tr of document.getElementById('admin-publicacion-tbody').children){
+		for(let td of tr.children){
+			if(parseInt(td.getAttribute('name')) === 4){
+				if(parseInt(td.getAttribute('name')) === 5){
+					break;
+				};
+				switch (td.textContent) {
+					case 'No Publicada':
+						cantidadEstados[0]['No Publicada'] += 1;
+						break;
+					case 'En Proceso':
+						cantidadEstados[1]['En Proceso'] += 1;
+						break;
+					case 'Finalizada':
+						cantidadEstados[2]['Finalizada'] += 1;
+						break;
+				};
+			};
+		};
+	};
+	let $optionSelect = document.getElementById('admin-publicacion-select-estado').children;
+	$optionSelect[1].textContent = `No Publicada (${cantidadEstados[0]['No Publicada']})`;
+	$optionSelect[2].textContent = `En Proceso (${cantidadEstados[1]['En Proceso']})`;
+	$optionSelect[3].textContent = `Finalizadas (${cantidadEstados[2]['Finalizada']})`;
+	// Inicializar Opciones Select
+
+	// Filtro Palabra Clave
+	document.addEventListener('input', e => {
+		if(e.target.matches('.admin-publicacion-contenedor-input__input')){
+			resetearFilasFn(document.getElementById('admin-publicacion-tbody'));
+			filtrarPalabraFn(e.target.value, document.getElementById('admin-publicacion-tbody'));
+		};
+
+		if(e.target.id === 'admin-publicacion-select-estado'){
+			resetearFilasFn(document.getElementById('admin-publicacion-tbody'));
+			if(e.target.value !== 'Selecciona Estado'){
+				filtrarPalabraFn(e.target.value, document.getElementById('admin-publicacion-tbody'));
+			};
+		};
+	});
+
+	document.addEventListener('focusout', e => {
+		if(/-publicacion-row__input/.test(e.target.id)){
+			let idInput = e.target.id.substring(0, e.target.id.indexOf('-'));
+			let $horaIni = (document.getElementById(`${idInput}-publicacion-row__input-ini`).value !== '')? parseInt(document.getElementById(`${idInput}-publicacion-row__input-ini`).value.replace(':','')) : -1;
+			let $horaFin = (document.getElementById(`${idInput}-publicacion-row__input-fin`).value !== '')? parseInt(document.getElementById(`${idInput}-publicacion-row__input-fin`).value.replace(':','')) : -1;
+			let fechaActual = new Date();
+			let horaActual = parseInt(`${fechaActual.getHours()}${fechaActual.getMinutes()}`);
+			let iniOfin = e.target.id[e.target.id.length-1]; // i = Hora Inicio | n = Hora Fin
+			let validacion = false
+			switch (iniOfin) {
+				case 'i':
+					if( horaActual >= $horaIni || ($horaIni === -1 && $horaFin === -1) ){
+						e.target.value = ''
+						desplegarNotificacion('red', 'times', 'Hora no valida');
+					};
+					break;
+				case 'n':
+					if( $horaIni >= $horaFin || ($horaIni === -1 && $horaFin === -1) ){
+						e.target.value = ''
+						desplegarNotificacion('red', 'times', 'Hora no valida');
+					};
+					break;
+			};
+			validacion = (horaActual < $horaIni && $horaIni < $horaFin && $horaIni !== -1 && $horaFin !== -1)? true : false; 
+			if(validacion){
+				let $trBtn = document.getElementById(`${idInput}-publicacion-publicar`);
+				
+				// Activar Boton Publicar
+				$trBtn.disabled = false;
+				$trBtn.classList.remove('opacity-50');
+				$trBtn.classList.remove('cursor-not-allowed');
+			};
+		};
+	});
+
+	function verificarRegistrosTabla(){
+		const $publicacionTarget = document.getElementById('admin-publicacion-tbody');
+		if($publicacionTarget.childElementCount === 0){
+			document.querySelector('.admin-publicacion-listado-vacio').classList.remove('hidden');
+			$publicacionTarget.parentElement.classList.add('hidden');
+		}else{
+			document.querySelector('.admin-publicacion-listado-vacio').classList.add('hidden');
+			$publicacionTarget.parentElement.classList.remove('hidden');
+		};
+	};
+
+	function filtrarPalabraFn(textoBuscado, tbodyElem){
+		let str = textoBuscado.toLowerCase();
+		let arrTemp = []
+		for (let tr of tbodyElem.children) {
+			for (let td of tr.children) {
+				if (parseInt(td.getAttribute('name')) <= 4) {
+					if (td.textContent.toLowerCase().includes(str)) {
+						arrTemp.push(tr.getAttribute('id'));
+						break;
+					};
+				};
+			};
+
+			if (!arrTemp.includes(tr.getAttribute('id'))) {
+				tr.style.display = 'none';
+			};
+		};
+	};
+
+	function resetearFilasFn(tbodyElem) {
+		for(let tr of tbodyElem.children){
+			(window.screen.width > 767)? tr.style.display = 'table-row' : tr.style.display = 'block';
+		};
+	};
+
+	function desplegarNotificacion(color, ico, msg){
+		let $contenedorToast = document.querySelector('.admin-toast-contenedorSubGeneral');
+		$contenedorToast.className = $contenedorToast.className.replace(/bg-\w+-500/, `bg-${color}-500`);
+		$contenedorToast.className = $contenedorToast.className.replace(/border-\w+-600/, `border-${color}-600`);
+		$contenedorToast.querySelector('i').className = $contenedorToast.querySelector('i').className.replace(/fa-\w+/, `fa-${ico}`);
+		$contenedorToast.querySelector('span').textContent = msg;
+		$contenedorToast.style.animation = 'swipeUp 2s 0s linear 2 alternate';
+		setTimeout(() => $contenedorToast.style.removeProperty('animation'), 4000);
+	};
+
+	function actualizarProgreso(){
+		document.querySelectorAll("td[name='1'] bdi").forEach(indicador => {
+		id = indicador.getAttribute('id').substr(0, indicador.getAttribute('id').indexOf('-'));
+		tdCantidadObtenida = document.getElementById(`${id}-admin-publicacion-modal`).querySelectorAll(`td[name="KILOS_OBTENIDOS"]`)
+		acum = 0
+
+		for (const td of tdCantidadObtenida) td.textContent !== '-' ? acum++ : false;
+
+		indicador.textContent = acum
+
+		});
+	};
+</script>
+
+
+{% endblock %}

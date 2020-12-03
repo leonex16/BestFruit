@@ -1,0 +1,70 @@
+<div class="contenedor-footer grid grid-cols-1 lg:grid-cols-3">
+    <div class="seccion">
+        <div class="seccion-titulo">
+            <h1 class="seccion-titulo__h1">BestFruit</h1>
+        </div>
+        <div class="seccion-imagen flex justify-center my-4">
+            <img src="/static/img/BestFruit.png" alt="Logo" class="seccion-imagen__img" />
+        </div>
+        <div class="seccion-info px-4">
+            <p class="seccion-info__p text-center">
+                En Best Fruit somos el puente de conexión entre los productores locales que desean exportar su fruta y las empresas extranjeras que necesitan aquellos productos. A su vez, somos una tienda virtual que facilita el abastecimiento de los hogares chilenos. 
+            </p>
+        </div>
+    </div>
+    <div class="seccion">
+        <div class="seccion-titulo">
+            <h1 class="seccion-titulo__h1">Menú</h1>
+        </div>
+        <div class="seccion-enlaces">
+            <ul class="{% url 'portalVentas:home' %}{% url 'portalVentas:informacionBestFruit' %}">
+                <a href="">
+                    <li class="seccion-enlaces__li my-6">Inicio</li>
+                </a>
+                <a href="{% url 'portalVentas:informacionBestFruit' %}#quienes-somos">
+                    <li class="seccion-enlaces__li my-6">Quiénes Somos</li>
+                </a>
+                <a href="{% url 'portalVentas:informacionBestFruit' %}#servicios">
+                    <li class="seccion-enlaces__li my-6">Servicios</li>
+                </a>
+                <a href="{% url 'portalVentas:informacionBestFruit' %}#agracimientos">
+                    <li class="seccion-enlaces__li my-6">Agradecimientos</li>
+                </a>
+            </ul>
+        </div>
+    </div>
+    <div class="seccion">
+        <div class="seccion-titulo">
+            <h1 class="seccion-titulo__h1">Contáctanos en...</h1>
+        </div>
+        <div class="seccion-contactos">
+            <div class="medio-contacto">
+                <div class="contenedor-icono">
+                    <i class="contenedor-icono__i fas fa-phone-square-alt"></i>
+                </div>
+                <div class="contenedor-texto">
+                    <span class="contenedor-texto__span">+56 9 4985 2049</span>
+                </div>
+            </div>
+            <div class="medio-contacto">
+                <div class="contenedor-icono">
+                    <i class="contenedor-icono__i fas fa-envelope-square"></i>
+                </div>
+                <div class="contenedor-texto">
+                    <span class="contenedor-texto__span">contacto@bestfruit.cl</span>
+                </div>
+            </div>
+            <div class="medio-contacto">
+                <div class="contenedor-icono">
+                    <i class="contenedor-icono__i fab fa-instagram-square"></i>
+                </div>
+                <div class="contenedor-texto">
+                    <span class="contenedor-texto__span">@BestFruit</span>
+                </div>
+            </div>
+        </div>
+        <div class="seccion-copyright">
+            <span class="seccion-copyright__span">&copy; 2020 BestFruit</span>
+        </div>
+    </div>
+</div>

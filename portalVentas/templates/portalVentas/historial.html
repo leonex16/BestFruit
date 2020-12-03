@@ -1,0 +1,11 @@
+{% extends 'portalVentas/usuario.html' %}
+
+{% block title %} {{ tituloPagina }} {% endblock %}
+
+{% block contentUsuario %}
+
+{% include 'portalVentas/include/historialComerciante.html' %}
+{% include 'portalVentas/include/historialExterno.html' %}
+{% include 'portalVentas/include/historialProductor.html' %}
+
+{% endblock %}

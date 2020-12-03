@@ -1,0 +1,73 @@
+{% extends 'portalVentas/base.html' %}
+
+{% block title %} {{ tituloPagina }} {% endblock %}
+
+{% block content%} 
+<div class="detalle-contenedor">
+        <div class="detalle-contenedor-titulo md:col-span-3">
+            <h1 class="detalle-contenedor-titulo__h1 md:px-20">{{ fruta.DES_ESPECIE|capfirst }} {{ fruta.DES_VARIEDAD|capfirst }}</h1>
+        </div>
+    <div class="detalle-contenedor-descripcion  md:grid-cols-3">
+        <div class="detalle-contenedor-imagen centrar-contenedor">
+            <img src="{{ fruta.IMAGEN }}" alt="{{ fruta.DES_ESPECIE|capfirst }} {{ fruta.DES_VARIEDAD|capfirst }}" class="detalle-contenedor-imagen__img">
+        </div>
+        <div class="detalle-contenedor-informacion md:col-span-2 md:m-0">
+            <div class="detalle-contenedor-precio md:text-left">
+            <span class="detalle-contenedor-precio__span " id="precioKilo">${{ fruta.PRECIO_KILO }}</span>
+            </div>
+            <form action="{% url 'portalVentas:transbank' id=fruta.ID_STOCK %}" method="POST">
+                {% csrf_token %}
+                <div class="detalle-contenedor-caracteristica md:my-2 md:h-48">
+                    <span class="detalle-contenedor-caracteristica__span">Caracteristicas</span>
+                    <ul>
+                        <!-- <li class="detalle-contenedor-caracteristica__li">Fecha Cosecha : {{ fruta.FECHA_COSECHA|date }}</li> -->
+                        <li class="detalle-contenedor-caracteristica__li mt-6">Cantidad Disponible: {{ fruta.KILOS }} Kilo{{ fruta.KILOS|pluralize }}</li>
+                    </ul>
+                    <div class="detalle-contenedor-input grid">
+                        <label for="detalle-input-cantidad" class="font-lato font-light my-2" id="detalle-label-cantidad">Cantidad a comprar: 1 Kg</label>
+                        <input type="range" name="DETALLE_INPUT_CANTIDAD" id="detalle-input-cantidad" class="input-slider hover:opacity-100 md:w-1/3" min="1" max="{{ fruta.KILOS }}" step="1" value="1">
+                    </div>
+                    <div class="detalle-contenedor-total">
+                        <span class="detalle-contenedor-total__span">Total:</span>
+                        <input name="DETALLE_INPUT_TOTAL" class="detalle-contenedor-total__span" id="total" value="" readonly></input>
+                    </div>
+                </div>
+                <div class="detalle-contenedor-btn centrar-contenedor md:m-0 md:justify-start md:items-end">
+                    <button type="submit" class="btn bg-green-500 w-3/4 md:w-1/3 text-white font-lato">Comprar</button>
+                </div>    
+            </form>
+        </div>
+    </div>
+</div>
+
+{% include 'portalVentas/include/oferta.html' %}
+
+<div class="my-10"></div>
+
+<script>
+    let dias = (new Date("{{ fruta.FECHA_ESTIMADA_VENCIMIENTO|date:'yy/m/d' }}") - new Date()) / (1000 * 3600 * 24);
+    if(dias <= 3){
+        let precioRebajado = parseInt(parseInt(parseInt(document.getElementById('precioKilo').textContent.substring(1, document.getElementById('precioKilo').textContent.length).replaceAll('.','') ,10) * 0.85));
+        document.getElementById('precioKilo').textContent = `$ ${ precioRebajado.toLocaleString('it-IT') }`;
+        document.getElementById('total').value = precioRebajado;
+    };
+    // Actualizar el valor del input slider
+    const $label = document.getElementById('detalle-label-cantidad');
+    const $input = document.getElementById('detalle-input-cantidad');
+    let frutaDisponible = `${$label.textContent.substring(0,$label.textContent.indexOf('1'))}`;
+    
+    // Actualizar precio por kilo
+    const $precioKilo = document.getElementById('precioKilo');
+    const precioKilo = parseInt($precioKilo.textContent.substring(1, $precioKilo.textContent.length).replaceAll('.','') ,10);
+    const $total = document.getElementById('total');
+        
+    const actualizarInput = e => {
+        $label.textContent = `${frutaDisponible} ${e.target.value} Kg`;
+        let precioFormateado = (parseInt(precioKilo) * parseInt(e.target.value, 10)).toLocaleString('it-IT');
+        $total.value = `$ ${precioFormateado}`;
+    };
+
+    $input.addEventListener('input', actualizarInput)
+
+</script>
+{% endblock %}

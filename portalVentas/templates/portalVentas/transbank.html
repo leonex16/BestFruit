@@ -1,0 +1,467 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <title>{{ tituloPagina }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.png' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+<!-- Pago Seguro WebPay -->
+
+<body style="background-color: #FAFBFD;">
+    <div class="transbank-contenedor-general mb-24 md:mb-0">
+        <!-- Linea -->
+        <div class="transbank-contenedor-linea flex">
+            <div class="transbank-contenedor-linea__linea h-4" style="background-color: #6B196B; flex-grow: 7;"></div>
+            <div class="transbank-contenedor-linea__linea h-4" style="background-color: #D5006C; flex-grow: 1;"></div>
+            <div class="transbank-contenedor-linea__linea h-4" style="background-color: #00C4B3; flex-grow: 2;"></div>
+        </div>
+        <!-- Navbar -->
+        <div class="transbank-contenedor-navbar">
+            <div class="flex justify-start md:justify-between mx-auto w-auto md:w-2/3 lg:w-2/3">
+                <div class="transbank-contenedor-logo">
+                    <a href="{% url 'portalVentas:transbank' id=fruta.ID_STOCK %}">
+                        <img src="/static/img/transbank/web-pay-logo.svg" alt="Logo Transbank"
+                            class="transbank-contenedor-logo__img ml-4" style="width: 150px; height: 100px;">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Body -->
+        <div class="transbank-contenedor-subGeneral xl:flex xl:justify-center rounded-lg mx-4 sm:mx-auto my-4">
+            <div class="transbank-contenedor-subGeneral2 grid grid-cols-1 bg-white mx-auto xl:mx-0 xl:w-5/12" style="box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .3);max-width: 38rem; min-height: 45rem;">
+                <!-- Resumen -->
+                <div class="transbank-contenedor-resumen pt-4 lg:col-span-2">
+                    <div class="transbank-contenedor-resumen-titulo text-center">
+                        <h2 class="transbank-contenedor-resumen-titulo__h2 font-lato" style="color: #303460;">ESTAS PAGANDO A <b>BEST FRUIT</b></h2>
+                    </div>
+    
+                    <div class="transbank-contenedor-detalle my-4 mx-auto" style="width: 20rem;">
+                        <div class="transbank-contenedor-fila flex flex-wrap">
+                            <div class="transbank-contenedor-columna w-32 text-left py-2">
+                                <span class="transbank-contenedor-columna__span font-lato font-medium" style="color: #303460;">Fruta</span>
+                            </div>
+                            <div class="transbank-contenedor-columna flex-grow text-left py-2">
+                                <span
+                                    class="transbank-contenedor-columna__span font-lato font-light" style="color: #303460;">{{ fruta.DES_ESPECIE }}
+                                    {{ fruta.DES_VARIEDAD }}</span>
+                            </div>
+                        </div>
+                        <div class="transbank-contenedor-fila flex flex-wrap">
+                            <div class="transbank-contenedor-columna w-32  text-left py-2">
+                                <span class="transbank-contenedor-columna__span font-lato font-medium" style="color: #303460;">Cantidad</span>
+                            </div>
+                            <div class="transbank-contenedor-columna flex-grow text-left py-2">
+                                <span
+                                    class="transbank-contenedor-columna__span font-lato font-light" style="color: #303460;">{{ inputName.DETALLE_INPUT_CANTIDAD }}
+                                    Kg</span>
+                            </div>
+                        </div>
+                        <div class="transbank-contenedor-fila flex flex-wrap">
+                            <div class="transbank-contenedor-columna w-32  text-left py-2">
+                                <span class="transbank-contenedor-columna__span font-lato font-medium" style="color: #303460;">Total</span>
+                            </div>
+                            <div class="transbank-contenedor-columna flex-grow text-left py-2">
+                                <span
+                                    class="transbank-contenedor-columna__span font-lato font-light" style="color: #303460;">$ {{ inputName.DETALLE_INPUT_TOTAL }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Medios de Pago -->
+                <div class="transbank-contenedor-mediosDePagos grid grid-cols-2 items-stretch lg:col-span-2 mx-auto" style="max-width: 26rem;">
+                    <div class="transbank-contenedor-mediosDePagos-titulo my-4 col-span-2 pl-4">
+                        <p class="transbank-contenedor-mediosDePagos-titulo__p font-lato font-light" style="color: #303460;">Selecciona tu medio de pago:</p>
+                    </div>
+    
+                    <!-- One Pay -->
+                    <div class="transbank-contenedor-tipoPago relative bg-white rounded-2xl w-48 h-32 mx-auto my-2" data-id="one-pay" data-btn='btn-medio-pago' style="cursor: pointer; box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .3);">
+                        <div class="transbank-contenedor-tipoPago-tarjeta flex justify-around align-middle p-8" data-id="one-pay" data-btn='btn-medio-pago'>
+                            <img src="/static/img/transbank/one-pay.svg" alt="One Pay" class="transbank-contenedor-tipoPago-tarjeta__img w-24 h-16" data-id="one-pay" data-btn='btn-medio-pago'>
+                        </div>
+                    </div>
+                    <!-- Débito -->
+                    <div class="transbank-contenedor-tipoPago relative bg-white rounded-2xl w-48 h-32 mx-auto my-2" data-id="debito" data-btn='btn-medio-pago' style="cursor: pointer; box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .3);">
+                        <div class="transbank-contenedor-tipoPago-tarjeta flex flex-col h-full justify-center" data-id="debito" data-btn='btn-medio-pago'>
+                            <img src="/static/img/transbank/debito.svg" alt="Débito" class="transbank-contenedor-tipoPago-tarjeta__img w-10 h-6 mx-auto mb-2" data-id="debito" data-btn='btn-medio-pago'>
+                            <h3 class="transbank-contenedor-tipoPago-titulo__h3 font-lato font-medium text-center" style="color: #303460;" data-id="debito" data-btn='btn-medio-pago'>Débito</h3>
+                        </div>
+                    </div>
+                    <!-- Crédito -->
+                    <div class="transbank-contenedor-tipoPago relative bg-white rounded-2xl w-48 h-32 mx-auto my-2" data-id="credito" data-btn='btn-medio-pago' style="cursor: pointer; box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .3);">
+                        <div class="transbank-contenedor-tipoPago-tarjeta flex flex-col h-full justify-center" data-id="credito" data-btn='btn-medio-pago'>
+                            <img src="/static/img/transbank/credito.svg" alt="Débito" class="transbank-contenedor-tipoPago-tarjeta__img w-10 h-6 mx-auto mb-2" data-id="credito" data-btn='btn-medio-pago'>
+                            <h3 class="transbank-contenedor-tipoPago-titulo__h3 font-lato font-medium text-center" style="color: #303460;" data-id="credito" data-btn='btn-medio-pago'>Crédito</h3>
+                        </div>
+                    </div>
+                    <!-- Prepago -->
+                    <div class="transbank-contenedor-tipoPago relative bg-white rounded-2xl w-48 h-32 mx-auto my-2" data-id="prepago" data-btn='btn-medio-pago' style="cursor: pointer; box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .3);">
+                        <div class="transbank-contenedor-tipoPago-tarjeta flex flex-col h-full justify-center" data-id="prepago" data-btn='btn-medio-pago'>
+                            <img src="/static/img/transbank/prepago.svg" alt="Débito" class="transbank-contenedor-tipoPago-tarjeta__img w-10 h-6 mx-auto mb-2" data-id="prepago" data-btn='btn-medio-pago'>
+                            <h3 class="transbank-contenedor-tipoPago-titulo__h3 font-lato font-medium text-center" style="color: #303460;" data-id="prepago" data-btn='btn-medio-pago'>Prepago</h3>
+                        </div>
+                    </div>
+    
+                    <!-- Anular compra y volver al comercio -->
+                    <div class="transbank-contenedor-volver col-span-2 m-4">
+                        <a href="{% url 'portalVentas:home' %}">
+                            <p class="transbank-contenedor-volver__p font-lato text-lg" style="color:  #00C4B3;">
+                                <bdi class="transbank-contenedor-volver__bdi mr-2"> < </bdi>Anular compra y volver al comercio
+                            </p>
+                        </a>
+                    </div>
+                    <!-- Footer -->
+                    <div class="transbank-contenedor-seguridad flex items-center col-span-2 mt-10 mb-5 mx-4 bg-white">
+                        <img src="/static/img/transbank/security.svg" alt="Escudo"
+                            class="transbank-contenedor-seguridad__img w-8 h-8">
+                        <span class="transbank-contenedor-seguridad__span font-lato ml-2" style="color: rgba(48,52,96, .8);">
+                            Esta transacción se está realizando bajo un sistema seguro,
+                            <bdi class="transbank-contenedor-seguridad__bdi" style="color:  #00C4B3;">
+                                políticas de seguridad
+                            </bdi>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- Modulo datos tarjeta -->
+            <div class="transbank-contenedor-datosTarjera rounded-lg xl:w-5/12 mx-auto xl:mx-0 hidden" style="background-color: #F6F7FB; box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .3); max-width: 38rem; min-height: 45rem;">
+            </div>
+        </div>
+
+
+        <!-- Procesar Pago -->
+        <div class="transbank-contenedor-procesarPago flex flex-col justify-center items-center rounded-lg m-4 m-auto hidden"
+            style="height: 25rem; background-color: #F6F7FB; box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .3); width: 26.4rem;">
+            <div class="transbank-contenedor-procesarPago-logo flex flex-col justify-center items-center">
+                <i class="fas fa-circle-notch text-4xl my-10 animate-spin " style="color: #6B196B"></i>
+                <img src="/static/img/transbank/web-pay-logo.svg" alt="Logo Transbank" class="transbank-contenedor-procesarPago-logo__img w-40 h-16 my-5">
+            </div>
+            <div class="transbank-contenedor-procesarPago-informacion text-center mt-4">
+                <span class="transbank-contenedor-procesarPago-informacion__span font-lato font-medium text-lg" style="color: rgb(48,52,96);">Estamos procesando el pago.</span>
+            </div>
+        </div>
+    </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        let okSelect = false;
+        let okInput = false;
+
+        //VALIDACIONES
+        const validarSelect = valueSelect => {
+            if (parseInt(valueSelect, 10) !== 0) {
+                document.querySelectorAll('.transbank-contenedor-datosTarjera-grupo')[1].classList.remove('hidden');
+                document.querySelectorAll('.transbank-contenedor-datosTarjera-grupo')[2].classList.remove('hidden');
+                okSelect = true;
+                return true;
+            } else {
+                document.querySelectorAll('.transbank-contenedor-datosTarjera-grupo')[1].classList.add('hidden');
+                document.querySelectorAll('.transbank-contenedor-datosTarjera-grupo')[2].classList.add('hidden');
+                okSelect = false;
+                return false;
+            }
+        };
+
+        function formatoTarjeta(nTarjeta) {
+            nTarjetaFormateado = ''
+            for (let i = 0; i < nTarjeta.length; i++) {
+                nTarjetaFormateado += nTarjeta[i]
+                if (i === 3 || i === 7 || i === 11) {
+                    nTarjetaFormateado += ' '
+                }
+            }
+            return nTarjetaFormateado;
+        };
+
+        function validarInput(valueInput) {
+            if (/^[0-9]{16}$/.test(valueInput)) {
+                document.querySelector('.transbank-contenedor-datosTarjera-grupo__input').classList.remove(
+                    'border-red-500');
+                document.querySelector('.transbank-contenedor-datosTarjera-grupo__p').classList.add('hidden');
+                okInput = true;
+                return true;
+            } else {
+                document.querySelector('.transbank-contenedor-datosTarjera-grupo__input').classList.add(
+                    'border-red-500');
+                document.querySelector('.transbank-contenedor-datosTarjera-grupo__p').classList.remove('hidden');
+                okInput = false;
+                return false;
+            }
+        };
+        
+        function msjMedioPago(idMp){
+            let $transbankContenedorDatosTarjera = document.querySelector('.transbank-contenedor-datosTarjera');
+            let $tempDiv = document.createElement('div');
+            $tempDiv.setAttribute('id','contendor-eliminar');
+            $tempDiv.style.maxWidth = '26rem';
+            $tempDiv.classList.add('mx-auto');
+            let numeroRandom = Math.round((Math.random() * (99999999 - 10000000)) + 10000000);
+            let strMP;
+            let logoTarjetas;
+
+            let costoVenta = '{{ inputName.DETALLE_INPUT_TOTAL }}'.split(' ')[1].replaceAll('.', '');
+            
+            switch(idMp){
+                case 'one-pay':
+                    strMP = '';
+                    break;
+
+                case 'debito':
+                    strMP = 'Débito';
+                    logoTarjetas = `
+                        <div id="contenedor-logo-tarjeta" class="flex justify-evenly hidden">
+                            <img src="/static/img/transbank/redcompra.svg" alt="redcompra" class="w-10 h-8">
+                            <img src="/static/img/transbank/visa.svg" alt="visa" class="w-10 h-8">
+                            <img src="/static/img/transbank/maestro.svg" alt="maestro" class="w-10 h-8">
+                        </div>
+                        `;
+                    break;
+
+                case 'credito':
+                    strMP = 'Crédito';
+                    logoTarjetas = `
+                        <div id="contenedor-logo-tarjeta" class="flex justify-evenly hidden">
+                            <img src="/static/img/transbank/visa.svg" alt="visa" class="w-10 h-8">
+                            <img src="/static/img/transbank/master.svg" alt="master" class="w-10 h-8">
+                            <img src="/static/img/transbank/american.svg" alt="american" class="w-10 h-8">
+                            <img src="/static/img/transbank/dinners.svg" alt="dinners" class="w-10 h-8">
+                            <img src="/static/img/transbank/magna.svg" alt="magna" class="w-10 h-8">
+                        </div>
+                        `;
+                    break;
+
+                case 'prepago':
+                    strMP = 'Prepago';
+                    logoTarjetas = `
+                        <div id="contenedor-logo-tarjeta" class="flex justify-evenly hidden">
+                            <img src="/static/img/transbank/redcompra-prepago.svg" alt="redcompra-prepago" class="w-10 h-8">
+                            <img src="/static/img/transbank/visa.svg" alt="visa" class="w-10 h-8">
+                            <img src="/static/img/transbank/master.svg" alt="master" class="w-10 h-8">
+                        </div>
+                        `;
+                    break;
+            };
+
+            if(idMp !== 'one-pay'){
+                $tempDiv.innerHTML += `
+                    <div class="transbank-contenedor-resumen pt-4 lg:col-span-2 block xl:hidden">
+                        <div class="transbank-contenedor-resumen-titulo text-center">
+                            <h2 class="transbank-contenedor-resumen-titulo__h2 font-lato" style="color: #303460;">ESTAS PAGANDO A <b>BEST FRUIT</b></h2>
+                        </div>
+        
+                        <div class="transbank-contenedor-detalle my-4 mx-auto" style="width: 20rem;">
+                            <div class="transbank-contenedor-fila flex flex-wrap">
+                                <div class="transbank-contenedor-columna w-32 text-left py-2">
+                                    <span class="transbank-contenedor-columna__span font-lato font-medium" style="color: #303460;">Fruta</span>
+                                </div>
+                                <div class="transbank-contenedor-columna flex-grow text-left py-2">
+                                    <span
+                                        class="transbank-contenedor-columna__span font-lato font-light" style="color: #303460;">{{ fruta.DES_ESPECIE }}
+                                        {{ fruta.DES_VARIEDAD }}</span>
+                                </div>
+                            </div>
+                            <div class="transbank-contenedor-fila flex flex-wrap">
+                                <div class="transbank-contenedor-columna w-32  text-left py-2">
+                                    <span class="transbank-contenedor-columna__span font-lato font-medium" style="color: #303460;">Cantidad</span>
+                                </div>
+                                <div class="transbank-contenedor-columna flex-grow text-left py-2">
+                                    <span
+                                        class="transbank-contenedor-columna__span font-lato font-light" style="color: #303460;">{{ inputName.DETALLE_INPUT_CANTIDAD }}
+                                        Kg</span>
+                                </div>
+                            </div>
+                            <div class="transbank-contenedor-fila flex flex-wrap">
+                                <div class="transbank-contenedor-columna w-32  text-left py-2">
+                                    <span class="transbank-contenedor-columna__span font-lato font-medium" style="color: #303460;">Total</span>
+                                </div>
+                                <div class="transbank-contenedor-columna flex-grow text-left py-2">
+                                    <span
+                                        class="transbank-contenedor-columna__span font-lato font-light" style="color: #303460;">$ {{ inputName.DETALLE_INPUT_TOTAL }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="datos-pago" class="grid grid-col-2 p-2">
+                        <div class="transbank-contenedor-datosTarjera-titulo">
+                            <h3 class="transbank-contenedor-datosTarjera-titulo__h3 font-lato font-bold text-2xl" style="color: #303460;">${strMP}</h3>
+                        </div>
+                        <div class="transbank-contenedor-datosTarjera-cambiar">
+                            <p id="cambiar-MP" class="transbank-contenedor-datosTarjera-cambiar__p font-lato font-medium cursor-pointer text-right pt-1 block xl:hidden" style="color: #6B196B;">Cambiar</p>
+                        </div>
+                        <div class="transbank-contenedor-datosTarjera-datosLabel col-span-2 my-2 font-semibold" style="color: #303460;">
+                            <p class="transbank-contenedor-datosTarjera-datosLabel__p font-lato">Ingresa los datos de tu tarjeta: </p>
+                        </div>
+                    </div>
+                    <div class="transbank-contenedor-datosTarjera-inputs px-2">
+                        <form action="{% url 'portalVentas:home' %}" method="POST">
+                            {% csrf_token %}
+                            <input name="ID_VENTA_LOCAL" type="text" readonly value="{{ id_venta_local }}" style="display: none;">
+                            <input name="TOTAL_VENTA" type="text" readonly value="${costoVenta}" style="display: none;">
+                            <div class="transbank-contenedor-datosTarjera-grupo my-4 flex flex-col">
+                                <label for="SELECT-BANCO"
+                                    class="transbank-contenedor-datosTarjera-grupo__label font-lato text-gray-700 text-base font-semibold my-2">Banco</label>
+                                <select name="SELECT_BANCO" id="select-banco"
+                                    class="transbank-contenedor-datosTarjera-grupo__select border border-gray-500 p-2">
+                                    <option value="0" selected>SELECCIONA BANCO</option>
+                                    <option value="1"><span>BANCO SANTANDER</span></option>
+                                    <option value="2"><span>BANCO ITAU</span></option>
+                                    <option value="3"><span>BCI-TBANC</span></option>
+                                    <option value="4"><span>BANCO FALABELLA</span></option>
+                                    <option value="5"><span>CORPBANCA</span></option>
+                                    <option value="6"><span>BANCO DE CHILE / EDWARDS CITI</span></option>
+                                    <option value="7"><span>BANCO ESTADO</span></option>
+                                    <option value="8"><span>BANCO BICE</span></option>
+                                    <option value="9"><span>BANCO SECURITY</span></option>
+                                    <option value="10"><span>BANCO CONSORCIO</span></option>
+                                    <option value="11"><span>BANCO RIPLEY</span></option>
+                                    <option value="12"><span>BANCO INTERNACIONAL</span></option>
+                                    <option value="13"><span>SCOTIABANK</span></option>
+                                    <option value="14"><span>COOPEUCH</span></option>
+                                </select>
+                            </div>
+                            <div class="transbank-contenedor-datosTarjera-grupo my-4 flex flex-col hidden">
+                                <label for="INPUT_NUMERO_TARJETA"
+                                    class="transbank-contenedor-datosTarjera-grupo__label font-lato text-gray-700 text-base font-semibold my-2">Número de tarjeta</label>
+                                <input id="input-numeroTarjeta" type="text"
+                                    class="transbank-contenedor-datosTarjera-grupo__input border border-gray-500 p-2"
+                                    placeholder="XXXX XXXX XXXX XXXX">
+                                <p class="transbank-contenedor-datosTarjera-grupo__p text-red-500 hidden">Número de tarjeta no válido. Debe contener 16 dígitos.</p>
+                            </div>
+                            <div class="transbank-contenedor-datosTarjera-grupo my-10 hidden">
+                                <button type="button" name="button-banco" id="button-banco"
+                                    class="transbank-contenedor-datosTarjera-grupo__button font-lato font-extrabold p-2 w-full opacity-50 cursor-not-allowed rounded-sm text-white"
+                                    style="background-color: #6B196B;">Pagar</button>
+                            </div>
+                        </form>
+                    </div>
+                `;
+
+                $tempDiv.innerHTML += logoTarjetas;
+            } else{
+                $tempDiv.innerHTML = `
+                    <div id="contendor-eliminar" class="grid grid-cols-1 gap-y-4">
+                        <div class="my-4">
+                            <h3 class="font-lato font-semibold text-center">Escanea tu Código QR</h3>
+                        </div>
+                        <div class="bg-white rounded-2xl" style="box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .3);">
+                            <p id="cambiar-MP" class="transbank-contenedor-datosTarjera-cambiar__p font-lato font-medium cursor-pointer pt-1 text-right mr-4 block xl:hidden" style="color: #6B196B;">Cambiar</p>
+                            <figure class="my-10">
+                                <img src="/static/img/transbank/qr-code.png" alt="QR" class="w-40 h-40 mx-auto">
+                                <figcaption>
+                                    <p class="font-lato font-light text-center">Código de compra</p>
+                                    <p class="font-lato font-bold text-center">${numeroRandom}</p>
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <div class="">
+                            <figure>
+                                <figcaption>
+                                    <p class="font-lato font-light text-center">Escanea el código con tu aplicación*</p>
+                                </figcaption>
+                                <img src="/static/img/transbank/onepay-color.svg" alt="one-pay-color" class="w-18 h-10 mx-auto mt-6">
+                            </figure>
+                        </div>
+                        <div class="mx-2">
+                            <div class="">
+                                <p class="font-lato font-light">Descárgala en:</p>
+                            </div>
+                            <div class="flex">
+                                <img src="/static/img/transbank/google-play.svg" alt="google-play" class="w-16 h-10 mr-2 cursor-pointer">
+                                <img src="/static/img/transbank/app-store.svg" alt="app-store" class="w-16 h-10 mx-2 cursor-pointer">
+                                <img src="/static/img/transbank/appgallery.svg" alt="app-gallery" class="w-16 h-10 mx-2 cursor-pointer">
+                            </div>
+                        </div>
+                    </div>
+                `;
+            };
+            $transbankContenedorDatosTarjera.insertAdjacentElement('afterbegin', $tempDiv);
+        };
+
+        function DesactivarMedioPago(){
+            let $iCheckCircle = document.querySelector('.fa-check-circle');
+            let $elementoBorrarEstilo = document.querySelector('.transbank-contenedor-tipoPago--seleccionado');
+            
+            $iCheckCircle !== null ? $iCheckCircle.remove() : false;
+            if($elementoBorrarEstilo !== null){
+                $elementoBorrarEstilo.style.border = '0px none transparent';
+                $elementoBorrarEstilo.classList.remove('transbank-contenedor-tipoPago--seleccionado');
+            };
+        };
+
+        function activarMedioPago(idMP){
+            let $btnMP = document.querySelector(`.transbank-contenedor-tipoPago[data-id="${idMP}"]`);
+
+            DesactivarMedioPago();
+
+            $btnMP.style.border = '2px solid #6B196B';
+            $btnMP.innerHTML += '<i class="far fa-check-circle absolute text-2xl top-0 right-0 m-2" style="color: #6B196B;"></i>';
+            $btnMP.classList.add('transbank-contenedor-tipoPago--seleccionado');
+        };
+
+        function eliminarContenedorMP(){
+            let $contenedorMP = document.getElementById('contendor-eliminar');
+            $contenedorMP !== null ? $contenedorMP.remove() : false;
+        };
+        
+        // EVENTOS
+        document.addEventListener('click', e => {
+            if (e.target.getAttribute('data-btn') === 'btn-medio-pago') {
+                eliminarContenedorMP();
+                msjMedioPago(e.target.getAttribute('data-id'));
+                activarMedioPago(e.target.getAttribute('data-id'));
+                if(window.screen.width < 1280){
+                    document.querySelector('.transbank-contenedor-subGeneral2').classList.add('hidden');
+                };
+                document.querySelector('.transbank-contenedor-datosTarjera').classList.remove('hidden');
+            };
+
+            if (e.target.matches('.transbank-contenedor-datosTarjera-grupo__button') && okInput) {
+                document.querySelector('.transbank-contenedor-navbar').classList.add('invisible');
+                document.querySelector('.transbank-contenedor-subGeneral').classList.add('hidden');
+                document.querySelector('.transbank-contenedor-subGeneral').classList.add('xl:hidden');
+                document.querySelector('.transbank-contenedor-procesarPago').classList.remove('hidden');
+                setTimeout(() => document.querySelector('form').submit(), 3000);
+            };
+
+            if(e.target.id === 'cambiar-MP'){
+                DesactivarMedioPago();
+                document.querySelector('.transbank-contenedor-datosTarjera').children[0].remove();
+                document.querySelector('.transbank-contenedor-subGeneral2').classList.remove('hidden');
+            };
+
+        });
+
+        document.addEventListener('input', e =>  {
+            if(e.target.matches('.transbank-contenedor-datosTarjera-grupo select')){
+                validarSelect(e.target.value) ?  document.getElementById('contenedor-logo-tarjeta').classList.remove('hidden') : document.getElementById('contenedor-logo-tarjeta').classList.add('hidden');
+            };
+        });
+
+        document.addEventListener('focusout', e => {
+
+            if (e.target.matches('.transbank-contenedor-datosTarjera-grupo input')) {
+                if (validarInput(e.target.value)) {
+                    e.target.value = formatoTarjeta(e.target.value);
+                };
+            };
+            if (okSelect && okInput) {
+                document.getElementById('button-banco').classList.remove('opacity-50');
+                document.getElementById('button-banco').classList.remove('cursor-not-allowed');
+            } else {
+                document.getElementById('button-banco').classList.add('opacity-50');
+                document.getElementById('button-banco').classList.add('cursor-not-allowed');
+            }
+        });
+
+        document.querySelector('form').addEventListener('submit', e => {
+            e.preventDefault()
+        });
+
+    </script>
+  <script src="https://kit.fontawesome.com/f126795e7d.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

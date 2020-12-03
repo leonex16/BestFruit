@@ -1,0 +1,461 @@
+{% extends 'administrador/base.html' %}
+
+{% block title %} {{ tituloPagina }} {% endblock %}
+
+{% block content %} 
+
+<div class="admin-ordenCompra-contenedor-general m-4 mb-20 md:mb-0 sm:ml-24">
+	<div class="admin-ordenCompra-readyState fixed top-0 left-0 z-20 w-full h-full flex items-center justify-center" style="background-color: rgba(26, 32, 44, .9)">
+		<div class="admin-ordenCompra-contenedor">
+			<figure class="text-left">
+				<img src="/static/img/BestFruit.png" alt="Logo" class="admin-ordenCompra-readyState__img w-32 h-32 m-4">
+				<figcaption class="admin-ordenCompra-readyState__figcaption font-lato text-2xl text-white mx-auto">Cargando... &nbsp; &nbsp; &nbsp;</figcaption>
+			</figure>
+		</div>
+	</div>
+	<div class="admin-ordenCompra-header">
+		<h1 class="admin-ordenCompra-header__h1 font-lato">ORDENES DE COMPRA</h1>
+		<p class="admin-ordenCompra-header__p font-lato text-lg">
+			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nisi illum fugit soluta totam suscipit, provident
+			numquam error harum velit placeat sequi, voluptate reiciendis, deleniti itaque laboriosam earum maxime? Eum,
+			laudantium.
+		</p>
+	</div>
+	<div class="admin-ordenCompra-body">
+		<div class="admin-ordenCompra-filtro grid grid-cols-1 my-2 md:grid-cols-3 lg:grid-cols-5 md:gap-x-2">
+			<div class="admin-ordenCompra-filtro-titulo md:col-span-5">
+				<h3 class="admin-ordenCompra-filtro__h3 font-lato font-bold">Filtros</h3>
+			</div>
+			<div class="admin-ordenCompra-contenedor-input my-2 lg:col-span-2">
+				<label for="buscador">Palabra Clave</label>
+				<!-- EL EVENTO 'ONKEYPRESS' NO FUNCIONA CORRECTAMENTE SI SE ENCUETRA DENTRO DE UNA ETIQUETA SCRIPT, POR ESE MOTIVO, SE COLOCA EN EL INPUT  -->
+				<!-- LA VALIDACION CONSTA DE LO SIGUIENTE  -->
+				<!-- [0-9] || @ [A-Z] || [a-z] || [ ' ' || - || . || _ ] -->
+				<input type="text" name="buscador" id="buscador" class="admin-ordenCompra-contenedor-input__input input" onkeypress="return (event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 64 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122) || (event.keyCode === 32 || event.keyCode === 45 || event.keyCode === 46 || event.keyCode === 95)">	
+			</div>
+			<div class="admin-ordenCompra-contenedor-input grid grid-cols-2 gap-x-2 my-2 lg:col-span-2">
+				<div class="admin-ordenCompra-contenedor-input-fecha">
+				<label for="buscador">Fecha Desde</label>
+				<input type="text" name="fecha-desde" id="fecha-desde" class="admin-ordenCompra-contenedor-input-fecha__input input">
+				</div>
+				<div class="admin-ordenCompra-contenedor-input-fecha">
+				<label for="buscador">Fecha Hasta</label>
+				<input type="text" name="fecha-hasta" id="fecha-hasta" class="admin-ordenCompra-contenedor-input-fecha__input input">
+				</div>
+            </div>
+            <div class="admin-ordenCompra-contenedor-input my-2 md:col-span-2 lg:col-span-1">
+				<label for="admin-ordenCompra-select-estado">Estado Orden</label>
+				<select name="admin-ordenCompra-select-estado" id="admin-ordenCompra-select-estado" class="input">
+					<option value="Selecciona Estado">Selecciona Estado</option>
+					<option value="Iniciado"></option>
+					<option value="En Camino"></option>
+					<option value="Recibido"></option>
+					<option value="Rechazado"></option>
+				</select>
+			</div>
+		</div>
+		<div class="admin-ordenCompra-listado">
+			<table class="admin-ordenCompra-table overflow-hidden md:w-full" role="table">
+				<thead class="admin-ordenCompra-table__thead" role="rowgroup">
+					<th class="admin-ordenCompra-table__thead-th w-auto md:w-1/6 font-lato border border-gray-400 md:border-0 md:text-white md:text-sm md:border-b md:border-gray-500 md:bg-gray-500 md:p-2 rounded-tl-md"
+						role="columnheader">N° ORDEN</th>
+					<th class="admin-ordenCompra-table__thead-th w-auto md:w-1/6 font-lato border border-gray-400 md:border-0 md:text-white md:text-sm md:border-b md:border-gray-500 md:bg-gray-500 md:p-2"
+						role="columnheader">N° SOLICITUD</th>
+					<th class="admin-ordenCompra-table__thead-th w-auto md:w-1/6 font-lato border border-gray-400 md:border-0 md:text-white md:text-sm md:border-b md:border-gray-500 md:bg-gray-500 md:p-2"
+						role="columnheader">FECHA DE RECEPCIÓN</th>
+					<th class="admin-ordenCompra-table__thead-th w-auto md:w-1/6 font-lato border border-gray-400 md:border-0 md:text-white md:text-sm md:border-b md:border-gray-500 md:bg-gray-500 md:p-2"
+						role="columnheader">ESTADO ORDEN</th>					
+					<th class="admin-ordenCompra-table__thead-th w-auto md:w-1/6 font-lato border border-gray-400 md:border-0 md:text-white md:text-sm md:border-b md:border-gray-500 md:bg-gray-500 md:p-2 rounded-tr-md"
+						role="columnheader">ACTUALIZAR</th>
+				</thead>
+
+				<tbody role="rowgroup" id="admin-ordenCompra-tbody">
+                    {% for row in view_pedidos %}
+                        <tr role="trow" id="{{ row.ID_ORDEN }}-ordenCompra-row" class="admin-ordenCompra-table__tr relative">
+                            <td name="0" class="admin-ordenCompra-table__td font-lato border-t-2 border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">{{ row.ID_ORDEN }}</td>
+                            <td name="1" class="admin-ordenCompra-table__td font-lato border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">{{ row.ID_SOLICITUD }}</td>
+                            <td name="2" class="admin-ordenCompra-table__td font-lato border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">
+                                <input type="text" id="{{ row.ID_ORDEN }}-ordenCompra-row__input-fechaRecepcion" value="{{ row.FECHA_RECEPCION|date:'d/m/yy'|default:'No Recibido' }}" class="fecha-recepcion w-24 bg-transparent focus:outline-none focus:bg-transparent">
+                                <i id="{{ row.ID_ORDEN }}-editar-fecha-recepcion" class="fas fa-pencil-alt text-lg cursor-pointer"></i>
+                            </td>
+                            <td name="3" class="admin-ordenCompra-table__td font-lato border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">{{ row.DESC_ESTADO }}</td>
+                            <td name="4" class="admin-ordenCompra-table__td font-lato border-b-2 border-l-2 border-r-2 border-gray-500 md:border-0 md:text-sm md:text-center md:border-b md:border-gray-500 md:p-2" role="cell">
+                                <div class="flex flex-row md:justify-center">
+                                    <button id="{{ row.ID_ORDEN }}-ordenCompra-guardar" type="button" class="admin-ordenCompra-table__td-button-publicar btn bg-blue-500 font-lato text-white text-sm mt-1 md:mx-auto opacity-50 cursor-not-allowed" style="width: 7rem;" disabled><i id="{{ row.ID_ORDEN }}-i-guardar" class="far fa-save text-2xl"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<div class="admin-ordenCompra-vacio text-center mt-12 hidden sm:mt-16 md:mt-40 lg:mt-56">
+			<h2 class="admin-ordenCompra-vacio__h2 opacity-50">No se encuentran registros de ordenes de compra.</h2>
+			<i class="fas fa-file-invoice-dollar opacity-25 my-4" style="font-size: 10rem;"></i>
+		</div>
+	</div>
+</div>
+
+<style>
+	/*
+Max width before this PARTICULAR table gets nasty. This query will take effect for any full smaller than 760px and also iPads specifically.
+*/
+	@media only screen and (max-width: 767px) {
+
+        /* Force table to not be like tables anymore */
+        table[role='table'],
+        thead[role='rowgroup'],
+        tbody[role='rowgroup'],
+        th[role='columnheader'],
+        td[role='cell'],
+        tr[role='trow'] {
+            display: block;
+        }
+
+        /* Hide table headers (but not display: none;, for accessibility) */
+        thead[role='rowgroup'] th[role='columnheader'] {
+            display: none;
+        }
+
+        tr[role='trow'] {
+            margin: 0 0 1rem 0;
+        }
+
+        td[role='cell'] {
+            position: relative;
+            padding-left: 50%;
+            height: 50px;
+            line-height: 45px;
+        }
+
+        td[role='cell']:before {
+            /* Now like a table header */
+            position: absolute;
+            /* Top/left values mimic padding */
+            line-height: 45px;
+            left: 20px;
+            width: 45%;
+            /* padding-right: 10px; */
+            white-space: nowrap;
+        }
+
+        /*
+    Label the data
+    You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
+    */
+
+        td[role='cell']:nth-of-type(1):before {
+            content: "N° ORDEN";
+        }
+
+        td[role='cell']:nth-of-type(2):before {
+            content: "N° SOLICITUD";
+        }
+
+        td[role='cell']:nth-of-type(3):before {
+            content: "FECHA RECEPCIÓN";
+        }
+
+        td[role='cell']:nth-of-type(4):before {
+            content: "ESTADO ORDEN";
+        }
+
+        td[role='cell']:nth-of-type(5):before {
+            content: "ACTUALIZAR";
+        }
+
+    
+    }
+
+
+	@keyframes readyStateImg{
+		from {
+			transform: none;
+		}
+
+		to {
+			transform: scale(1.2, 1.2);
+		}
+	}
+
+	@keyframes typewriter{
+		from{
+			width: 0;
+		}
+		to{
+			width: 80%;
+		}
+	}
+
+	@keyframes desvanecer{
+		from{
+			opacity: 1;
+		}
+		to{
+			opacity: 0;
+		}
+	}
+
+	@keyframes swipeLeft{
+		from{
+			left: 0;
+		}
+		to{
+			left: 10000px;
+		}
+	}
+
+	.admin-ordenCompra-readyState__figcaption{
+		animation: typewriter 2s cubic-bezier(1, 1, 0.2, 0.6) 0s infinite;
+		white-space: nowrap;
+    	overflow: hidden;
+	}
+
+	.admin-ordenCompra-readyState__img{
+		animation: readyStateImg 1s linear 0s infinite alternate;
+	}
+
+
+</style>
+
+<script>
+	$('#fecha-desde').datepicker({
+		changeMonth: true,
+		changeYear: true,
+		maxDate: "0D"
+	});
+	$('#fecha-hasta').datepicker({
+		changeMonth: true,
+		changeYear: true,
+		minDate: "0D"
+    });
+    $('.fecha-recepcion').datepicker({
+		changeMonth: true,
+		changeYear: true,
+		minDate: "-30D",
+		maxDate: "0D"
+	});
+
+	let mensajeOrdenCompra = parseInt('{{ mensajeOrdenCompra }}');
+	if(mensajeOrdenCompra === 1){
+        desplegarNotificacion('green', 'check', 'Orden Actualizada');
+	};
+
+	// MutationObserver 
+	const $ordenCompraTarget = document.getElementById('admin-ordenCompra-tbody');
+	const ordenCompraObserver = new MutationObserver(() => verificarFilas($ordenCompraTarget));
+    ordenCompraObserver.observe($ordenCompraTarget, { childList : true });
+    
+    verificarFilas($ordenCompraTarget);
+
+	// Inicializar Opciones Select
+	let cantidadEstados = [
+        {'Iniciado' : 0},
+        {'En Camino' : 0},
+        {'Recibido' : 0},
+        {'Rechazado' : 0}
+	];
+	for(let tr of document.getElementById('admin-ordenCompra-tbody').children){
+		for(let td of tr.children){
+			if(parseInt(td.getAttribute('name')) === 3){
+				if(parseInt(td.getAttribute('name')) === 4) break ;
+				switch (td.textContent) {
+					case 'Iniciado':
+						cantidadEstados[0]['Iniciado'] += 1;
+						break;
+					case 'En Camino':
+						cantidadEstados[1]['En Camino'] += 1;
+						break;
+                    case 'Recibido':
+						cantidadEstados[2]['Recibido'] += 1;
+                        break;
+                    case 'Rechazado':
+						cantidadEstados[3]['Rechazado'] += 1;
+						break;
+				};
+			};
+		};
+	};
+	let $optionSelect = document.getElementById('admin-ordenCompra-select-estado').children;
+	$optionSelect[1].textContent = `Iniciado (${cantidadEstados[0]['Iniciado']})`;
+	$optionSelect[2].textContent = `En Camino (${cantidadEstados[1]['En Camino']})`;
+	$optionSelect[3].textContent = `Recibido (${cantidadEstados[2]['Recibido']})`;
+	$optionSelect[4].textContent = `Rechazado (${cantidadEstados[3]['Rechazado']})`;
+	// Inicializar Opciones Select
+
+	quitarIcoEditar();
+
+    //
+	document.querySelectorAll('.admin-ordenCompra-table__tr').forEach(tr => {
+		let tdChildren = tr.children;
+
+		if(tdChildren[2].firstElementChild.value !== 'No Recibido' || tdChildren[3].textContent === 'Rechazado'){
+			tdChildren[2].firstElementChild.disabled = true;
+			tdChildren[2].firstElementChild.readOnly = true;
+			tdChildren[2].firstElementChild.classList.add('opacity-50');
+			tdChildren[2].firstElementChild.nextElementSibling !== null ? tdChildren[2].firstElementChild.nextElementSibling.remove() : false;
+			
+		};
+	});
+    //
+
+	//Eventos
+	window.addEventListener('load', e => {
+		let cargaFin = new Date();
+		let tpoCargaPag = (cargaFin - cargaInicio + 500) / 1000;
+		if(document.readyState == 'complete'){
+			document.querySelector('.admin-ordenCompra-readyState').style.animation = `desvanecer 1s ${tpoCargaPag}s linear forwards`;
+			setTimeout(() => document.querySelector('.admin-ordenCompra-readyState').remove() , tpoCargaPag * 1520);
+		};
+	});
+
+	document.addEventListener("click", e => {
+        if(/-editar-fecha-recepcion/.test(e.target.id)){
+            let idRow = e.target.id.substr(0, e.target.id.indexOf('-'));
+            document.getElementById(`${idRow}-ordenCompra-row__input-fechaRecepcion`).focus();
+        };
+        if(/-ordenCompra-guardar/.test(e.target.id) || /-i-guardar/.test(e.target.id)){
+            let idBtn = e.target.id.substr(0, e.target.id.indexOf('-'));
+            let fechaRecepcion = document.getElementById(`${idBtn}-ordenCompra-row__input-fechaRecepcion`).value;
+            formTemp = `
+                <form action="" method="POST" id="admin-ordenCompra">
+                    {% csrf_token %}
+                    <input type="text" name="ID_ORDEN__FECHA__RECEPCION" value="${idBtn},${fechaRecepcion}" readonly class="hidden">
+                </form>`;
+            document.querySelector('.admin-ordenCompra-contenedor-general').innerHTML += formTemp;
+            document.getElementById('admin-ordenCompra').submit();
+        };
+	});
+
+	// Filtro Palabra Clave
+	document.addEventListener('input', e => {
+		if(e.target.matches('.admin-ordenCompra-contenedor-input__input')){
+			resetearFilasFn(document.getElementById('admin-ordenCompra-tbody'));
+			filtrarPalabraFn(e.target.value, document.getElementById('admin-ordenCompra-tbody'));
+        };
+        
+        if(e.target.id === 'admin-ordenCompra-select-estado'){
+			resetearFilasFn(document.getElementById('admin-ordenCompra-tbody'));
+			if(e.target.value !== 'Selecciona Estado'){
+				filtrarPalabraFn(e.target.value, document.getElementById('admin-ordenCompra-tbody'));
+			};
+		};
+	});
+
+	document.addEventListener('focusout', e => {
+		if(e.target.id === 'fecha-desde' || e.target.id === 'fecha-hasta'){
+			resetearFilasFn(document.getElementById('admin-ordenCompra-tbody'));
+			filtrarFechaFn(document.getElementById('admin-ordenCompra-tbody'));
+        };
+        setTimeout(() => {
+            if(/-ordenCompra-row__input-fechaRecepcion/.test(e.target.id)){
+                let idInput = e.target.id.substring(0, e.target.id.indexOf('-'));
+                let valueInput = e.target.value;
+                let validacion = valueInput === '' || valueInput === '-' || valueInput === 'No Recibido'? false : true; 
+                if(validacion){
+                    let $trBtn = document.getElementById(`${idInput}-ordenCompra-guardar`);
+                    // Activar Botón Publicar
+                    $trBtn.disabled = false;
+                    $trBtn.classList.remove('opacity-50');
+                    $trBtn.classList.remove('cursor-not-allowed');
+                }else{
+                    let $trBtn = document.getElementById(`${idInput}-ordenCompra-guardar`);
+                    // Desactivar Botón Publicar
+                    $trBtn.disabled = true;
+                    $trBtn.classList.add('opacity-50');
+                    $trBtn.classList.add('cursor-not-allowed');
+                };
+            };
+        }, 100);
+	});
+
+    function verificarFilas($ordenCompraTarget){
+        if($ordenCompraTarget.childElementCount === 0){
+            document.querySelector('.admin-ordenCompra-vacio').classList.remove('hidden');
+            $ordenCompraTarget.parentElement.classList.add('hidden');
+        }else{
+            document.querySelector('.admin-ordenCompra-vacio').classList.add('hidden');
+            $ordenCompraTarget.parentElement.classList.remove('hidden');
+        };
+    };
+
+	function filtrarPalabraFn(textoBuscado, tbodyElem){
+		let str = textoBuscado.toLowerCase();
+		let arrTemp = []
+		for (let tr of tbodyElem.children) {
+			for (let td of tr.children) {
+				if (parseInt(td.getAttribute('name')) <= 3 && parseInt(td.getAttribute('name')) !== 2) {
+					if (td.textContent.toLowerCase().includes(str)) {
+						arrTemp.push(tr.getAttribute('id'));
+						break;
+					};
+				};
+			};
+
+			if (!arrTemp.includes(tr.getAttribute('id'))) {
+				tr.style.display = 'none';
+			};
+		};
+	};
+
+	function filtrarFechaFn(tbodyElem){
+		setTimeout(() => {
+			let fechaDesde = (document.getElementById('fecha-desde').value !== '')? strToDate(document.getElementById('fecha-desde').value) : strToDate('01/01/1970');
+			let fechaHasta = (document.getElementById('fecha-hasta').value !== '')? strToDate(document.getElementById('fecha-hasta').value) : strToDate('12/12/9999');
+			let arrTemp = []
+			for (let tr of tbodyElem.children) {
+				for (let td of tr.children) {
+					if (parseInt(td.getAttribute('name')) == 2) {
+						let fechaTd = strToDate(td.textContent)
+						if(fechaTd >= fechaDesde && fechaTd <= fechaHasta){
+							arrTemp.push(tr.getAttribute('id'));
+							break;
+						};
+					};
+				};
+
+				if (!arrTemp.includes(tr.getAttribute('id'))) {
+					tr.style.display = 'none';
+				};
+			};
+		},200);
+	};
+
+	function resetearFilasFn(tbodyElem) {
+		for(let tr of tbodyElem.children){
+			(window.screen.width > 767)? tr.style.display = 'table-row' : tr.style.display = 'block';
+		};
+	};
+
+	function strToDate(str){
+		let date = str.split('/');
+		return new Date(parseInt(date[2]), parseInt(date[1]) - 1 , parseInt(date[0]));
+	};
+
+	function desplegarNotificacion(color, ico, msg){
+		let $contenedorToast = document.querySelector('.admin-toast-contenedorSubGeneral');
+		$contenedorToast.className = $contenedorToast.className.replace(/bg-\w+-500/, `bg-${color}-500`);
+		$contenedorToast.className = $contenedorToast.className.replace(/border-\w+-600/, `border-${color}-600`);
+		$contenedorToast.querySelector('i').className = $contenedorToast.querySelector('i').className.replace(/fa-\w+/, `fa-${ico}`);
+		$contenedorToast.querySelector('span').textContent = msg;
+		$contenedorToast.style.animation = 'swipeUp 2s 0s linear 2 alternate';
+		setTimeout(() => $contenedorToast.style.removeProperty('animation'), 4000);
+	};
+
+	function quitarIcoEditar(){
+		let $adminTbody = document.getElementById('admin-ordenCompra-tbody');
+		for(const tr of $adminTbody.children){
+			let fechaRecepcion = tr.children[2].firstElementChild.value;
+			let esdadoOrden = tr.children[3].textContent;
+
+			if(fechaRecepcion !== 'No Recibido' || esdadoOrden === 'Rechazado'){
+				tr.children[2].firstElementChild.disabled = true;
+				tr.children[2].firstElementChild.readOnly = true;
+				tr.children[2].lastElementChild.remove();
+			};
+		};
+	};
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,41 @@
+<div class="historialComerciante-contenedor">
+    <div class="listarSolicitud-contenedor-titulo" style="margin-right: 0.6rem;">
+        <h2 class="listarSolicitud-contenedor-titulo__h2">HISTORIAL COMPRAS</h2>
+    </div>
+    <div class="historialComerciante-contenedor-tabla overflow-auto m-2" style="max-height: 35rem;">
+
+        <table class="historialComerciante-tabla w-11/12 mx-auto">
+            <thead class="historialComerciante-thead bg-blue-500 font-lato text-white">
+                <th class="historialComerciante-thead__th w-1/12 py-3">N° Venta</th>
+                <th class="historialComerciante-thead__th w-3/12 py-3">Fecha de Compra</th>
+                <th class="historialComerciante-thead__th w-4/12 py-3">Fruta</th>
+                <th class="historialComerciante-thead__th w-2/12 py-3">Kilos</th>
+                <th class="historialComerciante-thead__th w-2/12 py-3">Monto</th>
+            </thead>
+            <tbody class="historialComerciante-tbody">
+                {% for obj in view_historial_comerciante %}
+                    <tr class="historialComerciante-tbody__tr font-lato text-center">
+                        <td class="historialComerciante-tbody__td py-2">{{ obj.N_VENTA }}</td>
+                        <td class="historialComerciante-tbody__td py-2">{{ obj.FECHA_COMPRA|date:"d/m/yy" }}</td>
+                        <td class="historialComerciante-tbody__td py-2">{{ obj.FRUTA }}</td>
+                        <td class="historialComerciante-tbody__td py-2">{{ obj.KILOS_COMPRADOS }}</td>
+                        <td class="historialComerciante-tbody__td py-2">${{ obj.MONTO }}</td>
+                    </tr>
+                    {% empty %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<style>
+    .historialComerciante-tbody__tr:nth-child(odd) {
+        background-color: rgba(66, 153, 225, 0.1);
+    }
+    
+    .historialComerciante-tbody__tr:nth-child(even) {
+        background-color: rgba(66, 153, 225, 0.18);
+    }
+</style>

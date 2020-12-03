@@ -1,0 +1,73 @@
+<div class="fixed contenedor-navbar grid grid-cols-1 md:grid-col-6 w-screen z-20 py-2 md:py-3">
+    <a href="{% url 'portalVentas:home' %}" class="relative md:static">
+        <div class="contenedor-logo absolute md:static md:flex md:centrar-contenedor" style="top: 13px; left: 0px;">
+            <img src="/static/img/BestFruit_Logo_horizontal.png" alt="Best Fruit Logo" class="">
+        </div>
+    </a>
+    <div class="contenedor-menu flex justify-end pr-4 cursor-pointer md:hidden">
+        <span class="py-4" id="burger"><i class="fas fa-bars text-white text-3xl"></i></span>
+    </div>
+    <div class="contenedor-enlace md:col-span-3 border-t md:border-0 hidden md:block" name="menu-responsive">
+        <ul class="contenedor-enlace__ul grid grid-cols-1 md:grid-cols-4">
+            <a href="{% url 'portalVentas:home' %}"
+                class="contenedor-enlace__li centrar-contenedor text-center py-4 hover:bg-green-600 md:p-0 contenedor-enlace__li--activo md:rounded-md">
+                <li>Inicio</li>
+            </a>  
+            <a href="{% url 'portalVentas:informacionBestFruit' %}#quienes-somos" class="contenedor-enlace__li centrar-contenedor text-center py-4 hover:bg-green-600 md:p-0">
+                <li>Quiénes Somos</li>
+            </a>
+            <a href="{% url 'portalVentas:informacionBestFruit' %}#servicios" class="contenedor-enlace__li centrar-contenedor text-center py-4 hover:bg-green-600 md:p-0">
+                <li>Servicios</li>
+            </a>
+            <a href="{% url 'portalVentas:informacionBestFruit' %}#agracimientos" class="contenedor-enlace__li centrar-contenedor text-center py-4 hover:bg-green-600 md:p-0">
+                <li>Agradecimientos</li>
+            </a>
+        </ul>
+    </div>
+    <div class="contenedor-btn grid grid-cols-2 col-span-2 hidden md:grid" name="menu-responsive">
+        <div class="centrar-contenedor px-4 py-2 md:py-0 xl:px-0">
+            <a href="{% url 'portalVentas:login' %}" class="btn btn-blue w-full md:w-48 hover:bg-blue-600"><span class="text-white">Ingresar</span></a>
+        </div>
+        <div class="centrar-contenedor px-4 py-2 md:py-0 xl:px-0">
+            <a class="navbar-usuarioAutenticado w-32 text-center hidden"><span class="text-lg text-white hover:border-b hover:border-white"></span></a>
+            <a href="{% url 'portalVentas:home' %}?.." class="navbar-usuarioAutenticado w-32 text-center hidden"><span class="text-lg text-white hover:border-b hover:border-white">Cerrar Sesion</span></a>
+            <a href="{% url 'portalVentas:registro' %}" class="btn btn-orange w-full md:w-48 hover:bg-orange-600"><span class="text-white">Registrarse</span></a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .navbar-usuarioAutenticado:hover > span{
+        border-bottom: 1px;
+        border-style: solid;
+        border-color: #fff;
+    } 
+</style>
+
+<script>
+    const $burger = document.getElementById('burger');
+    const $menuResponsive = document.querySelectorAll("div[name='menu-responsive']");
+    const usuarioAutenticado = ('{{user.is_authenticated}}' == 'True');
+
+    const obtenerEvento = evento => {
+        for (const div of $menuResponsive) {
+            div.classList.toggle('hidden');
+            // SE INTENTO AGREGAR ANIMACIONES
+        }
+    };
+
+    $burger.addEventListener('click', obtenerEvento);
+
+    if(usuarioAutenticado){
+        const usuarioNombre = '{{user.first_name}}'.toLowerCase().split(' ');
+        $menuResponsive[1].firstElementChild.classList.add('hidden');
+        $menuResponsive[1].lastElementChild.classList.add('col-span-2');
+        $menuResponsive[1].lastElementChild.classList.add('md:justify-end');
+        $menuResponsive[1].lastElementChild.children[0].firstElementChild.textContent = usuarioNombre[0].replace(usuarioNombre[0].split('')[0], usuarioNombre[0].split('')[0].toUpperCase());
+        $menuResponsive[1].lastElementChild.children[0].classList.remove('hidden');
+        $menuResponsive[1].lastElementChild.children[1].classList.remove('hidden');
+        $menuResponsive[1].lastElementChild.children[2].classList.add('hidden');
+    }
+
+    document.querySelector('.navbar-usuarioAutenticado').setAttribute('href', redireccionar('{{ usuario.id_rol.id_rol }}'));
+</script>

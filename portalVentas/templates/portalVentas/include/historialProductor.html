@@ -1,0 +1,177 @@
+<div class="historialProductor-contenedor">
+    <div class="listarSolicitud-contenedor-titulo" style="margin-right: 0.6rem;">
+        <h2 class="listarSolicitud-contenedor-titulo__h2">HISTORIAL OFERTAS</h2>
+    </div>
+    <div class="historialProductor-contenedor-tabla overflow-auto m-2" style="max-height: 35rem;">
+
+        <table class="historialProductor-tabla w-11/12 mx-auto" >
+            <thead class="historialProductor-thead bg-blue-500 font-lato text-white">
+                <th class="historialProductor-thead__th w-1/12 py-3">N° Oferta</th>
+                <th class="historialProductor-thead__th w-4/12 py-3">Fecha Ofertada</th>
+                <th class="historialProductor-thead__th w-4/12 py-3">Estado</th>
+                <th class="historialProductor-thead__th w-3/12 py-3">Ver Detalle</th>
+
+            </thead>
+            <tbody class="historialProductor-tbody">
+                {% for obj in view_historial_productor|dictsortreversed:"FECHA_OFERTA" %}
+                    {% if obj.N_REP_OFERTA == 1 %}
+                        <tr id="{{ obj.N_OFERTA }}-historialProductor-tr" class="historialProductor-tbody__tr font-lato text-center">
+                            <td id="{{ obj.N_OFERTA }}-historialProductor-n-venta" class="historialProductor-tbody__td py-2">{{ obj.N_OFERTA }}</td>
+                            <td id="{{ obj.N_OFERTA }}-historialProductor-fecha-recepcion" class="historialProductor-tbody__td py-2">{{ obj.FECHA_OFERTA|date:"d/m/yy" }}</td>
+                            {% if obj.CERRADA == -1 %}
+                                <td id="{{ obj.N_OFERTA }}-historialProductor-estado" class="historialProductor-tbody__td py-2">Rechazada</td>
+                            {% elif obj.CERRADA == 0 %}
+                                <td id="{{ obj.N_OFERTA }}-historialProductor-estado" class="historialProductor-tbody__td py-2">En Curso</td>
+                            {% elif obj.CERRADA == 1 %}
+                                <td id="{{ obj.N_OFERTA }}-historialProductor-estado" class="historialProductor-tbody__td py-2">Aceptada</td>
+                            {% endif %}
+                            <td class="historialProductor-tbody__td py-2">
+                                <button id="{{ obj.N_OFERTA }}-historialProductor-btn" class="historialProductor-tbody__btn btn bg-green-500 text-white px-2 mx-auto"> Ver Detalle </button>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% empty %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<template id="historialProductor-tabla-modal-template">
+    <div class="listarSolicitud-contenedor-titulo" style="margin-right: 0.6rem;">
+        <h3 class="listarSolicitud-contenedor-titulo__h2">Detalle Oferta</h3>
+    </div>
+    <table class="historialProductor-tabla-modal w-full mx-auto mt-5 mb-16">
+        <thead class="historialProductor-thead bg-blue-500 font-lato text-white">
+            <th class="historialProductor-thead__th w-1/12 py-3">#</th>
+            <th class="historialProductor-thead__th w-4/12 py-3">Fruta</th>
+            <th class="historialProductor-thead__th w-3/12 py-3">Kilos Ofertados</th>
+            <th class="historialProductor-thead__th w-3/12 py-3">Precio Venta</th>
+            <th class="historialProductor-thead__th w-1/12 py-3">Seleccionada</th>
+        </thead>
+        <tbody class="historialProductor-tbody">
+
+        </tbody>
+    </table>
+</template>
+
+<style>
+    .historialProductor-tbody__tr:nth-child(odd) {
+        background-color: rgba(66, 153, 225, 0.1);
+    }
+    
+    .historialProductor-tbody__tr:nth-child(even) {
+        background-color: rgba(66, 153, 225, 0.18);
+    }
+</style>
+
+<script>
+
+let view_historial_productor = [];
+
+{% for obj in view_historial_productor %}
+    view_historial_productor.push(
+    [
+        {
+            'N_OFERTA' : '{{ obj.N_OFERTA }}',
+            'ID_PEDIDO' : '{{ obj.ID_PEDIDO }}',
+            'FECHA_OFERTA' : '{{ obj.FECHA_OFERTA }}',
+            'FRUTA' : '{{ obj.FRUTA }}',
+            'KILOS_VENDIDOS' : '{{ obj.KILOS_VENDIDOS }}',
+            'PRECIO_TOTAL' : '{{ obj.PRECIO_TOTAL }}',
+            'CERRADA' : '{{ obj.CERRADA }}',
+            'N_REP_OFERTA' : '{{ obj.N_REP_OFERTA }}'
+        }
+    ]);
+
+    if(parseInt('{{ obj.N_REP_OFERTA }}') > 1){
+        let arrElementoRepetido = view_historial_productor.pop();
+        view_historial_productor[view_historial_productor.length - 1].push(arrElementoRepetido[0]);
+    };
+{% endfor %}
+
+document.addEventListener('click', e => {
+    if(/-historialProductor-btn/.test(e.target.id)){
+        let idOferta = e.target.id.substring(0, e.target.id.indexOf('-'));
+        activarModal(idOferta);
+    };
+});
+
+
+function activarModal(idOferta){
+    let modal = new tingle.modal({
+        footer: true,
+        stickyFooter: false,
+        closeMethods: ['overlay', 'escape'],
+        closeLabel: "Cerrar",
+        cssClass: ['border-black', 'bg-black']
+    });
+    
+    modal.setContent(crearTablaModal(idOferta));
+    
+    modal.addFooterBtn('Cerrar', 'btn bg-red-500 text-white text-center font-lato w-32 tingle-btn--pull-right', function() {
+        modal.close();
+    });
+    
+    modal.open();
+};
+
+function llenarFila(contador, fruta, kilos, precio, seleccionada){
+    
+    let $tr = document.createElement('tr');
+    let $tdN = document.createElement('td');
+    let $tdFruta = document.createElement('td');
+    let $tdKilos = document.createElement('td');
+    let $tdPrecio = document.createElement('td');
+    let $tdSeleccionada = document.createElement('td');
+
+    $tr.className = 'historialProductor-tbody__tr font-lato text-center';
+    $tdN.className = 'historialProductor-tbody__td py-2';
+    $tdFruta.className = 'historialProductor-tbody__td py-2';
+    $tdKilos.className = 'historialProductor-tbody__td py-2';
+    $tdPrecio.className = 'historialProductor-tbody__td py-2'; 
+    $tdSeleccionada.className = 'historialProductor-tbody__td py-2';
+
+    $tdN.textContent = contador;
+    $tdFruta.textContent = fruta;
+    $tdKilos.textContent = kilos;
+    $tdPrecio.textContent = `$${precio}`;
+
+    seleccionada === '1' ? $tdSeleccionada.textContent = 'Si' : $tdSeleccionada.textContent = 'No';
+
+    $tr.appendChild($tdN);
+    $tr.appendChild($tdFruta);
+    $tr.appendChild($tdKilos);
+    $tr.appendChild($tdPrecio);
+    $tr.appendChild($tdSeleccionada);
+
+    return $tr;
+};
+
+function crearTablaModal(idOferta){
+    let contador = 0;
+    let $fragmento = document.createDocumentFragment();
+    let $templateModal = document.getElementById('historialProductor-tabla-modal-template');
+    let $clon =  $templateModal.content.cloneNode(true);
+    let $tempDiv = document.createElement('div');
+    view_historial_productor.forEach(arr => {
+        if(arr[0].N_OFERTA === idOferta){
+            if(arr.length === 1){
+                contador++;
+                $fragmento.appendChild(llenarFila(contador, arr[0].FRUTA, arr[0].KILOS_VENDIDOS, arr[0].PRECIO_TOTAL, arr[0].CERRADA));
+            }else{
+                for(let indx in arr){
+                    contador++;
+                    $fragmento.appendChild(llenarFila(contador, arr[indx].FRUTA, arr[indx].KILOS_VENDIDOS, arr[indx].PRECIO_TOTAL, arr[indx].CERRADA));
+                };
+            };
+        };
+    });
+    
+    $tempDiv.appendChild($clon);
+    $tempDiv.querySelector('tbody').appendChild($fragmento)
+    return $tempDiv;
+};
+</script>

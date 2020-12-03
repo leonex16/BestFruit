@@ -1,0 +1,179 @@
+<div class="historialExterno-contenedor">
+    <div class="listarSolicitud-contenedor-titulo" style="margin-right: 0.6rem;">
+        <h2 class="listarSolicitud-contenedor-titulo__h2">HISTORIAL PEDIDOS</h2>
+    </div>
+    <div class="historialExterno-contenedor-tabla overflow-auto m-2" style="max-height: 35rem;">
+
+        <table class="historialExterno-tabla w-11/12 mx-auto">
+            <thead class="historialExterno-thead bg-blue-500 font-lato text-white">
+                <th class="historialExterno-thead__th w-1/12 py-3">N° Venta</th>
+                <th class="historialExterno-thead__th w-3/12 py-3">Fecha de Recepción</th>
+                <th class="historialExterno-thead__th w-2/12 py-3">Kilos Totales</th>
+                <th class="historialExterno-thead__th w-2/12 py-3">Monto</th>
+                <th class="historialExterno-thead__th w-1/12 py-3">Estado</th>
+                <th class="historialExterno-thead__th w-3/12 py-3">Ver Detalle</th>
+
+            </thead>
+            <tbody class="historialExterno-tbody">
+                {% for obj in view_historial_externo %}
+                    {% if obj.N_REP_SOLICITUD == 1 %}
+                        <tr id="{{ obj.N_VENTA }}-historialExterno-tr" class="historialExterno-tbody__tr font-lato text-center">
+                            <td id="{{ obj.N_VENTA }}-historialExterno-n-venta" class="historialExterno-tbody__td py-2">{{ obj.N_VENTA }}</td>
+                            <td id="{{ obj.N_VENTA }}-historialExterno-fecha-recepcion" class="historialExterno-tbody__td py-2">{{ obj.FECHA_RECEPCION|date:"d/m/yy"|default:"En Camino" }}</td>
+                            <td id="{{ obj.N_VENTA }}-historialExterno-kilos-solicitados" class="historialExterno-tbody__td py-2">{{ obj.KILOS_SOLICITADOS }}</td>
+                            {% if obj.ESTADO == 'Aprobada' %}
+                                <td id="{{ obj.N_VENTA }}-historialExterno-monto" class="historialExterno-tbody__td py-2">${{ obj.MONTO }}</td>
+                            {% else %}
+                                <td id="{{ obj.N_VENTA }}-historialExterno-monto" class="historialExterno-tbody__td py-2">-</td>
+                            {% endif %}
+                            <td id="{{ obj.N_VENTA }}-historialExterno-estado" class="historialExterno-tbody__td py-2">{{ obj.ESTADO }}</td>
+                            <td class="historialExterno-tbody__td py-2">
+                                <button id="{{ obj.N_VENTA }}-historialExterno-btn" class="historialExterno-tbody__btn btn bg-green-500 text-white px-2 mx-auto"> Ver Detalle </button>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% empty %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<template id="historialExterno-tabla-modal-template">
+    <div class="listarSolicitud-contenedor-titulo" style="margin-right: 0.6rem;">
+        <h3 class="listarSolicitud-contenedor-titulo__h2">Detalle Orden</h3>
+    </div>
+    <table class="historialExterno-tabla-modal w-full mx-auto mt-5 mb-16">
+        <thead class="historialExterno-thead bg-blue-500 font-lato text-white">
+            <th class="historialExterno-thead__th w-1/12 py-3">#</th>
+            <th class="historialExterno-thead__th w-6/12 py-3">Fruta</th>
+            <th class="historialExterno-thead__th w-5/12 py-3">Kilos</th>
+        </thead>
+        <tbody class="historialExterno-tbody">
+
+        </tbody>
+    </table>
+</template>
+
+<style>
+    .historialExterno-tbody__tr:nth-child(odd) {
+        background-color: rgba(66, 153, 225, 0.1);
+    }
+    
+    .historialExterno-tbody__tr:nth-child(even) {
+        background-color: rgba(66, 153, 225, 0.18);
+    }
+</style>
+
+<script>
+
+let view_historial_externo = [];
+
+{% for obj in view_historial_externo %}
+    view_historial_externo.push(
+    [
+        {
+            'N_VENTA' : '{{ obj.N_VENTA }}',
+            'FECHA_RECEPCION' : '{{ obj.FECHA_RECEPCION }}',
+            'FRUTA' : '{{ obj.FRUTA }}',
+            'KILOS_SOLICITADOS' : '{{ obj.KILOS_SOLICITADOS }}',
+            'MONTO' : '{{ obj.MONTO }}',
+            'ESTADO' : '{{ obj.ESTADO }}',
+            'N_REP_SOLICITUD' : '{{ obj.N_REP_SOLICITUD }}'
+        }
+    ]);
+
+    if(parseInt('{{ obj.N_REP_SOLICITUD }}') > 1){
+        let arrElementoRepetido = view_historial_externo.pop();
+        
+        view_historial_externo[view_historial_externo.length - 1].push(arrElementoRepetido[0]);
+    };
+{% endfor %}
+
+// MODIFICAR LAS FILAS CUYAS ORDENES POSEAN MAS DE UNA FRUTA
+let nVenta = [];
+view_historial_externo.forEach(arr => arr.length > 1 ? nVenta.push(arr) : false );
+nVenta.forEach(arr => {
+    let acumulador = 0;
+    for(let indx in arr){
+        acumulador += parseInt(arr[indx].KILOS_SOLICITADOS.replaceAll('.', ''));
+    };
+    document.getElementById(`${arr[0].N_VENTA}-historialExterno-kilos-solicitados`).textContent = acumulador.toLocaleString('it-IT');
+
+});
+
+document.addEventListener('click', e => {
+    if(/-historialExterno-btn/.test(e.target.id)){
+        let idOrden = e.target.id.substring(0, e.target.id.indexOf('-'));
+        activarModal(idOrden);
+    };
+});
+
+
+function activarModal(idOrden){
+    let modal = new tingle.modal({
+        footer: true,
+        stickyFooter: false,
+        closeMethods: ['overlay', 'escape'],
+        closeLabel: "Cerrar",
+        cssClass: ['border-black', 'bg-black']
+    });
+    
+    modal.setContent(crearTablaModal(idOrden));
+    
+    modal.addFooterBtn('Cerrar', 'btn bg-red-500 text-white text-center font-lato w-32 tingle-btn--pull-right', function() {
+        modal.close();
+    });
+    
+    modal.open();
+};
+
+function llenarFila(contador, fruta, kilos){
+    let $tr = document.createElement('tr');
+    let $tdN = document.createElement('td');
+    let $tdFruta = document.createElement('td');
+    let $tdKilos = document.createElement('td');
+
+    $tr.className = 'historialExterno-tbody__tr font-lato text-center';
+    $tdN.className = 'historialExterno-tbody__td py-2';
+    $tdFruta.className = 'historialExterno-tbody__td py-2';
+    $tdKilos.className = 'historialExterno-tbody__td py-2';
+
+    $tdN.textContent = contador;
+    $tdFruta.textContent = fruta;
+    $tdKilos.textContent = kilos;
+
+    $tr.appendChild($tdN);
+    $tr.appendChild($tdFruta);
+    $tr.appendChild($tdKilos);
+
+    return $tr;
+};
+
+function crearTablaModal(idOrden){
+    let contador = 0;
+    let $fragmento = document.createDocumentFragment();
+    let $templateModal = document.getElementById('historialExterno-tabla-modal-template');
+    let $clon =  $templateModal.content.cloneNode(true);
+    let $tempDiv = document.createElement('div');
+    view_historial_externo.forEach(arr => {
+        if(arr[0].N_VENTA === idOrden){
+            if(arr.length === 1){
+                contador++;
+                $fragmento.appendChild(llenarFila(contador, arr[0].FRUTA, arr[0].KILOS_SOLICITADOS))
+            }else{
+                for(let indx in arr){
+                    contador++;
+                    $fragmento.appendChild(llenarFila(contador, arr[indx].FRUTA, arr[indx].KILOS_SOLICITADOS))
+                };
+            };
+        };
+    });
+    
+    $tempDiv.appendChild($clon);
+    $tempDiv.querySelector('tbody').appendChild($fragmento)
+    return $tempDiv;
+};
+</script>

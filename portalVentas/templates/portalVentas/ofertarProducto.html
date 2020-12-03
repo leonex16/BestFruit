@@ -1,0 +1,453 @@
+{% extends 'portalVentas/usuario.html' %}
+
+{% block title %} {{ tituloPagina }} {% endblock %}
+{% block contentUsuario %}
+<div class="ofertarProducto-contenedor-general h-screen">
+    <div class="ofertarProducto-contenedor-titulo border-b-4 border-green-500">
+        <h2 class="ofertarProducto-contenedor-titulo__h2 font-lato text-2xl p-3">Publicación N° {{ fruta.ID_SOLICITUD }}</h2>
+    </div>
+    <div class="ofertarProducto-contenedor-resumen m-4 flex flex-row flex-wrap">
+        <div class="ofertarProducto-contenedor-resumen-datos flex-auto my-2">
+            <span class="ofertarProducto-contenedor-resumen-datos__span font-lato text-lg font-bold">Fruta</span>
+            <span class="ofertarProducto-contenedor-resumen-datos__span font-lato text-lg font-light">{{ fruta.DES_ESPECIE }} {{ fruta.DES_VARIEDAD }}</span>
+        </div>
+        <div class="ofertarProducto-contenedor-resumen-datos flex-auto my-2">
+            <span class="ofertarProducto-contenedor-resumen-datos__span font-lato text-lg font-bold">Cantidad Solicitada</span>
+            <span class="ofertarProducto-contenedor-resumen-datos__span font-lato text-lg font-light">{{ fruta.KILOS }} Kilo{{ fruta.KILOS|pluralize }}</span>
+        </div>
+    </div>
+    <div class="ofertarProducto-contenedor-acciones m-4 sm:grid sm:grid-col-2">
+        <div class="ofertarProducto-contenedor-temporizador">
+            <div class="ofertarProducto-contenedor-temporizador-fila">
+                <span class="ofertarProducto-contenedor-temporizador-fila__span font-lato text-xl block text-center">Restan</span>
+                <span id="ofertarProducto-tiempoRestante" class="ofertarProducto-contenedor-temporizador-fila__span font-lato text-xl block text-center"></span>
+                <span class="ofertarProducto-contenedor-temporizador-fila__span font-lato text-xl block text-center">para que finalice la publicación</span>
+            </div>
+        </div>
+        <div class="ofertarProducto-contenedor-btn flex my-4">
+            <button id="btn-ofertarProducto-menos" type="button" class="ofertarProducto-contenedor-btn__button btn bg-red-500 text-white w-full mr-2">Quitar ultima oferta</button>
+            <button id="btn-ofertarProducto-mas" type="button" class="ofertarProducto-contenedor-btn__button btn bg-blue-500 text-white w-full ml-2">Agregar oferta</button>
+        </div>
+    </div>
+    <div class="ofertarProducto-contenedor-ofertas flex flex-col overflow-y-auto" style="max-height: 30rem;">
+        {% for oferta in view_ofertas_productor %}
+            <div class="ofertarProducto-contenedor-oferta relative flex flex-row flex-wrap border-b border-r border-gray-500 rounded mx-2 my-4 p-2 shadow-xl" data-id-detalle-oferta="{{ oferta.ID_DETALLE_OF }}" data-id-pedido="{{ oferta.ID_PEDIDO }}">
+                <div class="ofertarProducto-contenedor-datosOfertaDetalle flex-auto">
+                    <div class="ofertarProducto-contenedor-datosOfertaDetalle-fila my-2">
+                        <span class="ofertarProducto-contenedor-datosOfertaDetalle-fila__span inline-block w-40 font-lato text-lg font-bold">Productor</span>
+                        <span class="ofertarProducto-contenedor-datosOfertaDetalle-fila__span font-lato text-lg font-light">{{ oferta.NOMBRE_USUARIO|title }}</span>
+                    </div>
+                    <div class="ofertarProducto-contenedor-datosOfertaDetalle-fila my-2">
+                        <span class="ofertarProducto-contenedor-datosOfertaDetalle-fila__span inline-block w-40 font-lato text-lg font-bold">Fecha de Cosecha</span>
+                        <span class="ofertarProducto-contenedor-datosOfertaDetalle-fila__span font-lato text-lg font-light">{{ oferta.FECHA_COSECHA|date:"d/m/Y" }}</span>
+                    </div>
+                    <div class="ofertarProducto-contenedor-datosOfertaDetalle-fila my-2">
+                        <span class="ofertarProducto-contenedor-datosOfertaDetalle-fila__span inline-block w-40 font-lato text-lg font-bold">Cantidad Ofertada</span>
+                        <span class="ofertarProducto-contenedor-datosOfertaDetalle-fila__span font-lato text-lg font-light">{{ oferta.KILOS_TOTAL }} Kilo{{ oferta.KILOS_TOTAL|pluralize }}</span>
+                    </div>
+                    <div class="ofertarProducto-contenedor-datosOfertaDetalle-fila my-2">
+                        <span class="ofertarProducto-contenedor-datosOfertaDetalle-fila__span inline-block w-40 font-lato text-lg font-bold">Precio Venta</span>
+                        <span class="ofertarProducto-contenedor-datosOfertaDetalle-fila__span font-lato text-lg font-light">$ {{ oferta.PRECIO_TOTAL }}</span>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <h2 class="text-center m-10">No hay ofertas por el momento. Se el primero :D</li>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- MODAL -->
+<div class="ofertarProducto-modal-ofertar relative z-50 hidden">
+    <div class="ofertarProducto-capaGris fixed inset-0 z-30 w-full h-full bg-gray-800 opacity-75"></div>
+    <div class="ofertarProducto-ventana fixed inset-0 m-auto z-30 bg-white w-11/12 rounded-2xl md:w-2/3 md:w-3/4 lg:w-2/3 xl:w-2/4"
+        style="max-height: 25rem;">
+        <form id="ofertarProducto-modal-form" action="" method="POST">
+            {% csrf_token %}
+            <div class="ofertarProducto-ventana-titulo border-b-2 border-gray-500 m-4">
+                <h3 class="ofertarProducto-ventana-titulo__h3 font-lato text-xl font-bold py-2">Publicación N°  {{ fruta.ID_SOLICITUD }}</h3>
+            </div>
+
+            <div class="ofertarProducto-ventana-body m-4 sm:grid sm:grid-col-2 gap-x-2">
+                <div class="ofertarProducto-contenedor-resumen sm:col-span-2 sm:grid sm:grid-col-2">
+                    <div class="ofertarProducto-contenedor-resumen-datos my-2">
+                        <span class="ofertarProducto-contenedor-resumen-datos__span font-lato text-lg font-bold">Fruta Solicitada</span>
+                        <span class="ofertarProducto-contenedor-resumen-datos__span font-lato text-lg font-light">{{ fruta.DES_ESPECIE }} {{ fruta.DES_VARIEDAD }}</span>
+                    </div>
+                    <div class="ofertarProducto-contenedor-resumen-datos my-2">
+                        <span class="ofertarProducto-contenedor-resumen-datos__span font-lato text-lg font-bold">Cantidad Solicitada</span>
+                        <span class="ofertarProducto-contenedor-resumen-datos__span font-lato text-lg font-light">{{ fruta.KILOS }} Kilo{{ fruta.KILOS|pluralize }}</span>
+                    </div>
+                </div>
+                <div class="ofertarProducto-contenedor-input my-2  relative z-50">
+                    <label for="fecha-cosecha">Fecha de Cosecha</label>
+                    <input type="text" name="FECHA_COSECHA" id="fecha-cosecha" class="ofertarProducto-contenedor-input__input input mt-1">
+                </div>
+                <div class="ofertarProducto-contenedor-input my-2">
+                    <label for="cantidad-ofertar">Cantidad a Ofertar</label>
+                    <input type="text" name="CANTIDAD_OFERTAR" id="cantidad-ofertar" maxlength="8" class="ofertarProducto-contenedor-input__input input mt-1" onkeypress="return (event.keyCode >= 47 && event.keyCode <= 57)">
+                </div>
+                <div class="ofertarProducto-contenedor-input my-2 sm:col-span-2">
+                    <label for="precio-venta">Precio Venta</label>
+                    <input type="text" name="PRECIO_VENTA" id="precio-venta" maxlength="8" class="ofertarProducto-contenedor-input__input input mt-1" onkeypress="return (event.keyCode >= 48 && event.keyCode <= 57)">
+                </div>
+            </div>
+
+            <div class="ofertarProducto-ventana-boton absolute bottom-0 flex justify-end w-full my-2">
+                <button id="btn-cerrar-modal" type="button"
+                    class="ofertarProducto-ventana-boton__button btn bg-red-500 font-lato text-white w-20 mx-2 p-2">Cerrar</button>
+                <button id="btn-ofertar" type="submit"
+                    class="ofertarProducto-ventana-boton__button btn bg-blue-600 font-lato text-white w-20 mx-2 p-2">Ofertar</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<style>
+    @media screen and (min-width: 640px){
+        .ofertarProducto-ventana{
+            max-height: 20rem !important;
+        }
+    }
+
+    @keyframes abrirModal{
+		from {
+			opacity: 0%;
+		}
+
+		to {
+			opacity: 100%;
+		}
+	}
+
+	@keyframes cerrarModal{
+		from {
+			opacity: 100%;
+		}
+
+		to {
+			opacity: 0%;
+		}
+	}
+
+	.ofertarProducto-modal-ofertar {
+		animation-duration: .5s;
+		animation-fill-mode: forwards;
+    }
+    
+</style>
+
+<script>
+    
+	$('#fecha-cosecha').datepicker({
+		changeMonth: true,
+		changeYear: true,
+		maxDate: "0D"
+    });
+    
+    switch (parseInt('{{ mensajeOfertarProducto }}')) {
+        case 0:
+            desplegarNotificacion('red', `Tuvimos algunos errores. Favor de volver a intentarlo.`);
+
+            break;
+        case 1:
+            desplegarNotificacion('blue', `Oferta ingresada correctamente.`);
+            break;
+        default:
+            break;
+    };
+
+
+    window.addEventListener('load' , e => document.readyState === 'complete' ? mejorSeleccion() : false);
+
+	document.addEventListener("click", e => {
+        if (e.target.getAttribute('id') === 'btn-ofertarProducto-mas') {
+            document.querySelector('.ofertarProducto-modal-ofertar').classList.remove('hidden');
+            document.querySelector('.ofertarProducto-modal-ofertar').style.animationName = 'abrirModal';
+        };
+
+        if (e.target.getAttribute('id') === 'btn-cerrar-modal') {
+            document.querySelector('.ofertarProducto-modal-ofertar').style.animationName = 'cerrarModal';
+            setTimeout(() => document.querySelector('.ofertarProducto-modal-ofertar').classList.add('hidden'), 500);
+        };
+    });
+    
+    // btnRol();
+
+    setInterval(() => {
+        document.getElementById('ofertarProducto-tiempoRestante').textContent = restarHoras('{{ fruta.HORA_FIN_PUBLICACION }}');
+        let valorRestante = restarHoras('{{ fruta.HORA_FIN_PUBLICACION }}').split(':');
+
+        if(parseInt(valorRestante[0]) <= 0 && parseInt(valorRestante[1]) <= 0 && parseInt(valorRestante[2]) <= 1){
+            document.querySelector('.ofertarProducto-modal-ofertar').classList.add('hidden');
+            window.location = "{% url 'portalVentas:publicacion' %}?t";
+            //enviarPublicacionGanadora();
+        };
+    }, 1000);
+
+    setInterval(() => {
+        location.reload();
+    }, 300000);
+    // 1 hora = 3600000
+    // 5 min  = 300000
+
+    let $ofertarProductoForm = document.getElementById('ofertarProducto-modal-form');
+    
+    $ofertarProductoForm.addEventListener('submit', e => {
+        e.preventDefault()
+        let $ofertarProductoInputForm = document.querySelectorAll('.ofertarProducto-contenedor-input__input');
+        let ofertarProductoValidador = true;
+        for (const inp of $ofertarProductoInputForm) {
+            if(inp.value === ''){
+                ofertarProductoValidador = false;
+                desplegarNotificacion('red', `El campo "${inp.labels[0].textContent}" no se encuentra completado.`)
+                break;
+            };    
+        };
+
+        if(parseInt($ofertarProductoInputForm[1].value.replaceAll('.', '')) < parseInt('{{ fruta.KILOS }}'.replaceAll('.', '')) && ofertarProductoValidador ){
+            ofertarProductoValidador = false;
+            desplegarNotificacion('red', `La cantidad a ofertar debe ser mayor o igual a {{ fruta.KILOS }} kilos.`)
+        };
+
+        if(ofertarProductoValidador){
+            let $tempateTemp = document.createElement('template');
+            $tempateTemp.innerHTML += `
+            <input type="text" name="ID_SOLICITUD" value="{{ fruta.ID_SOLICITUD }}" readonly class="hidden">
+            <input type="text" name="VARIEDAD" value="{{ fruta.DES_VARIEDAD }}" readonly class="hidden">
+            <input type="text" name="ID_USUARIO" value="{{ user.username }}" readonly class="hidden">
+            <input type="text" name="ID_PEDIDO" value="{{ fruta.ID_PEDIDO }}" readonly class="hidden">
+            `;
+            $ofertarProductoInputForm[1].value = $ofertarProductoInputForm[1].value.replaceAll('.', '');
+            $ofertarProductoInputForm[2].value = $ofertarProductoInputForm[2].value.replaceAll('.', '');
+            $ofertarProductoForm.appendChild($tempateTemp.content);
+            $ofertarProductoForm.submit();
+        };
+    });
+
+    document.addEventListener('focusout', e => {
+        if(e.target.matches('.ofertarProducto-contenedor-input__input')){
+            e.target.value = parseInt(e.target.value.replaceAll('.', '')).toLocaleString('es-cl')
+        };
+    });
+
+    const addDayCurrentDate = (dayAdd, currentDate = new Date()) => new Date(currentDate.setDate(currentDate.getDate() + dayAdd));
+
+    const puntajePrecioVenta = (cantidadOfertada, precioVenta) => truncarNDecimales(cantidadOfertada / precioVenta, 3);
+
+    function strToDate(str) {
+        let date = str.split('/');
+        return new Date(parseInt(date[2]), parseInt(date[1]) - 1, parseInt(date[0]));
+    };
+
+    function truncarNDecimales(num, cantDecimal) {
+        if (num.toString().split('.').length === 2) {
+            let parteEntera = num.toString().split('.')[0];
+            let parteDecimal = num.toString().split('.')[1];
+
+            if (parteDecimal.length > cantDecimal) num = parseFloat(`${parteEntera}.${parteDecimal.substr(0, cantDecimal)}`);
+        };
+
+        return num;
+    };
+
+    function obtenerDatosPublicacion() {
+        const $contenedorPublicaciones = document.querySelector('.ofertarProducto-contenedor-ofertas');
+        const arrPublicacionDatos = [];
+        for (const publicacion of $contenedorPublicaciones.children) {
+            const idPublicacion = parseInt(publicacion.getAttribute('data-id-detalle-oferta'));
+            const $contenedorPublicacionDatos = publicacion.firstElementChild.children;
+            const objTemp = {};
+            let i = 1;
+
+            while (i <= 3) {
+                objTemp['ID_PUBLICACION'] = idPublicacion;
+                const value = $contenedorPublicacionDatos[i].lastElementChild.textContent;
+
+                switch (i) {
+                    case 1:
+                        objTemp.FECHA_COSECHA = strToDate(value);
+                        break;
+                    case 2:
+                        objTemp.CANTIDAD_OFERTADA = parseInt(value.split(' ')[0].replaceAll('.', ''));
+                        break;
+                    case 3:
+                        objTemp.PRECIO_VENTA = parseInt(value.split(' ')[1].replaceAll('.', ''));
+                        break;
+                };
+
+                objTemp.PUNTAJE = [];
+                i++;
+            };
+            arrPublicacionDatos.push(objTemp);
+        };
+
+        return arrPublicacionDatos;
+    };
+
+    function puntajeFechaCosecha(fechaConsecha) {
+        let puntaje = '';
+        switch (true) {
+            case (fechaConsecha.toLocaleDateString() === addDayCurrentDate(0).toLocaleDateString()):
+                puntaje = 6;
+                break;
+            case (fechaConsecha.toLocaleDateString() >= addDayCurrentDate(-2).toLocaleDateString()):
+                puntaje = 5;
+                break;
+            case (fechaConsecha.toLocaleDateString() >= addDayCurrentDate(-4).toLocaleDateString()):
+                puntaje = 3;
+                break;
+            case (fechaConsecha.toLocaleDateString() >= addDayCurrentDate(-7).toLocaleDateString()):
+                puntaje = 1;
+                break;
+            default:
+                puntaje = -3
+                break;
+        };
+        
+        return puntaje
+    };
+
+    function puntajeCantidadOfertada(cantidadOfertada) {
+        const cantidadSolicitada = parseInt(document.querySelectorAll('.ofertarProducto-contenedor-resumen-datos__span')[3].textContent.split(' ')[0]);
+        let puntaje = '';
+        switch (true) {
+            case (cantidadOfertada >= Math.floor(cantidadSolicitada * 2)):
+                puntaje = 10;
+                break;
+            case (cantidadOfertada >= Math.floor(cantidadSolicitada * 1.5)):
+                puntaje = 6;
+                break;
+            case (cantidadOfertada >= Math.floor(cantidadSolicitada * 1.1)):
+                puntaje = 5;
+                break;
+            case (cantidadOfertada >= Math.floor(cantidadSolicitada * 1.07)):
+                puntaje = 4;
+                break;
+            case (cantidadOfertada >= Math.floor(cantidadSolicitada * 1.05)):
+                puntaje = 3;
+                break;
+            case (cantidadOfertada >= Math.floor(cantidadSolicitada * 1.03)):
+                puntaje = 2;
+                break;
+            case (cantidadOfertada === Math.floor(cantidadSolicitada)):
+                puntaje = 1;
+                break;
+        };
+        
+        return puntaje
+    };
+
+    function sumarPuntaje(arrDatosPublicaciones){
+        for (const objDatosPublicacion of arrDatosPublicaciones) {
+            objDatosPublicacion.PUNTAJE.push(puntajeFechaCosecha(objDatosPublicacion.FECHA_COSECHA));
+            objDatosPublicacion.PUNTAJE.push(puntajeCantidadOfertada(objDatosPublicacion.CANTIDAD_OFERTADA));
+            objDatosPublicacion.PUNTAJE.push(puntajePrecioVenta(objDatosPublicacion.CANTIDAD_OFERTADA, objDatosPublicacion.PRECIO_VENTA));
+
+            let acumulador = 0;
+            objDatosPublicacion.PUNTAJE.forEach(val => acumulador += val);
+            objDatosPublicacion.PUNTAJE = acumulador;
+        };
+        return arrDatosPublicaciones;
+    };
+
+    function quickSort(arr) {
+        if (arr.length === 1) {
+            return arr;
+        }
+        let arrayOrdenado = arr;
+
+        let pivot = arrayOrdenado[arrayOrdenado.length - 1];
+        const arrLeft = [];
+        const arrRight = [];
+
+        for (let i = 0; i < arrayOrdenado.length - 1; i++) {
+
+            if (arrayOrdenado[i] < pivot) {
+                arrLeft.push(arrayOrdenado[i]);
+            } else {
+                arrRight.push(arrayOrdenado[i]);
+            };
+        };
+
+        if (arrLeft.length > 0 && arrRight.length > 0) {
+            return [...quickSort(arrLeft), pivot, ...quickSort(arrRight)];
+        } else if (arrLeft.length > 0) {
+            return [...quickSort(arrLeft), pivot];
+        } else {
+            return [pivot, ...quickSort(arrRight)];
+        };
+    };
+
+    function quickSortReducido(arr) {
+        if (arr.length <= 1) return arr;
+        let arrayOrdenado = arr;
+
+        let pivot = arrayOrdenado[arrayOrdenado.length - 1];
+        const arrLeft = [];
+        const arrRight = [];
+
+        for (const val of arrayOrdenado.slice(0, arrayOrdenado.length - 1)) val < pivot ? arrLeft.push(val) : arrRight.push(val);
+
+        return [...quickSortReducido(arrLeft), pivot, ...quickSortReducido(arrRight)];
+    };
+
+    function quickSortReducidoObj(arr, objKey) {
+        if (arr.length <= 1) return arr;
+        let arrayOrdenado = arr;
+
+        let pivot = arrayOrdenado[arrayOrdenado.length - 1];
+        const arrLeft = [];
+        const arrRight = [];
+
+        for (const val of arrayOrdenado.slice(0, arrayOrdenado.length - 1)) val[objKey] < pivot[objKey] ? arrLeft.push(val) : arrRight.push(val);
+
+        return [...quickSortReducidoObj(arrLeft, objKey), pivot, ...quickSortReducidoObj(arrRight, objKey)];
+    };
+
+    function publicacionGanadora(publicacion) {
+        document.getElementById('imgGanadora') !== null ? document.getElementById('imgGanadora').remove() : false;
+        let imgGanadora = `
+                    <div class="flex-auto" id="imgGanadora">
+                        <img src="/static/img/oferta_ganadora.png" alt="Oferta Ganadora" class="w-32 h-32 mx-auto">
+                    </div>`;
+        let $templateTemp = document.createElement('template');
+        $templateTemp.innerHTML = imgGanadora;
+        publicacion.appendChild($templateTemp.content);
+    };
+
+    function mejorSeleccion() {
+        let arrDatosPublicacionesOrdenado = quickSortReducidoObj(sumarPuntaje( obtenerDatosPublicacion() ), 'PUNTAJE').reverse();
+        let publicaciones = document.querySelector('.ofertarProducto-contenedor-ofertas').children;
+        console.log(arrDatosPublicacionesOrdenado)
+        for (const indx in arrDatosPublicacionesOrdenado) {
+            let idPublicacion = arrDatosPublicacionesOrdenado[indx].ID_PUBLICACION;
+            for (const publicacion of publicaciones) {
+                if (parseInt(publicacion.getAttribute('data-id-detalle-oferta')) === idPublicacion) {
+                    indx === '0' ? publicacionGanadora(publicacion) : false;
+                    publicacion.style.order = indx + 1;
+                    break;
+                };
+            };
+        };
+    };
+
+    function enviarPublicacionGanadora(){
+        idPublicacionGanadora  = document.getElementById('imgGanadora').parentElement.getAttribute('data-id-detalle-oferta');
+        idPedido  = document.getElementById('imgGanadora').parentElement.getAttribute('data-id-pedido');
+        kilosOfertados = document.getElementById('imgGanadora').parentElement.querySelectorAll('.ofertarProducto-contenedor-datosOfertaDetalle-fila__span')[5].textContent.replaceAll('.','').split(' ')[0];
+        formTemp = `
+        <form action="{% url 'portalVentas:publicacion' %}?t" method="POST" id="ofertarProducto-publicacion-ganadora">
+            {% csrf_token %}
+            <input type="text" name="ID_DETALLE_OF__ID_PEDIDO" value="${idPublicacionGanadora},${idPedido},${kilosOfertados}" readonly class="hidden">
+        </form>`;
+        $templateTemp = document.createElement('template')
+
+        $templateTemp.innerHTML = formTemp;
+        document.querySelector('.ofertarProducto-contenedor-general').appendChild($templateTemp.content)
+        document.getElementById('ofertarProducto-publicacion-ganadora').submit()
+    };
+
+</script>
+{% endblock %} 

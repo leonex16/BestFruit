@@ -30,10 +30,14 @@
                             </td>
                         </tr>
                     {% endif %}
-                    {% empty %}
                 {% endfor %}
             </tbody>
         </table>
+
+        <div class="historialProductor-vacio text-center my-10">
+            <i class="fas fa-hand-holding-usd opacity-25 my-4" style="font-size: 8rem;"></i>
+            <h2 class="historialProductor-vacio__h2 opacity-50">No has participado en publiciaciones. <br> ¿Que esperas para recibir algunos ingresos?</h2>
+        </div>
 
     </div>
 
@@ -68,6 +72,13 @@
 </style>
 
 <script>
+
+if(document.querySelector('.historialProductor-tbody').childElementCount > 0){
+        document.querySelector('.historialProductor-tabla').classList.remove('hidden');
+        document.querySelector('.historialProductor-vacio').classList.add('hidden');
+}else{
+    document.querySelector('.historialProductor-tabla').classList.add('hidden');
+};
 
 let view_historial_productor = [];
 

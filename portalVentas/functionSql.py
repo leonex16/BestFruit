@@ -4,13 +4,13 @@ import sys
 
 sys.path.append("C:/Users/leone/Downloads/Django/feriaVirtual")
 
-usr = 'c##feriaVirtual'
-passwd = 'feriavirtual'
+usr = 'admin_django'
+passwd = 'admin1234'
 # ("insert into SomeTable values (:1, :2)", (1, "Some string")) 
     # connection.commit()
 
 def SP_SALDOS():
-    with cx_Oracle.connect(usr, passwd, 'localhost:1521/xe', encoding="UTF-8") as connection:
+    with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()
         outVal = cursor.connection.cursor()
         cursor.callproc('SP_SALDOS', [outVal])
@@ -34,7 +34,7 @@ def SP_SALDOS():
     return sp_saldos
 
 def CARGAR_IMAGENES():
-    with cx_Oracle.connect(usr, passwd, 'localhost:1521/xe', encoding="UTF-8") as connection:
+    with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()
         for row in cursor.execute('SELECT * FROM IMAGEN').fetchall():
             CARGAR_IMAGEN(row[3].read(), row[1].replace(' ', '-'), row[2])
@@ -47,7 +47,7 @@ def CARGAR_IMAGEN(imagenBlob ,nombreArchivo, extensionArchivo):
     return crearArchivo
 
 def VIEW_ORGANIZACION_TERRITORIAL():
-    with cx_Oracle.connect(usr, passwd, 'localhost:1521/xe', encoding="UTF-8") as connection:
+    with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()
         view_organizacion_territorial = []
 
@@ -72,7 +72,7 @@ def VIEW_ORGANIZACION_TERRITORIAL():
     return view_organizacion_territorial
 
 def VIEW_FRUTAS():
-    with cx_Oracle.connect(usr, passwd, 'localhost:1521/xe', encoding="UTF-8") as connection:
+    with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()
         view_frutas = []
 
@@ -93,7 +93,7 @@ def VIEW_FRUTAS():
     return view_frutas
 
 def VIEW_OFERTAS_PRODUCTOR(idSolicitud, idPedido):
-    with cx_Oracle.connect(usr, passwd, 'localhost:1521/xe', encoding="UTF-8") as connection:
+    with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()
         view_ofertas_productor = []
         for row in cursor.execute('SELECT * FROM VIEW_OFERTAS_PRODUCTOR WHERE ID_SOLICITUD = {} AND ID_PEDIDO = {}'.format(idSolicitud, idPedido)).fetchall():
@@ -111,9 +111,9 @@ def VIEW_OFERTAS_PRODUCTOR(idSolicitud, idPedido):
             })
 
     return view_ofertas_productor
-
+ 
 def VIEW_DATOS_COTIZACION(idUsuario):
-    with cx_Oracle.connect(usr, passwd, 'localhost:1521/xe', encoding="UTF-8") as connection:
+    with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()
         view_datos_cotizacion = []
         for row in cursor.execute('SELECT * FROM VIEW_DATOS_COTIZACION WHERE ID_USUARIO = {} AND ID_ESTADO_PUBLICACION = 2 AND CERRADA = 1 ORDER BY ID_ESTADO_ORDEN DESC'.format(idUsuario)).fetchall():
@@ -140,7 +140,7 @@ def VIEW_DATOS_COTIZACION(idUsuario):
     return view_datos_cotizacion
 
 def VIEW_PEDIDOS_ACEPTADOS():
-    with cx_Oracle.connect(usr, passwd, 'localhost:1521/xe', encoding="UTF-8") as connection:
+    with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()
         view_pedidos_aceptados = []
         for row in cursor.execute('SELECT * FROM VIEW_PEDIDOS_ACEPTADOS WHERE ID_ESTADO_PEDIDO <> 4 ORDER BY FECHA_RECEPCION, ID_ORDEN DESC').fetchall():
@@ -158,7 +158,7 @@ def VIEW_PEDIDOS_ACEPTADOS():
     # A = """
 
 def VIEW_HISTORIAL_COMERCIANTE(idUsuario):
-    with cx_Oracle.connect(usr, passwd, 'localhost:1521/xe', encoding="UTF-8") as connection:
+    with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()
         view_historial_comerciante = []
         for row in cursor.execute('SELECT * FROM VIEW_HISTORIAL_COMERCIANTE WHERE ID_USUARIO = {}'.format(idUsuario)).fetchall():
@@ -173,7 +173,7 @@ def VIEW_HISTORIAL_COMERCIANTE(idUsuario):
     return view_historial_comerciante
     
 def VIEW_HISTORIAL_EXTERNO(idUsuario):
-    with cx_Oracle.connect(usr, passwd, 'localhost:1521/xe', encoding="UTF-8") as connection:
+    with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()
         view_historial_externo = []
         for row in cursor.execute('SELECT * FROM VIEW_HISTORIAL_EXTERNO WHERE ID_USUARIO = {}'.format(idUsuario)).fetchall():
@@ -190,7 +190,7 @@ def VIEW_HISTORIAL_EXTERNO(idUsuario):
     return view_historial_externo
 
 def VIEW_HISTORIAL_PRODUCTOR(idUsuario):
-    with cx_Oracle.connect(usr, passwd, 'localhost:1521/xe', encoding="UTF-8") as connection:
+    with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()
         view_historial_productor = []
         for row in cursor.execute('SELECT * FROM VIEW_HISTORIAL_PRODUCTOR WHERE ID_USUARIO = {}'.format(idUsuario)).fetchall():

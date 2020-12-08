@@ -1,6 +1,6 @@
 <div class="ordenCompra-contenedor-general w-screen sm:w-auto">
     <div class="listarSolicitud-contenedor-titulo" style="margin-right: 0.6rem;">
-        <h2 class="listarSolicitud-contenedor-titulo__h2">PEDIDOS PENDIENTES</h2>
+        <h2 class="listarSolicitud-contenedor-titulo__h2">Pedidos Pendientes</h2>
     </div>
 	<div class="ordenCompra-body my-2">
 		<div class="ordenCompra mx-auto overflow-scroll sm:overflow-auto" style="width: 90%; max-height: 23.9rem;">
@@ -161,18 +161,18 @@
                 break;
             case parseInt(soli[0]['ID_ESTADO_ORDEN']) !== 4:
                 btn = `
-                <button type="button" id="${soli[0]['ID_SOLICITUD']}-ordenCompra-apruebo" class="flex justify-center flex-row p-2 bg-blue-500 border-2 border-white rounded-md" style="width: 13rem;">
+                <span class="flex justify-center flex-row p-2 bg-blue-500 border-2 border-white rounded-md " style="width: 13rem;">
                     <bdi class="font-lato text-white">Gracias Por Preferirnos</bdi>
                     <i class="fas fa-heart text-white ml-2"></i>
-                </button>
+                </span>
                 `;
                 break;
             case parseInt(soli[0]['ID_ESTADO_ORDEN']) === 4:
                 btn = `
-                <button type="button" id="${soli[0]['ID_SOLICITUD']}-ordenCompra-rechazo" class="flex justify-center flex-row p-2 bg-red-500 border-2 border-white rounded-md" style="width: 13rem;">
+                <span class="flex justify-center flex-row p-2 bg-red-500 border-2 border-white rounded-md " style="width: 13rem;">
                     <bdi class="font-lato text-white">Solicitud Rechazada</bdi>
                     <i class="fas fa-heart-broken text-white ml-2"></i>
-                </button>
+                </span>
                 `;
                 break;
         };
@@ -362,7 +362,7 @@
                         <p class="font-lato"><dfn class="font-bold inline-block" style="width: 7.5rem;">Fecha</dfn>:&nbsp;${new Date().toLocaleDateString('es-CL')}</p>
                         <p class="font-lato"><dfn class="font-bold inline-block" style="width: 7.5rem;">Moneda de Venta</dfn>:&nbsp;Peso Chileno - $CLP</p>
                         <p class="font-lato"><dfn class="font-bold inline-block" style="width: 7.5rem;">Forma de Pago</dfn>:&nbsp; Transferencia Bancaria</p>
-                        <p class="font-lato"><dfn class="font-bold inline-block" style="width: 7.5rem;">Total Peso Bruto</dfn>:&nbsp;${pesoBruto} Kg</p>
+                        <p class="font-lato"><dfn class="font-bold inline-block" style="width: 7.5rem;">Total Peso Bruto</dfn>:&nbsp;${pesoBruto.toLocaleString('it-IT')} Kg</p>
                     </div>
                 </div>
 

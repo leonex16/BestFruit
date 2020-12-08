@@ -21,10 +21,14 @@
                         <td class="historialComerciante-tbody__td py-2">{{ obj.KILOS_COMPRADOS }}</td>
                         <td class="historialComerciante-tbody__td py-2">${{ obj.MONTO }}</td>
                     </tr>
-                    {% empty %}
                 {% endfor %}
             </tbody>
         </table>
+
+        <div class="historialComerciante-vacio text-center my-10">
+            <i class="fas fa-dizzy opacity-25 my-4" style="font-size: 8rem;"></i>
+            <h2 class="historialComerciante-vacio__h2 opacity-50">No has realizado ninguna compra. <hr> Puedes hacerla en el inicio de la página.</h2>
+        </div>
 
     </div>
 
@@ -39,3 +43,12 @@
         background-color: rgba(66, 153, 225, 0.18);
     }
 </style>
+
+<script>
+    if(document.querySelector('.historialComerciante-tbody').childElementCount > 0){
+        document.querySelector('.historialComerciante-tabla').classList.remove('hidden');
+        document.querySelector('.historialComerciante-vacio').classList.add('hidden');
+    }else{
+        document.querySelector('.historialComerciante-tabla').classList.add('hidden');
+    };
+</script>

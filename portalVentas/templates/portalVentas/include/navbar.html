@@ -60,6 +60,7 @@
 
     if(usuarioAutenticado){
         const usuarioNombre = '{{user.first_name}}'.toLowerCase().split(' ');
+
         $menuResponsive[1].firstElementChild.classList.add('hidden');
         $menuResponsive[1].lastElementChild.classList.add('col-span-2');
         $menuResponsive[1].lastElementChild.classList.add('md:justify-end');
@@ -67,7 +68,7 @@
         $menuResponsive[1].lastElementChild.children[0].classList.remove('hidden');
         $menuResponsive[1].lastElementChild.children[1].classList.remove('hidden');
         $menuResponsive[1].lastElementChild.children[2].classList.add('hidden');
-    }
+    };
 
     document.querySelector('.navbar-usuarioAutenticado').setAttribute('href', redireccionar('{{ usuario.id_rol.id_rol }}'));
 </script>

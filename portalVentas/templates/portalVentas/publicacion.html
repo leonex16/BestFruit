@@ -147,5 +147,37 @@
     
     // Publicaciones
 
+
+    let btnActivo;
+    setTimeout(() => {
+        btnActivo = document.querySelector('.usuario-contenedor-btns__span--activo')
+        let usuarioContenedorPersonalizado = `
+        <div class="usuario-contenedor-personalizado">
+            <h2 class="usuario-contenedor-titulo__h2 font-lato">Estas en ${btnActivo.textContent}</h2>
+            <div class="usuario-contenedor-personalizado__tooltip relative">
+                <i class="fas fa-question-circle text-2xl mt-2"></i>
+                <p class="usuario-contenedor-personalizado__p font-lato text-lg w-11/12 sm:w-8/12 lg:w-1/2" >
+                    En este menú, puedes visualizar todas las publicaciones que se encuentran en curso, en ellas, podras competir con distintos productores, ofreciendo lo solicitado de mejor manera.
+                    ¡Apresúrate! Las publicaciones son por tiempo limitado.
+                </p>
+            </div>
+        </div>  
+        `;
+    
+        document.querySelector('.usuario-contenedor-titulo').innerHTML += usuarioContenedorPersonalizado;
+    
+        document.querySelector('.fa-question-circle').addEventListener('mouseover', e => {
+            let $styleTemp = document.createElement('style');
+            $styleTemp.setAttribute('id', 'styleTemp');
+            $styleTemp.innerHTML = '.usuario-contenedor-personalizado__tooltip::after,.usuario-contenedor-personalizado__p{display: block;}';
+            document.querySelectorAll('script')[12].insertAdjacentElement('beforebegin', $styleTemp) // AL 12 HACE REFERENCIA A ESTA TAG SCRIPT
+        });
+        
+        document.querySelector('.fa-question-circle').addEventListener('mouseout', e => {
+            document.getElementById('styleTemp').remove();
+        });
+    }, 100);
+
+
 </script>
 {% endblock %}

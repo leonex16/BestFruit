@@ -1,21 +1,21 @@
 function redireccionar(rol){
     switch (rol) {
         case '1': // Administrador
-            return '/superAdmin/solicitud/';
+            return '/superAdmin/estadisticas/';
     
         case '2': // Cliente_externo
             return '/usuario/solicitud/';
 
         case '3': // Comerciante
-            return '/usuario/pedido/';
+            return '/usuario/historial/';
 
         case '4': // Productor
-            return '/usuario/solicitud/';
+            return '/usuario/publicacion/';
     }
 };
 
 function btnRol(rol, btnAside){
-    const $contenedorBaseHtml = document.querySelector('.pt-16');
+    const $contenedorBaseHtml = document.querySelector('.usuario-contenedor');
     const $btn = btnAside;
     const $contenedorHistorialComerciante = document.querySelector('.historialComerciante-contenedor');
     const $contenedorHistorialExterno = document.querySelector('.historialExterno-contenedor');
@@ -35,7 +35,7 @@ function btnRol(rol, btnAside){
                 location.pathname.indexOf(paths['historial']) === -1 &&
                 location.pathname.indexOf(paths['informacion']) === -1 &&
                 location.pathname.indexOf(paths['solicitud']) === -1) {
-                $contenedorBaseHtml.removeChild($contenedorBaseHtml.firstElementChild);
+                $contenedorBaseHtml.remove();
             }
             $btn.removeChild($btn.children[2]);
             $btn.children[2].querySelector('span').textContent += ' Pedidos';
@@ -45,11 +45,12 @@ function btnRol(rol, btnAside){
             break;
 
         case 3:
-            if (location.pathname.indexOf(paths['pedido']) === -1 &&
+            console.log('oeiueoi')
+            if (
                 location.pathname.indexOf(paths['historial']) === -1 &&
                 location.pathname.indexOf(paths['informacion']) === -1) {
-                $contenedorBaseHtml.removeChild($contenedorBaseHtml.firstElementChild);
-            }
+                    $contenedorBaseHtml.remove();
+                }
             $btn.removeChild($btn.children[0]);
             $btn.removeChild($btn.children[0]);
             $btn.removeChild($btn.children[0]);
@@ -64,17 +65,18 @@ function btnRol(rol, btnAside){
                 location.pathname.indexOf(paths['historial']) === -1 &&
                 location.pathname.indexOf(paths['informacion']) === -1 &&
                 location.pathname.indexOf(paths['solicitud']) === -1) {
-                $contenedorBaseHtml.removeChild($contenedorBaseHtml.firstElementChild);
+                $contenedorBaseHtml.remove();
             }
             $btn.removeChild($btn.children[1]);
             $btn.removeChild($btn.children[0]);
+            $btn.children[1].querySelector('span').textContent += ' Publicaciones';
             $btn.classList.add('grid-cols-4')
             $contenedorHistorialComerciante.remove();
             $contenedorHistorialExterno.remove();
             break;
 
         default:
-            document.querySelector('.pt-16').removeChild(document.querySelector('.pt-16').firstElementChild);
+            $contenedorBaseHtml.remove();
             break;
     };
 };

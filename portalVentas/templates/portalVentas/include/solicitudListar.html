@@ -5,11 +5,22 @@
     <div class="listarSolicitud-contenedor-solicitudes overflow-auto" style="max-height: 35rem;">
 
     </div>
+    <div class="listarSolicitud-vacio text-center my-10">
+        <i class="fas fa-arrow-alt-circle-up opacity-25 my-4" style="font-size: 8rem;"></i>
+        <h2 class="listarSolicitud-vacio__h2 opacity-50">No tienes solicitudes creadas.</br> Puedes hacerlo en el apartado de arriba.</h2>
+    </div>
 </div>
 
 
 
 <script>
+    if(document.querySelector('.listarSolicitud-contenedor-solicitudes').childElementCount > 0){
+        document.querySelector('.listarSolicitud-contenedor-solicitudes').classList.remove('hidden');
+        document.querySelector('.listarSolicitud-vacio').classList.add('hidden');
+    }else{
+        document.querySelector('.listarSolicitud-contenedor-solicitudes').classList.add('hidden');
+    };
+    
     document.addEventListener('click', e => {
         if(/-listarSolicitud-detalle-btn$/.test(e.target.id)){
             document.getElementById(`${e.target.id[0]}-listarSolicitud-contenedor`).classList.toggle('hidden');

@@ -26,7 +26,7 @@ SECRET_KEY = '2-@xpu5m8-e6=$y!t+%qb_*y&zz(%h4vvj@pa^s!)6#86i0rgk'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['www.portafolioBestFruit.cl','portafolioBestFruit.cl','10.0.2.15','*']
 
 
 # Application definition
@@ -79,9 +79,9 @@ WSGI_APPLICATION = 'proyectoBestFruit.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'localhost:1521/xe',
-        'USER': 'c##feriaVirtual',
-        'PASSWORD': 'feriavirtual'
+        'NAME': 'localhost:51521/xe',
+        'USER': 'admin_django',
+        'PASSWORD': 'admin1234'
     },
     # 'default': {
     #     'ENGINE': 'django.db.backends.oracle',
@@ -130,6 +130,7 @@ USE_TZ = True
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+STATIC_ROOT = '/portalVentas/static/'
 STATIC_URL = '/static/'
 STATICFIES_DIRS =[
     os.path.join(BASE_DIR, 'static')

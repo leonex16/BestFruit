@@ -81,7 +81,7 @@ def registro(request):
         'fechaActual' : today,
         'viewOrganizacionTerritorial' : viewOrganizacionTerritorial,
         'mensajeRegistro' : mensajeRegistro
-        })
+    })
 
 def detalle(request, id):
     # SE AGREGA LA VARIABLE 'oferta' DADO QUE LA VISTA OFERTA.HTML NECESITA DE ESTA VARIABLE
@@ -104,6 +104,7 @@ def transbank(request, id):
 
 def solicitud(request):
     tituloPagina = 'Solicitudes'
+    usuario = obtenerUsuario(int('{}'.format(request.user))) if request.user != None else 0
     mensajeSolicitud = None
     inputName = {
          'ID': [],
@@ -119,6 +120,7 @@ def solicitud(request):
     
     return render(request, 'portalVentas/solicitud.html', { 
         'tituloPagina' : tituloPagina,
+        'usuario' : usuario,
         'viewFrutas' : VIEW_FRUTAS(),
         'mensajeSolicitud' : mensajeSolicitud,
         'viewListaSolicitudes' : VIEW_LISTA_SOLICITUDES( request.user.username )

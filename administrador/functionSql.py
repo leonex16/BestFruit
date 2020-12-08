@@ -3,11 +3,11 @@ import sys
 
 sys.path.append("C:/Users/leone/Downloads/Django/feriaVirtual")
 
-usr = 'c##feriaVirtual'
-passwd = 'feriavirtual'
+usr = 'admin_django'
+passwd = 'admin1234'
 
 def VIEW_PEDIDOS():
-    with cx_Oracle.connect(usr, passwd, 'localhost:1521/xe', encoding="UTF-8") as connection:
+    with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()
         view_pedidos = []
         for row in cursor.execute('SELECT * FROM VIEW_PEDIDOS_ACEPTADOS').fetchall():
@@ -21,7 +21,7 @@ def VIEW_PEDIDOS():
     return view_pedidos
     
 def VIEW_CANTIDAD_SOLICITUDES_PENDIENTES():
-    with cx_Oracle.connect(usr, passwd, 'localhost:1521/xe', encoding="UTF-8") as connection:
+    with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()
         view_cantidad_solicitudes_pendientes = 0
         for row in cursor.execute('SELECT * FROM VIEW_CANTIDAD_SOLICITUDES_PENDIENTES').fetchall():
@@ -30,7 +30,7 @@ def VIEW_CANTIDAD_SOLICITUDES_PENDIENTES():
     return view_cantidad_solicitudes_pendientes
 
 def VIEW_CANTIDAD_PUBLICACIONES_X_ESTADO():
-    with cx_Oracle.connect(usr, passwd, 'localhost:1521/xe', encoding="UTF-8") as connection:
+    with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()
         view_cantidad_publicaciones_x_estado = {}
         for row in cursor.execute('SELECT * FROM VIEW_CANTIDAD_PUBLICACIONES_X_ESTADO ORDER BY ID_ESTADO').fetchall():
@@ -39,7 +39,7 @@ def VIEW_CANTIDAD_PUBLICACIONES_X_ESTADO():
     return view_cantidad_publicaciones_x_estado
 
 def VIEW_CANTIDAD_OC_RECHAZADAS():
-    with cx_Oracle.connect(usr, passwd, 'localhost:1521/xe', encoding="UTF-8") as connection:
+    with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()
         view_cantidad_oc_rechazadas = 0
         for row in cursor.execute('SELECT * FROM VIEW_CANTIDAD_OC_RECHAZADAS').fetchall():
@@ -48,7 +48,7 @@ def VIEW_CANTIDAD_OC_RECHAZADAS():
     return view_cantidad_oc_rechazadas
 
 def VIEW_GANANCIAS_X_MES():
-    with cx_Oracle.connect(usr, passwd, 'localhost:1521/xe', encoding="UTF-8") as connection:
+    with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()
         view_ganancias_x_mes = {}
         for row in cursor.execute('SELECT * FROM VIEW_GANANCIAS_X_MES ORDER BY N_MES').fetchall():
@@ -57,7 +57,7 @@ def VIEW_GANANCIAS_X_MES():
     return view_ganancias_x_mes
 
 def VIEW_COSTOS_X_MES():
-    with cx_Oracle.connect(usr, passwd, 'localhost:1521/xe', encoding="UTF-8") as connection:
+    with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()
         view_costos_x_mes = {}
         for row in cursor.execute('SELECT * FROM VIEW_COSTOS_X_MES ORDER BY N_MES').fetchall():
@@ -66,7 +66,7 @@ def VIEW_COSTOS_X_MES():
     return view_costos_x_mes
 
 def VIEW_FRUTAS_DONADAS():
-    with cx_Oracle.connect(usr, passwd, 'localhost:1521/xe', encoding="UTF-8") as connection:
+    with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()
         view_frutas_donadas = {}
         for row in cursor.execute('SELECT * FROM VIEW_FRUTAS_DONADAS ORDER BY KILOS_DONADOS').fetchall():
@@ -74,7 +74,7 @@ def VIEW_FRUTAS_DONADAS():
     return view_frutas_donadas
 
 def VIEW_PREFERENCIAS_BANCO():
-    with cx_Oracle.connect(usr, passwd, 'localhost:1521/xe', encoding="UTF-8") as connection:
+    with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()
         view_preferencias_banco = {}
         for row in cursor.execute('SELECT * FROM VIEW_PREFERENCIAS_BANCO ORDER BY CANTIDAD_USADO').fetchall():
@@ -82,7 +82,7 @@ def VIEW_PREFERENCIAS_BANCO():
     return view_preferencias_banco
 
 def VIEW_PRODUCTORES_OFERTAS_APROBADAS():
-    with cx_Oracle.connect(usr, passwd, 'localhost:1521/xe', encoding="UTF-8") as connection:
+    with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()
         view_productores_ofertas_aprobadas = {}
         for row in cursor.execute('SELECT * FROM VIEW_PRODUCTORES_OFERTAS_APROBADAS ORDER BY CANTIDAD_OFERTAS_APROBADAS').fetchall():
@@ -90,7 +90,7 @@ def VIEW_PRODUCTORES_OFERTAS_APROBADAS():
     return view_productores_ofertas_aprobadas
 
 def VIEW_EXTERNO_ORDENES_RECHAZADAS():
-    with cx_Oracle.connect(usr, passwd, 'localhost:1521/xe', encoding="UTF-8") as connection:
+    with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()
         view_externo_ordenes_rechazadas = {}
         for row in cursor.execute('SELECT * FROM VIEW_EXTERNO_ORDENES_RECHAZADAS ORDER BY CANTIDAD_ORDENES_RECHAZADAS').fetchall():
@@ -98,7 +98,7 @@ def VIEW_EXTERNO_ORDENES_RECHAZADAS():
     return view_externo_ordenes_rechazadas
 
 def VIEW_VENTA_LOCAL_EXTERNA():
-    with cx_Oracle.connect(usr, passwd, 'localhost:1521/xe', encoding="UTF-8") as connection:
+    with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()
         view_venta_local_externa = {}
         for row in cursor.execute('SELECT * FROM VIEW_VENTA_LOCAL_EXTERNA ORDER BY N_MES').fetchall():

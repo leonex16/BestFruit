@@ -7,4 +7,43 @@
 {% include 'portalVentas/include/pedidoPendiente.html' %}
 {% include 'portalVentas/include/pedidoEstado.html' %}
 
+<script>
+        let btnActivo;
+    setTimeout(() => {
+        btnActivo = document.querySelector('.usuario-contenedor-btns__span--activo')
+        let usuarioContenedorPersonalizado = `
+        <div class="usuario-contenedor-personalizado">
+            <h2 class="usuario-contenedor-titulo__h2 font-lato">Estas en ${btnActivo.textContent}</h2>
+            <div class="usuario-contenedor-personalizado__tooltip relative">
+                <i class="fas fa-question-circle text-2xl mt-2"></i>
+                <p class="usuario-contenedor-personalizado__p font-lato text-lg w-11/12 sm:w-8/12 lg:w-1/2" >
+                    Este menú se divide en dos secciones :
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;- Pedidos Pendientes
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;- Estado Pedidoos Aceptados
+                    <br>
+                    Donde el primer apartado se encuentran tus solicitudes que realizaste con anterioridad. Ahora, es el momento en el que decidas sé aprobar o rechazar el pedido. Recuerda que si mantienes una tasa alto de rechazos, posteriormente se dificultara la aceptación de las solicitudes futuras que requieres.
+                    <br>
+                    La segunda sección, tiene como objetivo ofrecerte información sobre tus pedidos. De esta forma, estarás al tanto del estado de tu compra.
+                </p>
+            </div>
+        </div>  
+        `;
+    
+        document.querySelector('.usuario-contenedor-titulo').innerHTML += usuarioContenedorPersonalizado;
+    
+        document.querySelector('.fa-question-circle').addEventListener('mouseover', e => {
+            let $styleTemp = document.createElement('style');
+            $styleTemp.setAttribute('id', 'styleTemp');
+            $styleTemp.innerHTML = '.usuario-contenedor-personalizado__tooltip::after,.usuario-contenedor-personalizado__p{display: block;}';
+            document.querySelectorAll('script')[12].insertAdjacentElement('beforebegin', $styleTemp) // AL 12 HACE REFERENCIA A ESTA TAG SCRIPT
+        });
+        
+        document.querySelector('.fa-question-circle').addEventListener('mouseout', e => {
+            document.getElementById('styleTemp').remove();
+        });
+    }, 100);
+</script>
+
 {% endblock %}

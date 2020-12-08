@@ -1,0 +1,54 @@
+docker start 1cd &&
+service nginx start 
+sudo code --user-data-dir
+sh /opt/sqldeveloper/sqldeveloper.sh && 
+source bin/active
+gunicorn proyectoBestFruit.wsgi --bind 10.0.2.15:8000
+
+docker exec -it --user=oracle myxedb bash
+sqlplus admin_django/admin1234
+
+
+
+
+COLUMN NOMBRE FORMAT A30
+COLUMN AP_PATERNO FORMAT A20
+COLUMN AP_MATERNO FORMAT A20
+COLUMN EMAIL FORMAT A30
+COLUMN DIRECCION FORMAT A20
+COLUMN CLAVE FORMAT A10
+set wrap off
+set linesize 300 
+SELECT * FROM USUARIO;
+
+update solicitud set pub_hora_fin = '23:45' where id_solicitud = 1;
+commit;
+
+
+{'REGISTRO_RUT': '21075869-0',
+ 'REGISTRO_PASAPORTE': None,
+ 'REGISTRO_FECHA': '19/07/2002',
+ 'REGISTRO_NOMBRE': 'Javier',
+ 'REGISTRO_PATERNO': 'Fica',
+ 'REGISTRO_MATERNO': 'Arias',
+ 'REGISTRO_CORREO': 'javi1313@gmail.com',
+ 'REGISTRO_CELULAR': '911223344',
+ 'REGISTRO_DIRECCION': 'Iquique 3541',
+ 'REGISTRO_REGION': '13',
+ 'REGISTRO_PROVINCIA': '46',
+ 'REGISTRO_COMUNA': '271',
+ 'REGISTRO_CONTRASENIA1': '123456'}
+
+{'REGISTRO_RUT': '10717198-3',
+ 'REGISTRO_PASAPORTE': None,
+ 'REGISTRO_FECHA': '01/11/1968',
+ 'REGISTRO_NOMBRE': 'Claudia',
+ 'REGISTRO_PATERNO': 'Sotelo',
+ 'REGISTRO_MATERNO': 'Martinez',
+ 'REGISTRO_CORREO': 'claudia1313@gmail.com',
+ 'REGISTRO_CELULAR': '955667788',
+ 'REGISTRO_DIRECCION': 'Zoroastro 1030',
+ 'REGISTRO_REGION': '13',
+ 'REGISTRO_PROVINCIA': '46',
+ 'REGISTRO_COMUNA': '271',
+ 'REGISTRO_CONTRASENIA1': '123456'}

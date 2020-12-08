@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
@@ -7,8 +6,8 @@ import cx_Oracle
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'proyectoBestFruit.settings')
-    os.environ['DJANGO_SETTINGS_MODULE'] = 'proyectoBestFruit.settings'
-    cx_Oracle.init_oracle_client(lib_dir=r"C:/oracle/instantclient_19_8")
+    # os.environ['DJANGO_SETTINGS_MODULE'] = 'proyectoBestFruit.settings'
+    cx_Oracle.init_oracle_client(lib_dir=r"/opt/oracle/instantclient_19_9/")
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

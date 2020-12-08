@@ -3,7 +3,8 @@ from os import error
 import sys
 import time
 from django.core.exceptions import ObjectDoesNotExist
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
+import pytz
 import threading
 
 from .functionSql import SP_SALDOS, VIEW_ORGANIZACION_TERRITORIAL
@@ -146,6 +147,7 @@ def autentificarUsuario(solicitud, correo, contrasenia):
         return 0
     
     usuarioAutenticado = authenticate(solicitud, username=usuario, password=contrasenia)
+
     if usuarioAutenticado is not None:
         login(solicitud, usuarioAutenticado)
         return 1
@@ -549,16 +551,18 @@ def publicacionGanadora():
 
 def treadCadaUnSegundo(contador):
     contador += 1
-    horaActual = datetime.now().hour if len(str(datetime.now().hour)) == 2 else '0{}'.format(datetime.now().hour)
-    minutoActual = datetime.now().minute if len(str(datetime.now().minute)) == 2 else '0{}'.format(datetime.now().minute)
+    fechaActual = datetime.now().astimezone(pytz.timezone("Chile/Continental"))
+    horaActual = fechaActual.hour if len(str(fechaActual.hour)) == 2 else '0{}'.format(fechaActual.hour)
+    minutoActual = fechaActual.minute if len(str(fechaActual.minute)) == 2 else '0{}'.format(fechaActual.minute)
 
     for obj in Solicitud.objects.filter(id_estado = 2, id_publicacion = 1):
         horafin = obj.pub_hora_fin.split(':')[0]
-        minutoFin = obj.pub_hora_fin.split(':')[1]
+        minutoFin = obj.pub_hora_fin.split(':')[1]    
+        
         if int(horaActual) == int(horafin) and int(minutoActual) == int(minutoFin):
             publicacionGanadora()
             
-    if contador < 60*60:
+    if contador < 60*120:
         time.sleep(1)
         treadCadaUnSegundo(contador)
     else:

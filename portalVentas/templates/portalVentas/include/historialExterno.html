@@ -32,11 +32,15 @@
                             </td>
                         </tr>
                     {% endif %}
-                    {% empty %}
                 {% endfor %}
             </tbody>
         </table>
 
+        <div class="historialExterno-vacio text-center my-10">
+            <i class="fas fa-dizzy opacity-25 my-4" style="font-size: 8rem;"></i>
+            <h2 class="historialExterno-vacio__h2 opacity-50">No se ha completado ningún pedido por el momento.</h2>
+        </div>
+        
     </div>
 
 </div>
@@ -68,6 +72,13 @@
 </style>
 
 <script>
+
+if(document.querySelector('.historialExterno-tbody').childElementCount > 0){
+        document.querySelector('.historialExterno-tabla').classList.remove('hidden');
+        document.querySelector('.historialExterno-vacio').classList.add('hidden');
+}else{
+    document.querySelector('.historialExterno-tabla').classList.add('hidden');
+};
 
 let view_historial_externo = [];
 

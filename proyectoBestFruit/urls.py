@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(('portalVentas.urls', 'portalVentas'), namespace='portalVentas')),
     path('superAdmin/', include(('administrador.urls', 'administrador'), namespace='administrador')),
+    path('', include('pwa.urls'))
 ]
 
 

@@ -21,8 +21,8 @@ def home(request):
             inputName[key] = request.POST.get(key)
         pagoEfectuado = crearPago(inputName)
         verificarPagos()
-    if len(request.GET) == 1:
-        if request.GET['..'] == '':
+
+    if request.GET.getlist('..') != []:
             logout(request)
     return render(request, 'portalVentas/index.html', 
     {'tituloPagina' : tituloPagina,

@@ -2,6 +2,7 @@
 import os
 import sys
 import cx_Oracle
+import pwa
 
 def main():
     """Run administrative tasks."""

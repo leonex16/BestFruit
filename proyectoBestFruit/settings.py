@@ -16,7 +16,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -40,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'portalVentas.apps.PortalventasConfig',
     'administrador.apps.AdministradorConfig',
+    'pwa'
 ]
 
 MIDDLEWARE = [
@@ -137,3 +137,58 @@ STATICFIES_DIRS =[
 ]
 
 LOGIN_REDIRECT_URL = '/'
+
+
+PWA_SERVICE_WORKER_PATH = '/var/www/portafolioBestFruit/Proyecto/BestFruit/sw.js'
+print('*'*100)
+print(PWA_SERVICE_WORKER_PATH)
+print('*'*100)
+
+PWA_APP_NAME = 'Best Fruit'
+PWA_APP_DESCRIPTION = "En Best Fruit somos el puente de conexión entre los productores locales que desean exportar su fruta y las empresas extranjeras que necesitan aquellos productos. A su vez, somos una tienda virtual que facilita el abastecimiento de los hogares chilenos."
+PWA_APP_THEME_COLOR = '#10b981'
+PWA_APP_BACKGROUND_COLOR = '#10b981'
+PWA_APP_ORIENTATION = 'portrait'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_START_URL = '/'
+PWA_APP_STATUS_BAR_COLOR = 'default'
+PWA_APP_ICONS = [
+    {
+        'src' : '/static/img/iconsPwa/1024.png',
+        'sizes' : '1024x1024',
+        'type' : 'image/png'
+    },
+    {
+        'src' : '/static/img/iconsPwa/512.png',
+        'sizes' : '512x512',
+        'type' : 'image/png'
+    },
+    {
+        'src' : '/static/img/iconsPwa/256.png',
+        'sizes' : '256x256',
+        'type' : 'image/png'
+    },
+    {
+        'src' : '/static/img/iconsPwa/128.png',
+        'sizes' : '128x128',
+        'type' : 'image/png'
+    },
+    {
+        'src' : '/static/img/iconsPwa/64.png',
+        'sizes' : '64x64',
+        'type' : 'image/png'
+    },
+    {
+        'src' : '/static/img/iconsPwa/32.png',
+        'sizes' : '32x32',
+        'type' : 'image/png'
+    },
+    {
+        'src' : '/static/img/iconsPwa/16.png',
+        'sizes' : '16x16',
+        'type' : 'image/png'
+    }
+]
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'es-CL'

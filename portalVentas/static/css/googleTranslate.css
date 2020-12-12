@@ -1,0 +1,63 @@
+#google_translate_element {
+position: fixed;
+z-index: 100;
+bottom: 0;
+}
+
+.goog-te-menu-frame{
+visibility: visible !important;
+box-sizing: content-box !important;
+width: auto !important;
+height: 100% !important;
+top: 0px !important;
+}
+
+.goog-te-gadget {
+font-family: Roboto, "Open Sans", sans-serif !important;
+text-transform: capitalize;
+}
+
+.goog-te-gadget-simple {
+background-color: rgba(59, 130, 246,1) !important;
+border: 1px solid rgba(255, 255, 255, 0) !important;
+font-size: 1rem !important;
+cursor: pointer;
+width: 100vw;
+height: 50px;
+display: flex;
+justify-content: center;
+padding-top: 5px;
+}
+
+.goog-te-menu-value {
+color: #fff !important;
+}
+
+.goog-te-menu-value:before {
+font-family: "Material Icons";
+content: "";
+margin-right: 16px;
+font-size: 2rem;
+vertical-align: -10px;
+}
+
+.goog-te-menu-value span:nth-child(5) {
+display: none;
+}
+
+.goog-te-menu-value span:nth-child(3) {
+border: none !important;
+}
+
+.goog-te-gadget-icon {
+background-image: url(https://placehold.it/32) !important;
+display: none;
+}
+
+body{
+top: 0 !important;
+}
+
+.goog-te-banner-frame.skiptranslate {
+display: none !important;
+}

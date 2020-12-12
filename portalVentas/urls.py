@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import historial, home, informacionBestFruit, login, registro, detalle, solicitud, docPdf, pedido, informacion, publicacion, ofertarProducto, transbank
+from .views import historial, home, informacionBestFruit, login, registro, detalle, solicitud, docPdf, pedido, informacion, publicacion, ofertarProducto, transbank, verificarSSL
 
 urlpatterns = [
    path('', home, name="home"),
@@ -15,4 +15,5 @@ urlpatterns = [
    path('usuario/informacion/', informacion, name="informacion"),
    path('usuario/publicacion/', publicacion, name="publicacion"),
    path('usuario/publicacion/<int:idSolicitud>/<int:idPedido>/<slug:fruta>', ofertarProducto, name="ofertarProducto"),
+   path('.well-known/pki-validation/D79B446C6525FBBA7D98F8C85ABB40F8.txt', verificarSSL)
 ] 

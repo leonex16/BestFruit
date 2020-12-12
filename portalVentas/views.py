@@ -191,4 +191,8 @@ def ofertarProducto(request, idSolicitud, idPedido, fruta):
         'mensajeOfertarProducto' : mensajeOfertarProducto,
         'view_ofertas_productor' : VIEW_OFERTAS_PRODUCTOR(idSolicitud, idPedido)})
 
+def verificarSSL(request):
+    return render(request, '.well-known/pki-validation/D79B446C6525FBBA7D98F8C85ABB40F8.txt')
+
+
 iniciarThread()

@@ -139,11 +139,9 @@ STATICFIES_DIRS =[
 LOGIN_REDIRECT_URL = '/'
 
 
+# PWA
 PWA_SERVICE_WORKER_PATH = '/var/www/portafolioBestFruit/Proyecto/BestFruit/sw.js'
-print('*'*100)
-print(PWA_SERVICE_WORKER_PATH)
-print('*'*100)
-
+# PWA - MANIFEST
 PWA_APP_NAME = 'Best Fruit'
 PWA_APP_DESCRIPTION = "En Best Fruit somos el puente de conexión entre los productores locales que desean exportar su fruta y las empresas extranjeras que necesitan aquellos productos. A su vez, somos una tienda virtual que facilita el abastecimiento de los hogares chilenos."
 PWA_APP_THEME_COLOR = '#10b981'

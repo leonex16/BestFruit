@@ -43,7 +43,6 @@
         border-color: #fff;
     } 
 </style>
-
 <script>
     const $burger = document.getElementById('burger');
     const $menuResponsive = document.querySelectorAll("div[name='menu-responsive']");
@@ -71,4 +70,5 @@
     };
 
     document.querySelector('.navbar-usuarioAutenticado').setAttribute('href', redireccionar('{{ usuario.id_rol.id_rol }}'));
+
 </script>

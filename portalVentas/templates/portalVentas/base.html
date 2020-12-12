@@ -7,22 +7,6 @@
   <meta charset="utf-8" />
   <title>{% block title %}{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- PWA -->
-  <!-- <meta name="theme-color" content="#10b981">
-  <meta name="MobileOptimized" content="width">
-  <meta name="HandheldFriendly" content="true">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="apple-touch-icon" href="{% static '/img/favicon.ico' %}"> -->
-  <link rel="apple-touch-startup-image" href="{% static '/img/favicon.ico' %}">
-  <!-- <link rel="manifest" href="{% static '/js/manifest.json' %}"> -->
-  <!-- <script>
-    if('serviceWorker' in navigator){
-      navigator.serviceWorker.register('/static/js/sw.js')
-      .catch(err => console.warn('Error al registrar el SW', err))
-    };
-  </script> -->
-  
   <link rel="icon" type="image/x-icon" href="{% static '/img/favicon.ico' %}" />
   <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   <script src="{% static 'js/fn.js' %}"></script>
@@ -42,11 +26,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
   <!-- TingleJs -->
   <link rel="stylesheet" href="{% static 'css/tingle.css' %}" />
-  <script src="{% static 'js/tingle.js' %}"></script>
+  <script src="{% static 'js/tingle.js' %}"></script> 
 </head>
 
 <body class="h-screen" >
-
   {% include 'portalVentas/include/toast-alert.html' %}
 
   {% include 'portalVentas/include/navbar.html' %}
@@ -56,33 +39,38 @@
   </div>
 
   {% include 'portalVentas/include/footer.html' %}
+  <div id="google_translate_element" class=""></div>
   
   <script>
-    $.datepicker.regional['es'] = {
-        closeText: 'Cerrar',
-        prevText: '< Ant',
-        nextText: 'Sig >',
-        currentText: 'Hoy',
-        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre',
-            'Noviembre', 'Diciembre'
-        ],
-        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
-        dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
-        weekHeader: 'Sm',
-        dateFormat: 'dd/mm/yy',
-        firstDay: 1,
-        isRTL: false,
-        showMonthAfterYear: false,
-        yearSuffix: ''
-    };
-    $.datepicker.setDefaults($.datepicker.regional['es']);
-	
+      $.datepicker.regional['es'] = {
+          closeText: 'Cerrar',
+          prevText: '< Ant',
+          nextText: 'Sig >',
+          currentText: 'Hoy',
+          monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre',
+              'Noviembre', 'Diciembre'
+          ],
+          monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+          dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+          dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+          dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+          weekHeader: 'Sm',
+          dateFormat: 'dd/mm/yy',
+          firstDay: 1,
+          isRTL: false,
+          showMonthAfterYear: false,
+          yearSuffix: ''
+      };
+      $.datepicker.setDefaults($.datepicker.regional['es']);
 </script>
-  <script src="{% static 'js/glide.js' %}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/glider-js@1.7.3/glider.min.js"></script>
-  <script src="https://kit.fontawesome.com/f126795e7d.js" crossorigin="anonymous"></script>
+<script src="{% static 'js/glide.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/glider-js@1.7.3/glider.min.js"></script>
+<script src="https://kit.fontawesome.com/f126795e7d.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<!-- GoogleTranslate -->
+<script src="{% static 'js/googleTranslate.js' %}"></script>
+<link href="{% static 'css/googleTranslate.css' %}" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <!-- Validaciones -->
   <script src="{% static 'js/validacionRegistro.js' %}"></script>
 </body>

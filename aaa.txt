@@ -4,6 +4,7 @@ sudo code --user-data-dir
 sh /opt/sqldeveloper/sqldeveloper.sh && 
 source bin/active
 gunicorn proyectoBestFruit.wsgi --bind 10.0.2.15:8000
+gunicorn proyectoBestFruit.wsgi --bind 192.168.17.98:8000
 
 docker exec -it --user=oracle myxedb bash
 sqlplus admin_django/admin1234

@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os
 from pathlib import Path
+import django_heroku
+# Heroku: Update database configuration from $DATABASE_URL.
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,6 +47,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -130,7 +134,7 @@ USE_TZ = True
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = '/portalVentas/static/'
+STATIC_ROOT = 'portalVentas/static/'
 STATIC_URL = '/static/'
 STATICFIES_DIRS =[
     os.path.join(BASE_DIR, 'static')
@@ -190,3 +194,11 @@ PWA_APP_ICONS = [
 ]
 PWA_APP_DIR = 'ltr'
 PWA_APP_LANG = 'es-CL'
+
+# HEROKU
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)

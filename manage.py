@@ -9,6 +9,7 @@ def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'proyectoBestFruit.settings')
     # os.environ['DJANGO_SETTINGS_MODULE'] = 'proyectoBestFruit.settings'
     # cx_Oracle.init_oracle_client(lib_dir=r"/opt/oracle/instantclient_19_9/")
+    cx_Oracle.init_oracle_client(lib_dir=r"./instantclient_21_1/")
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

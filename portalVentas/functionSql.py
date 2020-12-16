@@ -153,10 +153,6 @@ def VIEW_PEDIDOS_ACEPTADOS():
             })
     return view_pedidos_aceptados
     
-
-    
-    # A = """
-
 def VIEW_HISTORIAL_COMERCIANTE(idUsuario):
     with cx_Oracle.connect(usr, passwd, 'localhost:51521/xe', encoding="UTF-8") as connection:
         cursor = connection.cursor()

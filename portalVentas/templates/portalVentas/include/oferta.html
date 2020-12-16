@@ -12,7 +12,7 @@
                                 <div class="contenedor-tarjeta relative bg-white">
                                     <div class="absolute"  style="top: -40px; right: -40px; z-index: 999;">
                                         <img src="/static/img/bg-dcto.png" alt="" class="w-24 h-2w-24" style="filter: saturate(1.8);">
-                                        <p class="absolute text-2xl text-white font-lato font-semibold"  style="top: 35px; right: 20px;">-<bdi>15</bdi>%</p>
+                                        <p class="absolute text-2xl text-white font-lato font-semibold"  style="top: 35px; right: 20px;">-<bdi>90</bdi>%</p>
                                     </div>
                                     <div class="imagen-tarjeta" loading="lazy" style="background-image: url('{{fruta.IMAGEN}}');"></div>
                                     <div class="titulo-tarjeta">
@@ -54,6 +54,6 @@
 
 <script>
     document.querySelectorAll('.precio-tarjeta-despues').forEach(precioDespuesH2 => {
-        precioDespuesH2.textContent = parseInt(parseInt(precioDespuesH2.textContent.split('$')[1].replaceAll('.', '')) * 0.85) ;
+        precioDespuesH2.textContent = parseInt(parseInt(precioDespuesH2.textContent.split('$')[1].replaceAll('.', '')) * 0.10) ;
     });
 </script>

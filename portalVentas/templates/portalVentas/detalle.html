@@ -47,7 +47,7 @@
 <script>
     let dias = (new Date("{{ fruta.FECHA_ESTIMADA_VENCIMIENTO|date:'yy/m/d' }}") - new Date()) / (1000 * 3600 * 24);
     if(dias <= 3){
-        let precioRebajado = parseInt(parseInt(parseInt(document.getElementById('precioKilo').textContent.substring(1, document.getElementById('precioKilo').textContent.length).replaceAll('.','') ,10) * 0.85));
+        let precioRebajado = parseInt(parseInt(parseInt(document.getElementById('precioKilo').textContent.substring(1, document.getElementById('precioKilo').textContent.length).replaceAll('.','') ,10) * 0.10));
         document.getElementById('precioKilo').textContent = `$ ${ precioRebajado.toLocaleString('it-IT') }`;
         document.getElementById('total').value = precioRebajado;
     };

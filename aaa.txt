@@ -8,7 +8,7 @@ gunicorn proyectoBestFruit.wsgi --bind 192.168.17.98:8000
 
 docker exec -it --user=oracle myxedb bash
 sqlplus admin_django/admin1234
-
+f7ca950672e503805874bd702b16da47e3bb324c
 
 
 

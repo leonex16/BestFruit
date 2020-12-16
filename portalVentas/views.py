@@ -3,12 +3,12 @@ from django.contrib import auth
 from django.contrib.auth import logout
 from portalVentas.models import OrdenCompra, VentaLocal
 from django.shortcuts import render
-from .functionView import VIEW_LISTA_SOLICITUDES, actualizarPublicacionGanadora, autentificarUsuario, cargarUsuariosDesdeDB, crearOferta, crearOrdenCompra, crearPago, crearSolicitud, idMaxMasUno, iniciarThread, obtenerProductoIdyNombre, obtenerUsuario, today, obtenerProductos, obtenerOfertas, verificarPagos, viewOrganizacionTerritorial, obtenerProductoId, crearVentaLocal, agregarUsuario
+from .functionView import VIEW_LISTA_SOLICITUDES, autentificarUsuario, cargarUsuariosDesdeDB, crearOferta, crearOrdenCompra, crearPago, crearSolicitud, idMaxMasUno, iniciarThread, obtenerProductoIdyNombre, obtenerUsuario, today, obtenerProductos, obtenerOfertas, verificarPagos, viewOrganizacionTerritorial, obtenerProductoId, crearVentaLocal, agregarUsuario
 
 def home(request):
     tituloPagina = 'Inicio'
     cargarUsuariosDesdeDB()
-    CARGAR_IMAGENES()
+    #CARGAR_IMAGENES()
     usuario = obtenerUsuario(int('{}'.format(request.user))) if '{}'.format(request.user) != 'AnonymousUser' else 0
     pagoEfectuado = None
     if request.method == 'POST':
@@ -37,6 +37,7 @@ def informacionBestFruit(request):
 
 def login(request):
     tituloPagina = 'Ingreso'
+    cargarUsuariosDesdeDB()
     mensajeLogin = None
     inputName = {
         'LOGIN_CORREO' : '',
@@ -123,7 +124,7 @@ def solicitud(request):
         'usuario' : usuario,
         'viewFrutas' : VIEW_FRUTAS(),
         'mensajeSolicitud' : mensajeSolicitud,
-        'viewListaSolicitudes' : VIEW_LISTA_SOLICITUDES( request.user.username )
+        'viewListaSolicitudes' : VIEW_LISTA_SOLICITUDES('ESTADO_SOLICITUD', request.user.username )
      })
 
 def docPdf(request):

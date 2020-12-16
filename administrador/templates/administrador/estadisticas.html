@@ -66,13 +66,13 @@
                 </h3>
                 <div class="estadisticas-contenedor-indicador__contenedor-estados flex text-center">
                     <p class="estadisticas-contenedor-indicador__contador font-lato text-sm text-white font-semibold flex-1 flex flex-col">
-                        No Publicada <bdi class="estadisticas-contenedor-indicador__resultado text-lg font-extrabold bg-blue-600 rounded-full self-center mt-0 sm:mt-1" style="width: 35px; height: 35px; line-height: 35px;">{{ view_cantidad_publicaciones_x_estado.NO_PUBLICADA }}</bdi>
+                        No Publicada <bdi class="estadisticas-contenedor-indicador__resultado text-lg font-extrabold bg-blue-600 rounded-full self-center mt-0 sm:mt-1" style="width: 35px; height: 35px; line-height: 35px;">{{ view_cantidad_publicaciones_x_estado.NO_PUBLICADA|default:0 }}</bdi>
                     </p>
                     <p class="estadisticas-contenedor-indicador__contador font-lato text-sm text-white font-semibold flex-1 flex flex-col">
-                        En Proceso <bdi class="estadisticas-contenedor-indicador__resultado text-lg font-extrabold bg-blue-600 rounded-full self-center mt-0 sm:mt-1" style="width: 35px; height: 35px; line-height: 35px;">{{ view_cantidad_publicaciones_x_estado.EN_PROCESO }}</bdi>
+                        En Proceso <bdi class="estadisticas-contenedor-indicador__resultado text-lg font-extrabold bg-blue-600 rounded-full self-center mt-0 sm:mt-1" style="width: 35px; height: 35px; line-height: 35px;">{{ view_cantidad_publicaciones_x_estado.EN_PROCESO|default:0 }}</bdi>
                     </p>
                     <p class="estadisticas-contenedor-indicador__contador font-lato text-sm text-white font-semibold flex-1 flex flex-col">
-                        Finalizada <bdi class="estadisticas-contenedor-indicador__resultado text-lg font-extrabold bg-blue-600 rounded-full self-center mt-0 sm:mt-1" style="width: 35px; height: 35px; line-height: 35px;">{{ view_cantidad_publicaciones_x_estado.FINALIZADA }}</bdi>
+                        Finalizada <bdi class="estadisticas-contenedor-indicador__resultado text-lg font-extrabold bg-blue-600 rounded-full self-center mt-0 sm:mt-1" style="width: 35px; height: 35px; line-height: 35px;">{{ view_cantidad_publicaciones_x_estado.FINALIZADA|default:0 }}</bdi>
                     </p>
                     <a href="{% url 'administrador:publicacion' %}"><i class="fas fa-apple-alt text-white text-4xl flex-grow-0 relative bottom-0 right-0 mt-4 mr-2"></i></a>
                 </div>
@@ -394,11 +394,10 @@
         ]
     };
     
-    let categoriaDonacionFruta = []
+
     let dataDonacionFruta = []
     {% for key, val in view_frutas_donadas.items %}
-        categoriaDonacionFruta.push('{{ key|title }}')
-        dataDonacionFruta.push(parseInt('{{ val }}'.replaceAll('.', '')))
+        dataDonacionFruta.push(['{{ key|title }}',parseInt('{{ val }}'.replaceAll('.', ''))])
     {% endfor %}
     const JsonGraficoColumPyramidDonacionFruta = {
         chart: {
@@ -412,16 +411,16 @@
             text: 'Cantidad de donaciones, año 2020'
         },
         xAxis: {
-            categories: categoriaDonacionFruta,
             title: {
                 text: null
-            }
+            },
+            type: 'category'
         },
         yAxis: {
-            min: 50000,
+            min: 0,
             title: {
                 text: 'Cantidad'
-            }
+            },
         },
         legend:{
             enabled: false,
@@ -448,6 +447,17 @@
     const JsonGraficoPieBanco = {
         chart: {
             type: 'pie'
+        },
+
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.name}\t({point.y})',                    
+                }
+            }
         },
 
         exporting : opcionesExportacionDefecto('transaccionBanco'),

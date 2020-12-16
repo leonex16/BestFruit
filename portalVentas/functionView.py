@@ -15,7 +15,6 @@ from django.contrib.auth import authenticate, login
 
 today = datetime.now()
 viewOrganizacionTerritorial = VIEW_ORGANIZACION_TERRITORIAL()
-sys.setrecursionlimit(10**6) 
 
 def idMaxMasUno(modelo, campo):
     id = modelo.objects.all().aggregate(Max(campo))['{}__max'.format(campo)]
@@ -47,7 +46,7 @@ def obtenerProductoId(id):
     for obj in SP_SALDOS():
         if obj['ID_STOCK'] == id:
             producto = obj
-            break;
+            break
     return producto
 
 def obtenerProductoIdyNombre(id, nombreFruta):
@@ -262,7 +261,7 @@ def VIEW_LISTA_SOLICITUDES(filtro, id_usuario = 0):
     viewListaSolicitudes = []
     query = ''
     if filtro != 'S' and filtro != 'P' and filtro != 'O' and filtro != 'OC':
-        query = 'SELECT * FROM VIEW_LISTA_SOLICITUDES WHERE ID_USUARIO = {} ORDER BY ID_ESTADO, ID_SOLICITUD DESC'.format(filtro)
+        query = 'SELECT * FROM VIEW_LISTA_SOLICITUDES WHERE ID_USUARIO = {} ORDER BY ID_ESTADO, ID_SOLICITUD DESC'.format(id_usuario)
     elif filtro == 'S':
         query = 'SELECT * FROM VIEW_LISTA_SOLICITUDES WHERE ID_ESTADO = 1 ORDER BY ID_SOLICITUD DESC'
     elif filtro == 'P':
@@ -347,7 +346,10 @@ def actualizarPublicacionGanadora(datosOfertaGanadora):
     idDetalleOferta = datosOfertaGanadora.split(',')[0]
     idPedido = datosOfertaGanadora.split(',')[1]
     kilosOfertados = datosOfertaGanadora.split(',')[2]
-
+    print('*'*100)
+    print(idPedido)
+    print(kilosOfertados)
+    print('*'*100)
     DetalleSolicitud.objects.filter(id_pedido = idPedido).update(kilos_obte = kilosOfertados)
 
     DetalleOferta.objects.filter(id_pedido = idPedido).update(cerrada = -1)
@@ -417,7 +419,7 @@ def crearStockSobrante(idOrden, idSolicitud):
     arrRowDetalleOferta = []
     arrKilos_sobrante = []
     for idOferta in OfertaProductor.objects.filter(id_solicitud = idSolicitud):
-        for row in DetalleOferta.objects.filter(id_oferta = idOferta):
+        for row in DetalleOferta.objects.filter(id_oferta = idOferta, cerrada = 1):
             arrRowDetalleOferta.append(
                 {
                     'FECHA_COSECHA' : row.fecha_cosecha,
@@ -477,7 +479,7 @@ def puntajeFechaCosecha(fechaConsecha):
     return puntaje
 
 def puntajeCantidadOfertada(cantidadOfertada, cantidadSolicitada):
-    puntaje = '';
+    puntaje = ''
 
     if cantidadOfertada >= trunc(cantidadSolicitada * 2):
         puntaje = 10
@@ -491,7 +493,7 @@ def puntajeCantidadOfertada(cantidadOfertada, cantidadSolicitada):
         puntaje = 3
     elif cantidadOfertada >= trunc(cantidadSolicitada * 1.03):
         puntaje = 2
-    elif cantidadOfertada == trunc(cantidadSolicitada):
+    else:
         puntaje = 1
             
     return puntaje
@@ -539,13 +541,13 @@ def publicacionGanadora():
             arrTemp = []
             arrTemp = obtenerArrConPuntajes(arrTemp, row)
 
-        if n_rep_pedido < row.n_rep_pedido:
+        if n_rep_pedido <= row.n_rep_pedido:
             objObtenerArrConPuntajesOrdenado = sorted(arrTemp, key=lambda obj : obj['PUNTAJE_TOTAL'], reverse=True)[0]
             datosOfertaGanadora = '{},{},{}'.format(objObtenerArrConPuntajesOrdenado['ID_PUBLICACION'],
                                                     objObtenerArrConPuntajesOrdenado['ID_PEDIDO'],
                                                     objObtenerArrConPuntajesOrdenado['KILOS_OBTENIDOS'])
+                                                    
             actualizarPublicacionGanadora(datosOfertaGanadora)
-
         else:
             n_rep_pedido = row.n_rep_pedido
 
